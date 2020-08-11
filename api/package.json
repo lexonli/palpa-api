@@ -1,0 +1,26 @@
+{
+  "name": "palpa-api",
+  "version": "1.0.0",
+  "description": "API backend for Palpa",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PALPA-HQ/palpa-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PALPA-HQ/palpa-api/issues"
+  },
+  "homepage": "https://github.com/PALPA-HQ/palpa-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": "12.14.1"
+  }
+}
