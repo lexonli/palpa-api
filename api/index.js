@@ -1,9 +1,11 @@
-import handler from '../utils/proto'
+import handler from "../utils/proto";
 
-const router = handler()
+const router = handler();
 
 router.get((req, res) => {
-  return res.status(200).send(`Welcome to Palpa API! Hope you enjoy your time here ;)`)
+  return res
+    .status(200)
+    .send(`Welcome to Palpa API! Hope you enjoy your time here ;)`);
 });
 
-module.exports = router
+module.exports = router;
