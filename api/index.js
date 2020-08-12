@@ -1,6 +1,6 @@
-import proto from '@peterjskaltsis/proto'
+import proto from "@peterjskaltsis/proto";
 
-const router = proto()
+const router = proto();
 
 router.get((req, res) => {
   return res
