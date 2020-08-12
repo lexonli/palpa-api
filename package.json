@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/PALPA-HQ/palpa-api#readme",
   "dependencies": {
+    "@peterjskaltsis/proto": "^1.0.0",
     "vercel": "^19.2.0"
   },
   "engines": {

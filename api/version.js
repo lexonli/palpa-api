@@ -1,6 +1,6 @@
-import handler from '../utils/proto'
+import proto from '@peterjskaltsis/proto'
 
-const router = handler()
+const router = proto()
 
 router.get((req, res) => {
   return res.status(200).json({ success: true, version: '1.0.0' })
