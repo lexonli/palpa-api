@@ -1,31 +1,32 @@
-import faunadb, { query as q } from 'faunadb'
+import faunadb, { query as q } from 'faunadb';
 import proto from '@peterjskaltsis/proto';
 
-const router = proto()
+const router = proto();
 
-const secret = process.env.FAUNADB_SECRET_KEY
-const client = new faunadb.Client({ secret })
+const secret = process.env.FAUNADB_SECRET_KEY;
+const client = new faunadb.Client({ secret });
 
 router.get((req, res) => {
-  client.query(
-    q.Map(
-      // iterate each item in result
-      q.Paginate(
-        // make paginatable
-        q.Match(
-          // query index
-          q.Index("all_users") // specify source
-        )
-      ),
-      ref => q.Get(ref) // lookup each result by its reference
+  client
+    .query(
+      q.Map(
+        // iterate each item in result
+        q.Paginate(
+          // make paginatable
+          q.Match(
+            // query index
+            q.Index('all_users') // specify source
+          )
+        ),
+        (ref) => q.Get(ref) // lookup each result by its reference
+      )
     )
-  ).then((dbs) => {
-    console.log(dbs)
-    return res
-      .status(200).json(dbs.data.map(user => user.data))
-  }).catch((e) => {
-    return res.status(500).json({ error: e })
-  })
-})
+    .then((dbs) => {
+      return res.status(200).json(dbs.data.map((user) => user.data));
+    })
+    .catch((e) => {
+      return res.status(500).json({ error: e });
+    });
+});
 
 export default router;
