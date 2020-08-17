@@ -39,7 +39,7 @@ router.post((req, res) => {
   } catch (error) {
     res.status(400).json({ errors: ['json body is malformed'] });
   }
-  return res
+  return res;
 });
 
 export default router;
