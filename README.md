@@ -2,7 +2,7 @@
 
 API backend for Palpa
 
-####Setup (for unix users)
+#### Setup (for unix users)
 
 Note: all commands should be run in the directory: /palpa-api
 
@@ -10,7 +10,7 @@ Note: all commands should be run in the directory: /palpa-api
 2. Run `vercel env pull` to setup environmental variables in a new .env file
 3. Run `vercel dev` to start the local server
 
-####Adding environmental variables
+#### Adding environmental variables
 
 Note: not using vercel secrets or vercel.json for now
 
