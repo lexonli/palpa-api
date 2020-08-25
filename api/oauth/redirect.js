@@ -13,12 +13,6 @@ function parseParams(str) {
   });
   return params;
 }
-function parseUrlParams(url) {
-  const idx = url.indexOf('?');
-  if (idx === -1) return {};
-  const query = url.substring(idx + 1);
-  return parseParams(query);
-}
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
@@ -34,20 +28,17 @@ function addParams(url, params) {
 }
 
 router.get((req, res) => {
-  const oauthParams = parseUrlParams(req.url);
-  if ('code' in oauthParams) {
+  if ('code' in req.query) {
     const tokenParams = {
-      code: oauthParams.code,
+      code: req.query.code,
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
     };
+
     axios
-      .post(addParams(TOKEN_URL, tokenParams), {
-        method: 'post',
-      })
+      .post(addParams(TOKEN_URL, tokenParams))
       .then((tokenRes) => {
         const data = parseParams(tokenRes.data);
-        console.log(data);
         res.status(200).json({ success: true, token: data.access_token });
       })
       .catch((err) =>
