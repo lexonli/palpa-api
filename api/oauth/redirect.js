@@ -1,6 +1,8 @@
 import proto from '@peterjskaltsis/proto';
 import axios from 'axios';
-import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
+import { CLIENT_ID, TOKEN_URL } from '../../config/github';
+
+const CLIENT_SECRET = process.env.GITHUB_SECRET;
 
 const router = proto();
 
