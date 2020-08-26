@@ -1,8 +1,6 @@
 import proto from '@peterjskaltsis/proto';
 import axios from 'axios';
-import { CLIENT_ID, TOKEN_URL } from '../../config/github';
-
-const CLIENT_SECRET = process.env.GITHUB_SECRET;
+import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
 
 const router = proto();
 
@@ -49,7 +47,7 @@ router.get((req, res) => {
       })
       .then((tokenRes) => {
         const data = parseParams(tokenRes.data);
-        console.log(data);
+        if (data.error) throw new Error(data.error);
         res.status(200).json({ success: true, token: data.access_token });
       })
       .catch((err) =>
