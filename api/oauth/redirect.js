@@ -3,6 +3,7 @@ import axios from 'axios';
 import querystring from 'querystring';
 import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
 import faunadb, { query as q } from 'faunadb';
+import { Octokit } from '@octokit/rest'
 
 /**
  * Makes a post request to github api with a code to obtain an access token
@@ -21,14 +22,19 @@ function fetchGithubToken(code, client_id, client_secret) {
     })
     .then((tokenRes) => {
       const data = querystring.decode(tokenRes.data);
-      // if (data.error) {
-      //   throw data.error;
-      // }
-      data.access_token = '123token';
+      if (data.error) {
+        throw data.error;
+      }
       return data.access_token
     })
 }
 
+/**
+ * Stores the github token into the authenticated user in the database
+ * @param {string} ref - The document id unique to the authenticated faunadb user
+ * @param {string} token - The access token from github
+ * @returns {Promise<String>} - A promise with the same access token
+ */
 function storeGithubToken(ref, token) {
   return client.query(
     q.Update(
@@ -38,6 +44,17 @@ function storeGithubToken(ref, token) {
   ).then(() => token)
 }
 
+/**
+ * Calls the github api for a list of repositories
+ * @param token - The access token from github
+ * @returns {Promise<[object]>} - A promise with a list of repositories of the authenticated user
+ */
+function listRepositories(token) {
+  const octokit = new Octokit({ auth: token });
+  return octokit.paginate(octokit.repos.listForAuthenticatedUser).then((repos) => {
+    return repos.map((repo) => { return { id: repo.id, name: repo.name }});
+  })
+}
 
 function verifyToken(req, res) {
   const bearerHeader = req.headers['authorization'];
@@ -87,7 +104,9 @@ router.get((req, res) => {
       return storeGithubToken(ref, token)
     })
     .then((token) => {
-      res.status(200).json({ success: true, message: token })
+      return listRepositories(token)
+    }).then((repos) => {
+      res.status(200).json({ success: true, repos: repos })
     })
     .catch((error) => {
       res.status(400).json({ success: false, message: error.toString() })
