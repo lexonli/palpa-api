@@ -19,7 +19,7 @@ const router = proto();
 
 router.post((req, res) => {
   // To move to middleware
-  const body = JSON.parse(req.body)
+  const body = JSON.parse(req.body);
   res.setHeader('Access-Control-Allow-Origin', FRONTEND.ROOT);
 
   const key = body.filename;
@@ -37,8 +37,9 @@ router.post((req, res) => {
     res.status(400).json({ message: e.toString() });
     return;
   }
-  console.log(signed.substring(0, signed.indexOf('?')));
-  res.status(200).json({ url: signed.substring(0, signed.indexOf('?')), signedUrl: signed });
+  res
+    .status(200)
+    .json({ url: signed.substring(0, signed.indexOf('?')), signedUrl: signed });
 });
 
 module.exports = router;
