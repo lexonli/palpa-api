@@ -70,7 +70,7 @@ function verifyToken(req, res) {
     const [, token] = bearerHeader.split(' ');
     req.token = token;
   } else {
-    return res
+    res
       .status(403)
       .json({ success: false, message: 'No authentication token provided' });
   }
