@@ -64,25 +64,16 @@ function listRepositories(token) {
 }
 
 function verifyToken(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   const bearerHeader = req.headers.authorization;
   if (bearerHeader) {
     const [, token] = bearerHeader.split(' ');
     req.token = token;
   } else {
-    res
+    return res
       .status(403)
       .json({ success: false, message: 'No authentication token provided' });
   }
-}
-
-function getClient(req, res) {
-  if (!req.token) {
-    res
-      .status(400)
-      .json({ success: false, message: 'No authentication token provided' });
-  }
-  const secret = req.token;
-  return new faunadb.Client({ secret });
 }
 
 /**
@@ -99,10 +90,9 @@ const router = proto();
 
 router.get((req, res) => {
   // TODO: Move to middleware
-  res.setHeader('Access-Control-Allow-Origin', '*');
   verifyToken(req, res);
 
-  const client = getClient(req, res);
+  const client = new faunadb.Client({ secret: req.token });
 
   authenticate(client)
     .then((authInfo) => {
