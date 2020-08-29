@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/PALPA-HQ/palpa-api#readme",
   "dependencies": {
-    "@peterjskaltsis/proto": "^1.0.0",
     "axios": "^0.19.2",
     "faunadb": "^2.14.2",
+    "next-connect": "^0.8.1",
     "vercel": "^19.2.0"
   },
   "engines": {

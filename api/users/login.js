@@ -1,7 +1,7 @@
 import faunadb, { query as q } from 'faunadb';
-import proto from '@peterjskaltsis/proto';
+import nc from 'next-connect';
 
-const router = proto();
+const router = nc();
 
 const secret = process.env.FAUNADB_SECRET_KEY;
 const client = new faunadb.Client({ secret });

@@ -1,8 +1,8 @@
-import proto from '@peterjskaltsis/proto';
+import nc from 'next-connect';
 import axios from 'axios';
 import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
 
-const router = proto();
+const router = nc();
 
 function parseParams(str) {
   const keyValues = str.split('&');
