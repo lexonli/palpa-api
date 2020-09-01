@@ -1,5 +1,4 @@
-function verifyToken(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+function auth(req, res, next) {
   const bearerHeader = req.headers.authorization;
   if (bearerHeader) {
     const [, token] = bearerHeader.split(' ');
@@ -12,4 +11,4 @@ function verifyToken(req, res, next) {
   }
 }
 
-export default verifyToken;
+export default auth;

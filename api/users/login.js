@@ -1,7 +1,9 @@
 import faunadb, { query as q } from 'faunadb';
 import nc from 'next-connect';
+import cors from "../../middleware/cors";
 
 const router = nc();
+router.use(cors);
 
 const secret = process.env.FAUNADB_SECRET_KEY;
 const client = new faunadb.Client({ secret });
