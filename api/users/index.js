@@ -10,6 +10,35 @@ const hasNoFields = (fields, body) => {
   return fields.map((field) => body[field]).includes(undefined);
 };
 
+/**
+ * Lists all palpa users
+ */
+router.get((req, res) => {
+  client
+    .query(
+      q.Map(
+        // iterate each item in result
+        q.Paginate(
+          // make paginatable
+          q.Match(
+            // query index
+            q.Index('all_users') // specify source
+          )
+        ),
+        (ref) => q.Get(ref) // lookup each result by its reference
+      )
+    )
+    .then((dbs) => {
+      return res.status(200).json(dbs.data.map((user) => user.data));
+    })
+    .catch((e) => {
+      return res.status(500).json({ error: e });
+    });
+});
+
+/**
+ * Creates a new Palpa user
+ */
 router.post((req, res) => {
   const requestFields = ['email', 'password'];
   try {

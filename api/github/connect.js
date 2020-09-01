@@ -1,9 +1,10 @@
-import proto from '@peterjskaltsis/proto';
+import nc from 'next-connect';
 import axios from 'axios';
 import querystring from 'querystring';
 import faunadb, { query as q } from 'faunadb';
 import { Octokit } from '@octokit/rest';
 import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
+import verifyToken from "../../middleware/auth";
 
 /**
  * Makes a post request to github api with a code to obtain an access token
@@ -63,19 +64,6 @@ function listRepositories(token) {
     });
 }
 
-function verifyToken(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  const bearerHeader = req.headers.authorization;
-  if (bearerHeader) {
-    const [, token] = bearerHeader.split(' ');
-    req.token = token;
-  } else {
-    res
-      .status(403)
-      .json({ success: false, message: 'No authentication token provided' });
-  }
-}
-
 /**
  * Authenticates the client and obtains the document ref if ok
  * @param client - faunadb client instantiated with secret
@@ -86,14 +74,11 @@ function authenticate(client) {
   return client.query(q.Identity());
 }
 
-const router = proto();
+const router = nc();
+router.use(verifyToken);
 
 router.get((req, res) => {
-  // TODO: Move to middleware
-  verifyToken(req, res);
-
   const client = new faunadb.Client({ secret: req.token });
-
   authenticate(client)
     .then((authInfo) => {
       if (!req.query.code) {
