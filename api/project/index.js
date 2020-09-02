@@ -1,6 +1,6 @@
 import faunadb, { query as q } from 'faunadb';
 import nc from 'next-connect';
-import cors from '../../../middleware/cors';
+import cors from '../../middleware/cors';
 
 const router = nc();
 router.use(cors);

@@ -10,11 +10,11 @@ const client = new faunadb.Client({ secret });
 
 /**
  * Gets a single project from the given project id (pid)
- * @param pid {string} - the project id
+ * @param projectId {string} - the project id
  * @returns {Promise<object>} - a promise with the project object
  */
-function getProject(pid) {
-  return client.query(q.Get(q.Ref(q.Collection('projects'), pid)));
+function getProject(projectId) {
+  return client.query(q.Get(q.Ref(q.Collection('projects'), projectId)));
 }
 
 /**
@@ -29,8 +29,8 @@ function sanitized(project) {
 }
 
 router.get((req, res) => {
-  const { pid } = req.query;
-  getProject(pid)
+  const projectId = req.query.project;
+  getProject(projectId)
     .then((project) => {
       res.status(200).json({ success: true, project: sanitized(project) });
     })
