@@ -1,6 +1,6 @@
 import faunadb, { query as q } from 'faunadb';
 import nc from 'next-connect';
-import cors from '../../middleware/cors';
+import cors from '../../../middleware/cors';
 
 const router = nc();
 router.use(cors);
@@ -41,7 +41,7 @@ function sanitized(projects) {
   return projects.map((project) => {
     const { data } = project;
     delete data.user;
-    return data;
+    return { [project.ref.id]: data };
   });
 }
 
