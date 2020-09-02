@@ -5,7 +5,7 @@ import faunadb, { query as q } from 'faunadb';
 import { Octokit } from '@octokit/rest';
 import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
 import auth from '../../middleware/auth';
-import cors from "../../middleware/cors";
+import cors from '../../middleware/cors';
 
 /**
  * Makes a post request to github api with a code to obtain an access token
