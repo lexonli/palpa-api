@@ -41,7 +41,8 @@ function sanitized(projects) {
   return projects.map((project) => {
     const { data } = project;
     delete data.user;
-    return { [project.ref.id]: data };
+    data.id = project.ref.id;
+    return data;
   });
 }
 
