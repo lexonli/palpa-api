@@ -11,12 +11,12 @@ router.post(validator(loginSchema), (req, res) => {
   loginUser(req.body.email, req.body.password)
     .then((secret) => {
       res.status(200).json({
-        token: secret
+        token: secret,
       });
     })
     .catch((error) => {
       res.status(500).json({
-        errors: [{ message: error.description}]
+        errors: [{ message: error.description }],
       });
     });
   return res;

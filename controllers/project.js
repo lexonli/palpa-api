@@ -20,11 +20,11 @@ function sanitizedOne(project) {
  * @returns {Promise<object>} - a promise with the project object
  */
 export function getProject(projectId) {
-  return client.query(
-    q.Get(q.Ref(q.Collection('projects'), projectId))
-  ).then((project) => {
-    return sanitizedOne(project)
-  })
+  return client
+    .query(q.Get(q.Ref(q.Collection('projects'), projectId)))
+    .then((project) => {
+      return sanitizedOne(project);
+    });
 }
 
 /**
@@ -47,9 +47,11 @@ function sanitizedAll(projects) {
  * @returns {Promise<object>} - promise that contains a list of projects
  */
 export function getProjectsFromUserId(user) {
-  return client.query(
-    q.Map(q.Paginate(q.Match(q.Index('project_by_user'), user)), (ref) =>
-      q.Get(ref)
+  return client
+    .query(
+      q.Map(q.Paginate(q.Match(q.Index('project_by_user'), user)), (ref) =>
+        q.Get(ref)
+      )
     )
-  ).then((projects) => sanitizedAll(projects.data));
+    .then((projects) => sanitizedAll(projects.data));
 }

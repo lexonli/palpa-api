@@ -20,14 +20,16 @@ export function getAllUsers() {
  * @returns {Promise<object>}
  */
 export function createUser(email, password) {
-  return client.query(
-    q.Create(q.Collection('users'), {
-      credentials: { password },
-      data: {
-        email,
-      },
-    })
-  ).then(data => data.email)
+  return client
+    .query(
+      q.Create(q.Collection('users'), {
+        credentials: { password },
+        data: {
+          email,
+        },
+      })
+    )
+    .then((data) => data.email);
 }
 
 /**
@@ -37,11 +39,13 @@ export function createUser(email, password) {
  * @returns {Promise<object>|Promise<string>}
  */
 export function loginUser(email, password) {
-  return client.query(
-    q.Login(q.Match(q.Index('users_by_email'), email), {
-      password,
-    })
-  ).then(data => data.secret)
+  return client
+    .query(
+      q.Login(q.Match(q.Index('users_by_email'), email), {
+        password,
+      })
+    )
+    .then((data) => data.secret);
 }
 
 /**

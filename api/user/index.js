@@ -2,7 +2,7 @@ import nc from 'next-connect';
 import cors from '../../middleware/cors';
 import validator from '../../middleware/validator';
 import { getAllUsers, createUser } from '../../controllers/user';
-import { createSchema } from "../../models/user";
+import { createSchema } from '../../models/user';
 
 const router = nc();
 router.use(cors);
@@ -17,7 +17,7 @@ router.get((req, res) => {
     })
     .catch((error) => {
       return res.status(500).json({
-        errors: [{ message: error.description}]
+        errors: [{ message: error.description }],
       });
     });
 });
@@ -29,12 +29,12 @@ router.post(validator(createSchema), (req, res) => {
   createUser(req.body.email, req.body.password)
     .then((email) => {
       res.status(200).json({
-        email: email
+        email,
       });
     })
     .catch((error) => {
       res.status(500).json({
-        errors: [{ message: error.description}]
+        errors: [{ message: error.description }],
       });
     });
   return res;
