@@ -1,41 +1,22 @@
-import faunadb, { query as q } from 'faunadb';
 import nc from 'next-connect';
 import cors from '../../middleware/cors';
+import { getProject } from '../../controllers/project'
 
 const router = nc();
 router.use(cors);
-
-const secret = process.env.FAUNADB_SECRET_KEY;
-const client = new faunadb.Client({ secret });
-
-/**
- * Gets a single project from the given project id (pid)
- * @param projectId {string} - the project id
- * @returns {Promise<object>} - a promise with the project object
- */
-function getProject(projectId) {
-  return client.query(q.Get(q.Ref(q.Collection('projects'), projectId)));
-}
-
-/**
- * Sanitizes project data for response to the frontend
- * @param project - a single project taken from faunadb
- * @returns {object} - a nice looking project object
- */
-function sanitized(project) {
-  const { data } = project;
-  delete data.user;
-  return data;
-}
 
 router.get((req, res) => {
   const projectId = req.query.project;
   getProject(projectId)
     .then((project) => {
-      res.status(200).json({ success: true, project: sanitized(project) });
+      res.status(200).json({
+        project: project
+      });
     })
     .catch((error) =>
-      res.status(400).json({ success: false, message: error.toString() })
+      res.status(400).json({
+        errors: [{ message: error.description}]
+      })
     );
 });
 
