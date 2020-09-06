@@ -4,7 +4,8 @@ import querystring from 'querystring';
 import faunadb, { query as q } from 'faunadb';
 import { Octokit } from '@octokit/rest';
 import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
-import verifyToken from '../../middleware/auth';
+import auth from '../../middleware/auth';
+import cors from '../../middleware/cors';
 
 /**
  * Makes a post request to github api with a code to obtain an access token
@@ -75,7 +76,8 @@ function authenticate(client) {
 }
 
 const router = nc();
-router.use(verifyToken);
+router.use(auth);
+router.use(cors);
 
 router.get((req, res) => {
   const client = new faunadb.Client({ secret: req.token });
