@@ -30,7 +30,7 @@ export function createUser(email, password, username, name) {
         data: {
           username,
           email,
-          name
+          name,
         },
       })
     )
@@ -51,8 +51,8 @@ export function loginUser(email, password, rememberMe) {
   return client
     .query(
       q.Login(q.Match(q.Index('users_by_email'), email), {
-        password: password,
-        ttl: q.TimeAdd(q.Now(), days, 'day')
+        password,
+        ttl: q.TimeAdd(q.Now(), days, 'day'),
       })
     )
     .then((data) => data.secret);
@@ -85,4 +85,24 @@ export function isUsernameAvailable(username) {
       }
       throw error;
     });
+}
+
+/**
+ * Authenticates the client and obtains the document ref if ok
+ * @returns {*|Promise<Object>|Promise<PermissionStatus>}
+ * - Promise with document ref if successful
+ * @param token {string} - token from calling login
+ */
+export function authenticate(token) {
+  const userClient = new faunadb.Client({ secret: token });
+  return userClient.query(q.Identity());
+}
+
+/**
+ * Get user information based on id
+ * @param id {string}
+ * @return {Promise<object>}
+ */
+export function getUserFromId(id) {
+  return client.query(q.Get(q.Ref(q.Collection('users'), id)));
 }
