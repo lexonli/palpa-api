@@ -10,15 +10,21 @@ function validator(schema, reqKey = 'body') {
       if (req[reqKey] == null) {
         return res
           .status(400)
-          .json({ errors: ['request body cannot be empty'] });
+          .json({
+            errors: [{ message: 'request body cannot be empty' }]
+          });
       }
       const { error } = schema.validate(req[reqKey]);
       if (error) {
-        return res.status(400).json({ errors: error.details });
+        return res.status(400).json({
+          errors: error.details
+        });
       }
       next();
     } catch (error) {
-      return res.status(400).json({ errors: ['json body is malformed'] });
+      return res.status(400).json({
+        errors: [{ message: 'json body is malformed' }]
+      });
     }
     return undefined;
   };

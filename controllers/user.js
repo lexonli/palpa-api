@@ -19,9 +19,10 @@ export function getAllUsers() {
  * @param email {string}
  * @param password {string}
  * @param username {string}
+ * @param name {string}
  * @returns {Promise<object>}
  */
-export function createUser(email, password, username) {
+export function createUser(email, password, username, name) {
   return client
     .query(
       q.Create(q.Collection('users'), {
@@ -29,6 +30,7 @@ export function createUser(email, password, username) {
         data: {
           username,
           email,
+          name
         },
       })
     )

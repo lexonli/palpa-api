@@ -35,7 +35,7 @@ router.post(validator(createSchema), (req, res) => {
       if (!isAvailable) {
         throw new Error('Username provided exists already.');
       } else {
-        return createUser(req.body.email, req.body.password, req.body.username);
+        return createUser(req.body.email, req.body.password, req.body.username, req.body.name);
       }
     })
     .then((email) => {
