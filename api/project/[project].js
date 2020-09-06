@@ -15,7 +15,7 @@ router.get((req, res) => {
     })
     .catch((error) =>
       res.status(400).json({
-        errors: [{ message: error.description }],
+        errors: [{ message: error.toString() }],
       })
     );
 });

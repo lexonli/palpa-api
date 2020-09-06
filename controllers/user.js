@@ -1,4 +1,5 @@
 import faunadb, { query as q } from 'faunadb';
+import getFaunaError from '../utils/fauna';
 
 const secret = process.env.FAUNADB_SECRET_KEY;
 const client = new faunadb.Client({ secret });
@@ -17,20 +18,22 @@ export function getAllUsers() {
  * Creates a user in faunadb
  * @param email {string}
  * @param password {string}
+ * @param username {string}
  * @returns {Promise<object>}
  */
-export function createUser(email, password) {
+export function createUser(email, password, username) {
   return client
     .query(
       q.Create(q.Collection('users'), {
         credentials: { password },
         data: {
+          username,
           email,
         },
       })
     )
     .then((dbs) => {
-      return dbs.data.email
+      return dbs.data.email;
     });
 }
 
@@ -59,4 +62,22 @@ export function getUserFromUsername(username) {
   return client
     .query(q.Get(q.Match(q.Index('user_by_username'), username)))
     .then((user) => user.ref);
+}
+
+/**
+ * Checks if username is available
+ * @param username {string} - username of a faunadb user
+ * @return {Promise<boolean>} - whether username is available
+ */
+export function isUsernameAvailable(username) {
+  return getUserFromUsername(username)
+    .then(() => {
+      return false;
+    })
+    .catch((error) => {
+      if (getFaunaError(error).code === 'instance not found') {
+        return true;
+      }
+      throw error;
+    });
 }

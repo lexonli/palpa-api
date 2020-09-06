@@ -16,7 +16,7 @@ router.post(validator(loginSchema), (req, res) => {
     })
     .catch((error) => {
       res.status(500).json({
-        errors: [{ message: error.description }],
+        errors: [{ message: error.toString() }],
       });
     });
   return res;

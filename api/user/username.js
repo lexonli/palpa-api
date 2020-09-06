@@ -1,27 +1,26 @@
 import nc from 'next-connect';
 import cors from '../../middleware/cors';
-import { getUserFromUsername } from '../../controllers/user';
-import { getProjectsFromUserId } from '../../controllers/project';
 import validator from '../../middleware/validator';
+import { isUsernameAvailable } from '../../controllers/user';
 import { usernameSchema } from '../../models/user';
 
 const router = nc();
 router.use(cors);
 
+/**
+ * Checks whether username exists
+ */
 router.get(validator(usernameSchema, 'query'), (req, res) => {
   const { username } = req.query;
-  getUserFromUsername(username)
-    .then((user) => getProjectsFromUserId(user))
-    .then((projects) =>
-      res.status(200).json({
-        projects,
-      })
-    )
-    .catch((error) =>
-      res.status(400).json({
+  isUsernameAvailable(username)
+    .then((isAvailable) => {
+      return res.status(200).json({ username_available: isAvailable });
+    })
+    .catch((error) => {
+      return res.status(500).json({
         errors: [{ message: error.toString() }],
-      })
-    );
+      });
+    });
 });
 
 export default router;
