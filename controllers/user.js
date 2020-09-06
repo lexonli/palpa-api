@@ -29,7 +29,10 @@ export function createUser(email, password) {
         },
       })
     )
-    .then((data) => data.email);
+    .then((dbs) => {
+      console.log(dbs);
+      return dbs.data.email
+    });
 }
 
 /**
