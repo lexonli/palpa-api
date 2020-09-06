@@ -8,7 +8,7 @@ const router = nc();
 router.use(cors);
 
 router.post(validator(loginSchema), (req, res) => {
-  loginUser(req.body.email, req.body.password)
+  loginUser(req.body.email, req.body.password, req.body.rememberMe)
     .then((secret) => {
       res.status(200).json({
         token: secret,

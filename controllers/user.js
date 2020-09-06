@@ -43,13 +43,16 @@ export function createUser(email, password, username, name) {
  * Logs in a user and returns a promise with the token if success
  * @param email {string}
  * @param password {string}
+ * @param rememberMe {boolean}
  * @returns {Promise<object>|Promise<string>}
  */
-export function loginUser(email, password) {
+export function loginUser(email, password, rememberMe) {
+  const days = rememberMe ? 7 : 1;
   return client
     .query(
       q.Login(q.Match(q.Index('users_by_email'), email), {
-        password,
+        password: password,
+        ttl: q.TimeAdd(q.Now(), days, 'day')
       })
     )
     .then((data) => data.secret);

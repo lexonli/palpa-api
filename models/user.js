@@ -7,9 +7,14 @@ const user = {
   password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')).required(),
 };
 
+const userMeta = {
+  rememberMe: Joi.boolean().optional()
+}
+
 export const loginSchema = Joi.object({
   email: user.email,
   password: user.password,
+  rememberMe: userMeta.rememberMe
 });
 
 export const createSchema = Joi.object({
