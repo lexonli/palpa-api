@@ -30,7 +30,6 @@ export function createUser(email, password) {
       })
     )
     .then((dbs) => {
-      console.log(dbs);
       return dbs.data.email
     });
 }
