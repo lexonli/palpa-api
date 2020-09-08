@@ -2,9 +2,7 @@ import Joi from 'joi';
 
 const user = {
   username: Joi.string().pattern(new RegExp('^[a-z0-9]{3,30}$')).required(),
-  name: Joi.string()
-    .pattern(new RegExp('^[A-Za-z]{1,30}$|^[A-Za-z]{1,30}\\s[A-Za-z]{1,30}$'))
-    .required(),
+  name: Joi.string().min(2).required(),
   email: Joi.string().email().required(),
   password: Joi.string().pattern(new RegExp('^.{6,30}$')).required(),
 };
