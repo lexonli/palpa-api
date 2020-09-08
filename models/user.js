@@ -6,7 +6,7 @@ const user = {
     .pattern(new RegExp('^[A-Za-z]{1,30}$|^[A-Za-z]{1,30}\\s[A-Za-z]{1,30}$'))
     .required(),
   email: Joi.string().email().required(),
-  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')).required(),
+  password: Joi.string().pattern(new RegExp('^.{6,30}$')).required(),
 };
 
 const userMeta = {

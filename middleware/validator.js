@@ -12,7 +12,7 @@ function validator(schema, reqKey = 'body') {
           errors: [{ message: 'request body cannot be empty' }],
         });
       }
-      const { error } = schema.validate(req[reqKey]);
+      const { error } = schema.validate(req[reqKey], { abortEarly: false });
       if (error) {
         return res.status(400).json({
           errors: error.details,

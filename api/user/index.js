@@ -7,6 +7,7 @@ import {
   isUsernameAvailable,
 } from '../../controllers/user';
 import { createSchema } from '../../models/user';
+import getFaunaError from '../../utils/fauna';
 
 const router = nc();
 router.use(cors);
@@ -33,25 +34,30 @@ router.post(validator(createSchema), (req, res) => {
   isUsernameAvailable(req.body.username)
     .then((isAvailable) => {
       if (!isAvailable) {
-        throw new Error('Username provided exists already.');
-      } else {
-        return createUser(
-          req.body.email,
-          req.body.password,
-          req.body.username,
-          req.body.name
-        );
+        return res.status(400).json({
+          errors: [{ message: 'Username exists already.' }],
+        });
       }
+      return createUser(
+        req.body.email,
+        req.body.password,
+        req.body.username,
+        req.body.name
+      );
     })
-    .then((email) => {
-      res.status(200).json({
-        email,
-      });
+    .then(() => {
+      res.status(200).send();
     })
     .catch((error) => {
-      res.status(500).json({
-        errors: [{ message: error.toString() }],
-      });
+      if (getFaunaError(error) === 'instance not unique') {
+        res.status(400).json({
+          errors: [{ message: 'Email exists already.' }],
+        });
+      } else {
+        res.status(500).json({
+          errors: [{ message: error.toString() }],
+        });
+      }
     });
   return res;
 });

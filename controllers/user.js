@@ -80,7 +80,7 @@ export function isUsernameAvailable(username) {
       return false;
     })
     .catch((error) => {
-      if (getFaunaError(error).code === 'instance not found') {
+      if (getFaunaError(error) === 'instance not found') {
         return true;
       }
       throw error;
