@@ -18,8 +18,8 @@ router.post(validator(imageSchema), (req, res) => {
       signedUrl: signed,
     });
   } catch (e) {
-    res.status(400).json({ message: e.toString() });
+    res.status(400).json({ errors: [{ message: e.toString() }] });
   }
 });
 
-module.exports = router;
+export default router;
