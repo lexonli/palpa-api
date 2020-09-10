@@ -77,7 +77,7 @@ export function getUserFromUsername(username) {
 export async function getUserFromUsernameAsync(username) {
   const user = await client.query(
     q.Get(q.Match(q.Index('user_by_username'), username))
-  )
+  );
   return user.ref;
 }
 
