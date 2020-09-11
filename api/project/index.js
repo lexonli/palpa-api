@@ -26,9 +26,20 @@ router.get(validator(usernameSchema, 'query'), (req, res) => {
 });
 
 router.post((req, res) => {
-  const { projectName } = req.body;
+  try {
+    const { projectName } = req.body;
+    if (projectName === undefined) {
+      res.status(400).json('Project name must not be blank');
+    }
+    res.status(200).json({ projectName });
+  } catch (error) {
+    res.status(400).json({
+      errors: [{ message: error.toString() }],
+    });
+  }
+
   // Check if project name is available
-  res.status(200).json({ projectName });
+
   // save the project to fauna
 });
 
