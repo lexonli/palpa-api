@@ -20,8 +20,10 @@
   "homepage": "https://github.com/PALPA-HQ/palpa-api#readme",
   "dependencies": {
     "@octokit/rest": "^18.0.3",
+    "aws-sdk": "^2.739.0",
     "axios": "^0.19.2",
     "faunadb": "^2.14.2",
+    "helmet": "^4.1.0",
     "joi": "^17.2.1",
     "next-connect": "^0.8.1",
     "vercel": "^19.2.0"
@@ -41,7 +43,6 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-hooks": "^4.0.0",
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^2.0.5",
     "jsdoc": "^3.6.5"

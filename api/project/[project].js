@@ -1,8 +1,8 @@
-import nc from 'next-connect';
+import proto from '../../utils/proto';
 import cors from '../../middleware/cors';
 import { getProject } from '../../controllers/project';
 
-const router = nc();
+const router = proto();
 router.use(cors);
 
 router.get((req, res) => {
