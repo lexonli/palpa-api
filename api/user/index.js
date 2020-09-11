@@ -1,4 +1,4 @@
-import nc from 'next-connect';
+import proto from '../../utils/proto';
 import cors from '../../middleware/cors';
 import validator from '../../middleware/validator';
 import {
@@ -8,7 +8,7 @@ import {
 } from '../../controllers/user';
 import { createSchema } from '../../models/user';
 
-const router = nc();
+const router = proto();
 router.use(cors);
 
 /**

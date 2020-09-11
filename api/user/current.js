@@ -1,9 +1,9 @@
-import nc from 'next-connect';
+import proto from '../../utils/proto';
 import cors from '../../middleware/cors';
 import auth from '../../middleware/auth';
 import { authenticate, getUserFromId } from '../../controllers/user';
 
-const router = nc();
+const router = proto();
 router.use(cors);
 router.use(auth);
 

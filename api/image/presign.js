@@ -1,10 +1,10 @@
-import nc from 'next-connect';
+import proto from '../../utils/proto';
 import sign from '../../controllers/file';
 import cors from '../../middleware/cors';
 import validator from '../../middleware/validator';
 import { imageSchema } from '../../models/s3';
 
-const router = nc();
+const router = proto();
 router.use(cors);
 
 /**
