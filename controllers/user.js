@@ -70,6 +70,18 @@ export function getUserFromUsername(username) {
 }
 
 /**
+ * Gets the user reference from a username
+ * @param username {string} - username of a faunadb user
+ * @returns {Promise<object>} - promise that holds the user reference
+ */
+export async function getUserFromUsernameAsync(username) {
+  const user = await client.query(
+    q.Get(q.Match(q.Index('user_by_username'), username))
+  );
+  return user.ref;
+}
+
+/**
  * Checks if username is available
  * @param username {string} - username of a faunadb user
  * @return {Promise<boolean>} - whether username is available
