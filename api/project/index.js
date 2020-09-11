@@ -1,5 +1,4 @@
 import proto from '../../utils/proto';
-import cors from '../../middleware/cors';
 import { getUserFromUsername } from '../../controllers/user';
 import { getProjectsFromUserId } from '../../controllers/project';
 import validator from '../../middleware/validator';

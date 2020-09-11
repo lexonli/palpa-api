@@ -1,12 +1,10 @@
-import nc from 'next-connect';
-import cors from '../../middleware/cors';
 import validator from '../../middleware/validator';
 import { authenticate, getPortfolio } from '../../controllers/portfolio';
 import { usernameSchema } from '../../models/user';
 import getFaunaError from '../../utils/fauna';
 import { getUserFromUsernameAsync } from '../../controllers/user';
 import optionalAuth from '../../middleware/optionalAuth';
-import proto from "../../utils/proto";
+import proto from '../../utils/proto';
 
 const router = proto();
 router.use(optionalAuth);

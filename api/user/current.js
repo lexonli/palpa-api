@@ -1,5 +1,4 @@
 import proto from '../../utils/proto';
-import cors from '../../middleware/cors';
 import auth from '../../middleware/auth';
 import { authenticate, getUserFromId } from '../../controllers/user';
 

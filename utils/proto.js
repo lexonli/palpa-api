@@ -1,6 +1,6 @@
 import nc from 'next-connect';
 import helmet from 'helmet';
-import cors from "../middleware/cors";
+import cors from '../middleware/cors';
 
 export default function proto() {
   const router = nc();

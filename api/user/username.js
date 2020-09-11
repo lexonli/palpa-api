@@ -1,5 +1,4 @@
 import proto from '../../utils/proto';
-import cors from '../../middleware/cors';
 import validator from '../../middleware/validator';
 import { isUsernameAvailable } from '../../controllers/user';
 import { usernameSchema } from '../../models/user';

@@ -1,5 +1,4 @@
 import proto from '../../utils/proto';
-import cors from '../../middleware/cors';
 import { getProject } from '../../controllers/project';
 
 const router = proto();
