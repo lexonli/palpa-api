@@ -6,7 +6,6 @@ import validator from '../../middleware/validator';
 import { usernameSchema } from '../../models/user';
 
 const router = proto();
-router.use(cors);
 
 router.get(validator(usernameSchema, 'query'), (req, res) => {
   const { username } = req.query;

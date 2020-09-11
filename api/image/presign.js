@@ -5,7 +5,6 @@ import validator from '../../middleware/validator';
 import { imageSchema } from '../../models/s3';
 
 const router = proto();
-router.use(cors);
 
 /**
  * Get a signed url for image upload

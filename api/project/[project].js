@@ -3,7 +3,6 @@ import cors from '../../middleware/cors';
 import { getProject } from '../../controllers/project';
 
 const router = proto();
-router.use(cors);
 
 router.get((req, res) => {
   const projectId = req.query.project;

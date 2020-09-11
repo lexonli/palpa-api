@@ -5,7 +5,6 @@ import { isUsernameAvailable } from '../../controllers/user';
 import { usernameSchema } from '../../models/user';
 
 const router = proto();
-router.use(cors);
 
 /**
  * Checks whether username exists

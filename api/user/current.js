@@ -4,7 +4,6 @@ import auth from '../../middleware/auth';
 import { authenticate, getUserFromId } from '../../controllers/user';
 
 const router = proto();
-router.use(cors);
 router.use(auth);
 
 /**

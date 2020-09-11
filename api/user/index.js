@@ -10,7 +10,6 @@ import { createSchema } from '../../models/user';
 import getFaunaError from '../../utils/fauna';
 
 const router = proto();
-router.use(cors);
 
 /**
  * Lists all palpa users

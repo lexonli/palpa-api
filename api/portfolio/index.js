@@ -6,9 +6,9 @@ import { usernameSchema } from '../../models/user';
 import getFaunaError from '../../utils/fauna';
 import { getUserFromUsernameAsync } from '../../controllers/user';
 import optionalAuth from '../../middleware/optionalAuth';
+import proto from "../../utils/proto";
 
-const router = nc();
-router.use(cors);
+const router = proto();
 router.use(optionalAuth);
 
 /**

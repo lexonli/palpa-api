@@ -77,7 +77,6 @@ function authenticate(client) {
 
 const router = proto();
 router.use(auth);
-router.use(cors);
 
 router.get((req, res) => {
   const client = new faunadb.Client({ secret: req.token });
