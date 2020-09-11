@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { user } from 'user';
+import { user } from './user';
 
 const project = {
   name: Joi.string().min(2).required(),
@@ -12,8 +12,9 @@ const projectMeta = {
 };
 
 export const projectSchema = Joi.object({
-  name: project.name,
+  projectName: project.name,
   username: user.username,
+  pageData: project.pageData,
   isPublished: projectMeta.isPublished,
   views: Joi.number().required(),
 });

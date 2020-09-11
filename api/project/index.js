@@ -25,20 +25,15 @@ router.get(validator(usernameSchema, 'query'), (req, res) => {
     );
 });
 
-router.post((req, res) => {
+router.post(validator(projectSchema, 'body'), (req, res) => {
   try {
-    const { projectName } = req.body;
-    if (projectName === undefined) {
-      res.status(400).json('Project name must not be blank');
-    }
-    res.status(200).json({ projectName });
+    const { projectName, username, pageData, isPublished, views } = req.body;
+    res.status(200).json('successful');
   } catch (error) {
     res.status(400).json({
       errors: [{ message: error.toString() }],
     });
   }
-
-  // Check if project name is available
 
   // save the project to fauna
 });
