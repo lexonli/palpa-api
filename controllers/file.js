@@ -1,12 +1,17 @@
 import AWS from 'aws-sdk';
 
-import { S3_IMAGE_BUCKET, S3_EXPIRE_SECONDS } from '../config/aws';
+import {
+  S3_ACCESS_KEY_ID,
+  S3_SECRET_ACCESS_KEY,
+  S3_IMAGE_BUCKET,
+  S3_EXPIRE_SECONDS,
+} from '../config/aws';
 
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
   region: 'ap-southeast-2',
-  accessKeyId: process.env.S3_ACCESS_KEY_ID,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  accessKeyId: S3_ACCESS_KEY_ID,
+  secretAccessKey: S3_SECRET_ACCESS_KEY,
 });
 
 const bucketName = S3_IMAGE_BUCKET;
