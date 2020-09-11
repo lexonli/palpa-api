@@ -16,5 +16,5 @@ export const projectSchema = Joi.object({
   username: user.username,
   pageData: project.pageData,
   isPublished: projectMeta.isPublished,
-  views: Joi.number().required(),
+  views: projectMeta.views,
 });
