@@ -1,4 +1,4 @@
-import nc from 'next-connect';
+import proto from '../../utils/proto';
 import cors from '../../middleware/cors';
 import validator from '../../middleware/validator';
 import {
@@ -9,7 +9,7 @@ import {
 import { createSchema } from '../../models/user';
 import getFaunaError from '../../utils/fauna';
 
-const router = nc();
+const router = proto();
 router.use(cors);
 
 /**

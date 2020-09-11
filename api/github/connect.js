@@ -1,8 +1,8 @@
-import nc from 'next-connect';
 import axios from 'axios';
 import querystring from 'querystring';
 import faunadb, { query as q } from 'faunadb';
 import { Octokit } from '@octokit/rest';
+import proto from '../../utils/proto';
 import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
 import auth from '../../middleware/auth';
 import cors from '../../middleware/cors';
@@ -75,7 +75,7 @@ function authenticate(client) {
   return client.query(q.Identity());
 }
 
-const router = nc();
+const router = proto();
 router.use(auth);
 router.use(cors);
 
