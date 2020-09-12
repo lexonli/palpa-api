@@ -1,5 +1,6 @@
 import faunadb, { query as q } from 'faunadb';
 import { getUserFromUsername } from './user';
+
 const secret = process.env.FAUNADB_SECRET_KEY;
 const client = new faunadb.Client({ secret });
 

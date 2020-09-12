@@ -13,7 +13,7 @@ const projectMeta = {
   description: Joi.string(),
 };
 
-export const projectSchema = Joi.object({
+const projectSchema = Joi.object({
   projectName: project.name,
   username: user.username,
   pageData: project.pageData,
@@ -22,3 +22,5 @@ export const projectSchema = Joi.object({
   image: project.image,
   description: projectMeta.description,
 });
+
+export default projectSchema;
