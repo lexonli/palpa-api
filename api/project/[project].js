@@ -1,6 +1,6 @@
 import nc from 'next-connect';
 import cors from '../../middleware/cors';
-import { getProject } from '../../controllers/project';
+import { getProject, updateProject } from '../../controllers/project';
 
 const router = nc();
 router.use(cors);
@@ -18,6 +18,29 @@ router.get((req, res) => {
         errors: [{ message: error.toString() }],
       })
     );
+});
+
+router.patch(async (req, res) => {
+  try {
+    const projectID = req.query.project;
+    const update = req.body;
+    if (!projectID || !update) {
+      res
+        .status(400)
+        .json(
+          'Make sure the project ID is part of the request and update is part of the body'
+        );
+    }
+    const dbResponse = await updateProject(projectID, update);
+    if (dbResponse !== '') {
+      res.status(400).json(dbResponse);
+    }
+    res.status(200).json('success');
+  } catch (err) {
+    res.status(400).json({
+      errors: [{ message: err.toString() }],
+    });
+  }
 });
 
 export default router;
