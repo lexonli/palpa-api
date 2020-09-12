@@ -87,11 +87,23 @@ export async function createProject(
     });
 }
 
-export async function updateProject(projectID, update) {
+export function updateProject(projectID, update) {
   return client
     .query(
       q.Update(q.Ref(q.Collection('projects'), projectID), { data: update })
     )
+    .then(() => {
+      return '';
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+}
+
+export function deleteProject(projectID) {
+  return client
+    .query(q.Delete(q.Ref(q.Collection('projects'), projectID)))
     .then(() => {
       return '';
     })
