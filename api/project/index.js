@@ -7,7 +7,7 @@ import {
 } from '../../controllers/project';
 import validator from '../../middleware/validator';
 import { usernameSchema } from '../../models/user';
-import { projectSchema } from '../../models/project';
+import projectSchema from '../../models/project';
 
 const router = nc();
 router.use(cors);
