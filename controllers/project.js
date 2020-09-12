@@ -88,5 +88,15 @@ export async function createProject(
 }
 
 export async function updateProject(projectID, update) {
-  return '';
+  return client
+    .query(
+      q.Update(q.Ref(q.Collection('projects'), projectID), { data: update })
+    )
+    .then(() => {
+      return '';
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
 }
