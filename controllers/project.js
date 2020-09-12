@@ -55,3 +55,31 @@ export function getProjectsFromUserId(user) {
     )
     .then((projects) => sanitizedAll(projects.data));
 }
+
+export function createProject(
+  projectName,
+  username,
+  pageData,
+  isPublished,
+  views
+) {
+  return client
+    .query(
+      q.Create(q.Collection('projects'), {
+        data: {
+          projectName,
+          username,
+          pageData,
+          isPublished,
+          views,
+        },
+      })
+    )
+    .then(() => {
+      return '';
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
+}
