@@ -14,7 +14,7 @@ const projectMeta = {
 };
 
 const projectSchema = Joi.object({
-  projectName: project.name,
+  name: project.name,
   username: user.username,
   pageData: project.pageData,
   isPublished: projectMeta.isPublished,

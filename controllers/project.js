@@ -58,7 +58,7 @@ export function getProjectsFromUserId(user) {
 }
 
 export async function createProject(
-  projectName,
+  name,
   username,
   pageData,
   isPublished,
@@ -69,7 +69,7 @@ export async function createProject(
     .query(
       q.Create(q.Collection('projects'), {
         data: {
-          projectName,
+          name,
           userRef,
           pageData,
           isPublished,
@@ -81,7 +81,6 @@ export async function createProject(
       return '';
     })
     .catch((err) => {
-      console.log(err);
       return err;
     });
 }
@@ -95,7 +94,6 @@ export function updateProject(projectID, update) {
       return '';
     })
     .catch((err) => {
-      console.log(err);
       return err;
     });
 }
@@ -107,7 +105,6 @@ export function deleteProject(projectID) {
       return '';
     })
     .catch((err) => {
-      console.log(err);
       return err;
     });
 }

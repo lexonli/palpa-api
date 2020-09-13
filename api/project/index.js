@@ -30,10 +30,10 @@ router.get(validator(usernameSchema, 'query'), (req, res) => {
 
 router.post(validator(projectSchema, 'body'), async (req, res) => {
   try {
-    const { projectName, username, pageData, isPublished, views } = req.body;
+    const { name, username, pageData, isPublished, views } = req.body;
     // save the project to fauna
     const dbResponse = await createProject(
-      projectName,
+      name,
       username,
       pageData,
       isPublished,
