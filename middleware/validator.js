@@ -20,7 +20,6 @@ function validator(schema, reqKey = 'body') {
       }
       next();
     } catch (error) {
-      console.log(error);
       return res.status(400).json({
         errors: [{ message: 'json body is malformed' }],
       });

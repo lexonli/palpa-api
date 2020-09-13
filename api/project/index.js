@@ -45,7 +45,7 @@ router.post(validator(projectSchema, 'body'), async (req, res) => {
     }
     res.status(200).json('success');
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       errors: [{ message: error.toString() }],
     });
   }
