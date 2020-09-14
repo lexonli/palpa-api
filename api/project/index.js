@@ -1,5 +1,4 @@
-import nc from 'next-connect';
-import cors from '../../middleware/cors';
+import proto from '../../utils/proto';
 import { getUserFromUsername } from '../../controllers/user';
 import {
   getProjectsFromUserId,
@@ -9,8 +8,7 @@ import validator from '../../middleware/validator';
 import { usernameSchema } from '../../models/user';
 import projectSchema from '../../models/project';
 
-const router = nc();
-router.use(cors);
+const router = proto();
 
 router.get(validator(usernameSchema, 'query'), (req, res) => {
   const { username } = req.query;

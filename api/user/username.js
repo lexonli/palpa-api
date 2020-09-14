@@ -1,11 +1,9 @@
-import nc from 'next-connect';
-import cors from '../../middleware/cors';
+import proto from '../../utils/proto';
 import validator from '../../middleware/validator';
 import { isUsernameAvailable } from '../../controllers/user';
 import { usernameSchema } from '../../models/user';
 
-const router = nc();
-router.use(cors);
+const router = proto();
 
 /**
  * Checks whether username exists

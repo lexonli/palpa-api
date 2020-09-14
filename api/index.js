@@ -1,6 +1,6 @@
-import nc from 'next-connect';
+import proto from '../utils/proto';
 
-const router = nc();
+const router = proto();
 
 router.get((req, res) => {
   return res

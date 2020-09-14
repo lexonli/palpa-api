@@ -1,5 +1,4 @@
-import nc from 'next-connect';
-import cors from '../../middleware/cors';
+import proto from '../../utils/proto';
 import validator from '../../middleware/validator';
 import {
   getAllUsers,
@@ -9,8 +8,7 @@ import {
 import { createSchema } from '../../models/user';
 import getFaunaError from '../../utils/fauna';
 
-const router = nc();
-router.use(cors);
+const router = proto();
 
 /**
  * Lists all palpa users

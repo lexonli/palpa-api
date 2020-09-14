@@ -1,11 +1,9 @@
-import nc from 'next-connect';
-import cors from '../../middleware/cors';
+import proto from '../../utils/proto';
 import validator from '../../middleware/validator';
 import { loginSchema } from '../../models/user';
 import { loginUser } from '../../controllers/user';
 
-const router = nc();
-router.use(cors);
+const router = proto();
 
 router.post(validator(loginSchema), (req, res) => {
   loginUser(req.body.email, req.body.password, req.body.rememberMe)

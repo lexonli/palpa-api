@@ -21,7 +21,8 @@ function validator(schema, reqKey = 'body') {
       next();
     } catch (error) {
       return res.status(400).json({
-        errors: [{ message: 'json body is malformed' }],
+        // errors: [{ message: 'json body is malformed' }],
+        errors: [{ message: error.toString() }],
       });
     }
     return undefined;
