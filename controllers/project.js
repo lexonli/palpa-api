@@ -1,4 +1,5 @@
 import faunadb, { query as q } from 'faunadb';
+import { getUserFromUsername } from './user';
 
 const secret = process.env.FAUNADB_SECRET_KEY;
 const client = new faunadb.Client({ secret });
@@ -54,4 +55,47 @@ export function getProjectsFromUserId(user) {
       )
     )
     .then((projects) => sanitizedAll(projects.data));
+}
+
+export async function createProject(
+  name,
+  username,
+  pageData,
+  isPublished,
+  views
+) {
+  const userRef = await getUserFromUsername(username);
+  return client
+    .query(
+      q.Create(q.Collection('projects'), {
+        data: {
+          name,
+          userRef,
+          pageData,
+          isPublished,
+          views,
+        },
+      })
+    )
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export function updateProject(projectID, update) {
+  return client
+    .query(
+      q.Update(q.Ref(q.Collection('projects'), projectID), { data: update })
+    )
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export function deleteProject(projectID) {
+  return client
+    .query(q.Delete(q.Ref(q.Collection('projects'), projectID)))
+    .catch((err) => {
+      throw err;
+    });
 }
