@@ -68,13 +68,7 @@ router.patch(async (req, res) => {
 router.delete(async (req, res) => {
   try {
     const projectID = req.query.project;
-    if (!projectID) {
-      res.status(400).json('Make sure the project ID is part of the request');
-    }
-    const dbResponse = await deleteProject(projectID);
-    if (dbResponse !== '') {
-      res.status(400).json(dbResponse);
-    }
+    await deleteProject(projectID);
     res.status(200).json('success');
   } catch (err) {
     res.status(500).json({

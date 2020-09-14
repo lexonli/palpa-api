@@ -101,9 +101,6 @@ export function updateProject(projectID, update) {
 export function deleteProject(projectID) {
   return client
     .query(q.Delete(q.Ref(q.Collection('projects'), projectID)))
-    .then(() => {
-      return '';
-    })
     .catch((err) => {
       return err;
     });
