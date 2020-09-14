@@ -59,7 +59,7 @@ router.patch(async (req, res) => {
     }
     res.status(200).json('success');
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       errors: [{ message: err.toString() }],
     });
   }
@@ -71,7 +71,7 @@ router.delete(async (req, res) => {
     await deleteProject(projectID);
     res.status(200).json('success');
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       errors: [{ message: err.toString() }],
     });
   }

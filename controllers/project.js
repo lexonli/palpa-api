@@ -77,11 +77,8 @@ export async function createProject(
         },
       })
     )
-    .then(() => {
-      return '';
-    })
     .catch((err) => {
-      return err;
+      throw err;
     });
 }
 
@@ -102,6 +99,6 @@ export function deleteProject(projectID) {
   return client
     .query(q.Delete(q.Ref(q.Collection('projects'), projectID)))
     .catch((err) => {
-      return err;
+      throw err;
     });
 }

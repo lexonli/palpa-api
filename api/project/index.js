@@ -32,20 +32,10 @@ router.post(validator(projectSchema, 'body'), async (req, res) => {
   try {
     const { name, username, pageData, isPublished, views } = req.body;
     // save the project to fauna
-    const dbResponse = await createProject(
-      name,
-      username,
-      pageData,
-      isPublished,
-      views
-    );
-
-    if (dbResponse !== '') {
-      res.status(400).json(dbResponse);
-    }
+    await createProject(name, username, pageData, isPublished, views);
     res.status(200).json('success');
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       errors: [{ message: error.toString() }],
     });
   }
