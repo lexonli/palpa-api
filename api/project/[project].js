@@ -6,7 +6,8 @@ import {
   deleteProject,
 } from '../../controllers/project';
 
-import projectSchema from '../../models/project';
+import { projectUpdateSchema } from '../../models/project';
+import validator from '../../middleware/validator';
 
 const router = nc();
 router.use(cors);
@@ -26,37 +27,10 @@ router.get((req, res) => {
     );
 });
 
-function validateUpdate(update) {
-  const unrecognisedField = [];
-  Object.keys(update).forEach((key) => {
-    if (!(key in projectSchema)) unrecognisedField.push(key);
-  });
-
-  if (unrecognisedField.length !== 0) {
-    return `${unrecognisedField} are not accepted by the project API`;
-  }
-  return '';
-}
-
-router.patch(async (req, res) => {
+router.patch(validator(projectUpdateSchema, 'body'), async (req, res) => {
   try {
     const projectID = req.query.project;
-    const update = req.body;
-    if (!projectID || !update) {
-      res
-        .status(400)
-        .json(
-          'Make sure the project ID is part of the request and update is part of the body'
-        );
-    }
-    const validationResponse = validateUpdate(update);
-    if (validationResponse !== '') {
-      res.status(400).json(validationResponse);
-    }
-    const dbResponse = await updateProject(projectID, update);
-    if (dbResponse !== '') {
-      res.status(400).json(dbResponse);
-    }
+    await updateProject(projectID, req.body);
     res.status(200).json('success');
   } catch (err) {
     res.status(400).json({

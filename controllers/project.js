@@ -87,11 +87,8 @@ export function updateProject(projectID, update) {
     .query(
       q.Update(q.Ref(q.Collection('projects'), projectID), { data: update })
     )
-    .then(() => {
-      return '';
-    })
     .catch((err) => {
-      return err;
+      throw err;
     });
 }
 
