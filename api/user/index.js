@@ -6,7 +6,7 @@ import {
   isUsernameAvailable,
 } from '../../controllers/user';
 import { createSchema } from '../../models/user';
-import getFaunaError from '../../utils/fauna';
+import { getFaunaError } from '../../utils/fauna';
 
 const router = proto();
 

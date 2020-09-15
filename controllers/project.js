@@ -11,7 +11,7 @@ const client = new faunadb.Client({ secret });
  */
 function sanitizedOne(project) {
   const { data } = project;
-  delete data.user;
+  data.user = data.user.id;
   return data;
 }
 
@@ -36,7 +36,7 @@ export function getProject(projectId) {
 function sanitizedAll(projects) {
   return projects.map((project) => {
     const { data } = project;
-    delete data.user;
+    data.user = data.user.id;
     data.id = project.ref.id;
     return data;
   });
@@ -45,16 +45,33 @@ function sanitizedAll(projects) {
 /**
  * Gets all projects from the userId of a user
  * @param user - Reference to the user (in the form of Ref(collection=..., 123))
+ * @param isOwner {boolean} - whether the user is the owner of the projects
  * @returns {Promise<object>} - promise that contains a list of projects
  */
-export function getProjectsFromUserId(user) {
-  return client
-    .query(
-      q.Map(q.Paginate(q.Match(q.Index('project_by_user'), user)), (ref) =>
-        q.Get(ref)
+export async function getProjectsFromUserId(user, isOwner) {
+  const projects = await client.query(
+    q.Let(
+      {
+        isOwner,
+        projects: q.Map(
+          q.Paginate(q.Match(q.Index('project_by_user'), user)),
+          (ref) => q.Get(ref)
+        ),
+      },
+      q.If(
+        q.Var('isOwner'),
+        q.Var('projects'),
+        q.Filter(
+          q.Var('projects'),
+          q.Lambda(
+            'project',
+            q.Select(['data', 'isPublished'], q.Var('project'))
+          )
+        )
       )
     )
-    .then((projects) => sanitizedAll(projects.data));
+  );
+  return sanitizedAll(projects.data);
 }
 
 export async function createProject(

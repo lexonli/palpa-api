@@ -1,8 +1,8 @@
 import validator from '../../middleware/validator';
-import { authenticate, getPortfolio } from '../../controllers/portfolio';
+import getPortfolio from '../../controllers/portfolio';
+import { isUsernameOwner } from '../../controllers/user';
 import { usernameSchema } from '../../models/user';
-import getFaunaError from '../../utils/fauna';
-import { getUserFromUsernameAsync } from '../../controllers/user';
+import { getFaunaError } from '../../utils/fauna';
 import optionalAuth from '../../middleware/optionalAuth';
 import proto from '../../utils/proto';
 
@@ -17,16 +17,10 @@ router.get(validator(usernameSchema, 'query'), async (req, res) => {
   let isOwner = false;
   try {
     // check if current user is portfolio owner
-    if (req.token) {
-      const userId = await authenticate(req.token);
-      if (userId) {
-        const portfolioUser = await getUserFromUsernameAsync(username);
-        isOwner = userId === portfolioUser.id;
-      }
-    }
+    isOwner = await isUsernameOwner(req.token, username);
     // fetch portfolio
     const portfolio = await getPortfolio(username, isOwner);
-    res.json(portfolio);
+    res.status(200).json(portfolio);
   } catch (error) {
     // likely to be an invalid username input from client
     if (getFaunaError(error) === 'instance not found') {
