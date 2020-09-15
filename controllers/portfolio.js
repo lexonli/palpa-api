@@ -4,22 +4,6 @@ const secret = process.env.FAUNADB_SECRET_KEY;
 const client = new faunadb.Client({ secret });
 
 /**
- * Authenticates the client and obtains the document ref if ok
- * @returns {*|Promise<Object>|Promise<PermissionStatus>}
- * - Promise with document ref if successful
- * @param token {string} - token from calling login
- */
-export async function authenticate(token) {
-  const userClient = new faunadb.Client({ secret: token });
-  try {
-    const user = await userClient.query(q.Identity());
-    return user.id;
-  } catch (error) {
-    return false;
-  }
-}
-
-/**
  * Gets a user's portfolio
  * @param username {string} - the username of the owner of the portfolio
  * @param isOwner {boolean}
@@ -38,6 +22,7 @@ export async function getPortfolio(username, isOwner) {
         {},
         {
           // select details we want from user
+          user: q.Select(['ref', 'id'], q.Var('userDoc')),
           name: q.Select(['data', 'name'], q.Var('userDoc')),
           portfolioTitle: q.Select(['data', 'portfolioTitle'], q.Var('userDoc')),
           profileImage: q.Select(['data', 'profileImage'], q.Var('userDoc')),

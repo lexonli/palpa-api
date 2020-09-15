@@ -1,5 +1,5 @@
 import faunadb, { query as q } from 'faunadb';
-import getFaunaError from '../utils/fauna';
+import { getFaunaError } from '../utils/fauna';
 
 const secret = process.env.FAUNADB_SECRET_KEY;
 const client = new faunadb.Client({ secret });
@@ -63,10 +63,10 @@ export function loginUser(email, password, rememberMe) {
  * @param username {string} - username of a faunadb user
  * @returns {Promise<object>} - promise that holds the user reference
  */
-export function getUserFromUsername(username) {
-  return client
+export async function getUserFromUsername(username) {
+  const user = await client
     .query(q.Get(q.Match(q.Index('user_by_username'), username)))
-    .then((user) => user.ref);
+  return user.ref;
 }
 
 /**
@@ -117,4 +117,53 @@ export function authenticate(token) {
  */
 export function getUserFromId(id) {
   return client.query(q.Get(q.Ref(q.Collection('users'), id)));
+}
+
+/**
+ * Authenticates the client and obtains the document ref if ok
+ * @returns {*|Promise<Object>|Promise<PermissionStatus>}
+ * - Promise with document ref if successful
+ * @param token {string} - token from calling login
+ */
+export async function authenticateAsync(token) {
+  const userClient = new faunadb.Client({ secret: token });
+  try {
+    const user = await userClient.query(q.Identity());
+    return user.id;
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * Checks whether the user sending the token matches the username
+ * @param token
+ * @param username
+ * @return {Promise<boolean>}
+ */
+export async function isUsernameOwner(token, username) {
+  if (token) {
+    const userId = await authenticateAsync(token);
+    if (userId) {
+      const givenUser = await getUserFromUsernameAsync(username);
+      return userId === givenUser.id;
+    }
+  }
+  return false;
+}
+
+/**
+ * Checks whether the user sending the token matches the given userId
+ * @param token
+ * @param givenUserId
+ * @return {Promise<boolean>}
+ */
+export async function isUserOwner(token, givenUserId) {
+  if (token) {
+    const userId = await authenticateAsync(token);
+    if (userId) {
+      return userId === givenUserId;
+    }
+  }
+  return false;
 }
