@@ -6,11 +6,11 @@ import {
   deleteProject,
 } from '../../controllers/project';
 
-import { projectUpdateSchema } from "../../models/project";
+import { projectUpdateSchema } from '../../models/project';
 import validator from '../../middleware/validator';
-import auth from "../../middleware/auth";
-import optionalAuth from "../../middleware/optionalAuth";
-import { handleNotFoundError } from "../../utils/fauna";
+import auth from '../../middleware/auth';
+import optionalAuth from '../../middleware/optionalAuth';
+import { handleNotFoundError } from '../../utils/fauna';
 
 const router = nc();
 router.use(cors);
@@ -24,7 +24,7 @@ router.get(optionalAuth, (req, res) => {
       });
     })
     .catch((error) => {
-      handleNotFoundError(error, res, "Username does not exist");
+      handleNotFoundError(error, res, 'Username does not exist');
     });
 });
 
@@ -34,7 +34,7 @@ router.patch(auth, validator(projectUpdateSchema), async (req, res) => {
     await updateProject(projectID, req.body);
     res.status(200).send();
   } catch (error) {
-    handleNotFoundError(error, res, "Given project does not exist");
+    handleNotFoundError(error, res, 'Given project does not exist');
   }
 });
 
@@ -44,7 +44,7 @@ router.delete(auth, async (req, res) => {
     await deleteProject(projectID);
     res.status(200).send();
   } catch (error) {
-    handleNotFoundError(error, res, "Given project does not exist");
+    handleNotFoundError(error, res, 'Given project does not exist');
   }
 });
 

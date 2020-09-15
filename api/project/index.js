@@ -1,5 +1,5 @@
 import proto from '../../utils/proto';
-import { getUserFromUsername, isUserOwner } from "../../controllers/user";
+import { getUserFromUsername, isUserOwner } from '../../controllers/user';
 import {
   getProjectsFromUserId,
   createProject,
@@ -7,24 +7,28 @@ import {
 import validator from '../../middleware/validator';
 import { usernameSchema } from '../../models/user';
 import projectSchema from '../../models/project';
-import optionalAuth from "../../middleware/optionalAuth";
-import { handleNotFoundError } from "../../utils/fauna";
+import optionalAuth from '../../middleware/optionalAuth';
+import { handleNotFoundError } from '../../utils/fauna';
 
 const router = proto();
 
-router.get(optionalAuth, validator(usernameSchema, 'query'), async (req, res) => {
-  const { username } = req.query;
-  try {
-    const user = await getUserFromUsername(username);
-    const isOwner = await isUserOwner(req.token, user.id);
-    const projects = await getProjectsFromUserId(user, isOwner);
-    res.status(200).json({
-      projects,
-    })
-  } catch (error) {
-    handleNotFoundError(error, res, "Username does not exist");
+router.get(
+  optionalAuth,
+  validator(usernameSchema, 'query'),
+  async (req, res) => {
+    const { username } = req.query;
+    try {
+      const user = await getUserFromUsername(username);
+      const isOwner = await isUserOwner(req.token, user.id);
+      const projects = await getProjectsFromUserId(user, isOwner);
+      res.status(200).json({
+        projects,
+      });
+    } catch (error) {
+      handleNotFoundError(error, res, 'Username does not exist');
+    }
   }
-});
+);
 
 router.post(validator(projectSchema), async (req, res) => {
   try {

@@ -13,11 +13,11 @@ export function getFaunaError(error) {
 export function handleNotFoundError(error, res, message) {
   if (getFaunaError(error) === 'instance not found') {
     res.status(400).json({
-      errors: [{ message: message }]
-    })
+      errors: [{ message }],
+    });
   } else {
     res.status(500).json({
       errors: [{ message: error.toString() }],
-    })
+    });
   }
 }

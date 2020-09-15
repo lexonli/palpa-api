@@ -64,8 +64,9 @@ export function loginUser(email, password, rememberMe) {
  * @returns {Promise<object>} - promise that holds the user reference
  */
 export async function getUserFromUsername(username) {
-  const user = await client
-    .query(q.Get(q.Match(q.Index('user_by_username'), username)))
+  const user = await client.query(
+    q.Get(q.Match(q.Index('user_by_username'), username))
+  );
   return user.ref;
 }
 
