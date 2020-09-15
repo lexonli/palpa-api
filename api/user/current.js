@@ -15,6 +15,7 @@ router.get((req, res) => {
     })
     .then((user) =>
       res.status(200).json({
+        id: user.ref.id,
         email: user.data.email,
         name: user.data.name,
         username: user.data.username,
