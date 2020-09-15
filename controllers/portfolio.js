@@ -27,7 +27,7 @@ export async function authenticate(token) {
  * @return {Promise<object>}
  */
 export async function getPortfolio(username, isOwner) {
-  return client.query(
+  const portfolio = await client.query(
     q.Let(
       // setup variables, userDoc is a reference to the user
       {
@@ -39,6 +39,7 @@ export async function getPortfolio(username, isOwner) {
         {
           // select details we want from user
           name: q.Select(['data', 'name'], q.Var('userDoc')),
+          portfolioTitle: q.Select(['data', 'portfolioTitle'], q.Var('userDoc')),
           profileImage: q.Select(['data', 'profileImage'], q.Var('userDoc')),
           description: q.Select(['data', 'description'], q.Var('userDoc')),
           coverImage: q.Select(['data', 'coverImage'], q.Var('userDoc')),
@@ -59,6 +60,7 @@ export async function getPortfolio(username, isOwner) {
                   q.Let(
                     { projectDoc: q.Get(q.Var('project')) },
                     {
+                      id: q.Select(["ref", "id"], q.Var("projectDoc")),
                       name: q.Select(['data', 'name'], q.Var('projectDoc')),
                       description: q.Select(
                         ['data', 'description'],
@@ -99,7 +101,9 @@ export async function getPortfolio(username, isOwner) {
                 // experience of the user
                 { experienceDoc: q.Get(q.Var('experience')) },
                 {
+                  id: q.Select(["ref", "id"], q.Var("experienceDoc")),
                   title: q.Select(['data', 'title'], q.Var('experienceDoc')),
+                  description: q.Select(['data', 'description'], q.Var('experienceDoc')),
                   employmentType: q.Select(
                     ['data', 'employmentType'],
                     q.Var('experienceDoc')
@@ -139,4 +143,6 @@ export async function getPortfolio(username, isOwner) {
       )
     )
   );
+  portfolio.experiences.sort((exp1, exp2) => exp1.startDate > exp2.startDate)
+  return portfolio
 }
