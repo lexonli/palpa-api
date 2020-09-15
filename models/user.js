@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const user = {
+export const user = {
   username: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
   name: Joi.string().min(2).required(),
   email: Joi.string().email().required(),

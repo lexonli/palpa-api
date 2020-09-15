@@ -9,7 +9,8 @@ import {
 import { projectUpdateSchema } from '../../models/project';
 import validator from '../../middleware/validator';
 
-const router = proto();
+const router = nc();
+router.use(cors);
 
 router.get((req, res) => {
   const projectId = req.query.project;
