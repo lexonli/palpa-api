@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive --exit || true"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
   "dependencies": {
     "@octokit/rest": "^18.0.3",
     "aws-sdk": "^2.739.0",
-    "axios": "^0.19.2",
     "faunadb": "^2.14.2",
     "helmet": "^4.1.0",
     "joi": "^17.2.1",
@@ -32,6 +31,7 @@
     "node": "12.14.1"
   },
   "devDependencies": {
+    "axios": "^0.19.2",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
     "eslint": "^7.6.0",
