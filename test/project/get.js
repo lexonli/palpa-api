@@ -50,7 +50,6 @@ describe('Test the get endpoint of project api', function () {
       .query({ username })
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        console.log(res.body);
         expect(res.body).to.contain.property('projects');
         done();
       });

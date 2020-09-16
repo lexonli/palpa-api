@@ -6,7 +6,6 @@ require('dotenv').config({ path: dotEnvPath });
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { expect } = require('chai');
-const { invalid } = require('joi');
 
 chai.use(chaiHttp);
 
@@ -18,6 +17,10 @@ describe('Test the patch endpoint of project api', function () {
   this.timeout(0);
 
   const projectID = '276256822060384780';
+  const token = 'fnED16AqvQACDAPNEHYtkAYMjGhEFcFVJdn8LZozsyjREg2Wp_I';
+  const tokenOfAnotherUser =
+    'fnED16DqPdACDQPNEHYtkAYMaQpgZ4uU5aKy1yesi2d2lRZdyWI';
+  const invalidToken = 'lexisagoodygoodyboi';
   const content = {
     pageData: {
       type: 'block-quote',
@@ -43,57 +46,60 @@ describe('Test the patch endpoint of project api', function () {
     type: 'anime',
   };
 
-  //   it('200, update project with valid ID and valid content', function (done) {
-  //     chai
-  //       .request(apiUrl)
-  //       .patch(`/project/${projectID}`)
-  //       .set('content-type', 'application/json')
-  //       .send(content)
-  //       .end((err, res) => {
-  //         expect(res.status).to.equal(200);
-  //         console.log(res);
-  //         done();
-  //       });
-  //   });
+  it('200, update project with valid ID and valid content', function (done) {
+    chai
+      .request(apiUrl)
+      .patch(`/project/${projectID}`)
+      .set('content-type', 'application/json')
+      .auth('token', token)
+      .send(content)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        done();
+      });
+  });
 
-  //   it('400, update project with invalid ID and valid content', function (done) {
-  //     chai
-  //       .request(apiUrl)
-  //       .patch(`/project/${invalidProjectID}`)
-  //       .set('content-type', 'application/json')
-  //       .send(content)
-  //       .end((err, res) => {
-  //         expect(res.status).to.equal(400);
-  //         expect(res.body).to.contain.property('errors');
-  //         done();
-  //       });
-  //   });
+  it('400, update project with invalid ID and valid content', function (done) {
+    chai
+      .request(apiUrl)
+      .patch(`/project/${invalidProjectID}`)
+      .set('content-type', 'application/json')
+      .auth('token', token)
+      .send(content)
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body).to.contain.property('errors');
+        done();
+      });
+  });
 
-  //   it('400, update project with valid ID and invalid content', function (done) {
-  //     chai
-  //       .request(apiUrl)
-  //       .patch(`/project/${projectID}`)
-  //       .set('content-type', 'application/json')
-  //       .send(invalidContent)
-  //       .end((err, res) => {
-  //         expect(res.status).to.equal(400);
-  //         expect(res.body).to.contain.property('errors');
-  //         done();
-  //       });
-  //   });
+  it('400, update project with valid ID and invalid content', function (done) {
+    chai
+      .request(apiUrl)
+      .patch(`/project/${projectID}`)
+      .set('content-type', 'application/json')
+      .auth('token', token)
+      .send(invalidContent)
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body).to.contain.property('errors');
+        done();
+      });
+  });
 
-  //   it('400, update project with invalid ID and invalid content', function (done) {
-  //     chai
-  //       .request(apiUrl)
-  //       .patch(`/project/${invalidProjectID}`)
-  //       .set('content-type', 'application/json')
-  //       .send(invalidContent)
-  //       .end((err, res) => {
-  //         expect(res.status).to.equal(400);
-  //         expect(res.body).to.contain.property('errors');
-  //         done();
-  //       });
-  //   });
+  it('400, update project with invalid ID and invalid content', function (done) {
+    chai
+      .request(apiUrl)
+      .patch(`/project/${invalidProjectID}`)
+      .set('content-type', 'application/json')
+      .auth('token', token)
+      .send(invalidContent)
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body).to.contain.property('errors');
+        done();
+      });
+  });
 
   it('403, update project without passing a token', function (done) {
     chai
@@ -107,16 +113,29 @@ describe('Test the patch endpoint of project api', function () {
       });
   });
 
-  //   it('403, update project with a token that does not belong to the user', function (done) {
-  //     chai
-  //       .request(apiUrl)
-  //       .patch(`/project/${projectID}`)
-  //       .set('content-type', 'application/json')
-  //       .send(content)
-  //       .end((err, res) => {
-  //         expect(res.status).to.equal(200);
-  //         console.log(res);
-  //         done();
-  //       });
-  //   });
+  it('403, update project with an invalid token', function (done) {
+    chai
+      .request(apiUrl)
+      .patch(`/project/${projectID}`)
+      .set('content-type', 'application/json')
+      .auth('token', invalidToken)
+      .send(content)
+      .end((err, res) => {
+        expect(res.status).to.equal(403);
+        done();
+      });
+  });
+
+  it('403, update project with a token that does not belong to the user', function (done) {
+    chai
+      .request(apiUrl)
+      .patch(`/project/${projectID}`)
+      .set('content-type', 'application/json')
+      .auth('token', tokenOfAnotherUser)
+      .send(content)
+      .end((err, res) => {
+        expect(res.status).to.equal(403);
+        done();
+      });
+  });
 });
