@@ -31,9 +31,9 @@
     "node": "12.14.1"
   },
   "devDependencies": {
-    "axios": "^0.19.2",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.6.0",
     "eslint-config-airbnb": "^18.2.0",
