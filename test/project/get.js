@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 // template for a unittest
 // it('', function (done) {});
 const apiUrl = process.env.API_URL;
-describe('Test the create endpoint of project api', function () {
+describe('Test the get endpoint of project api', function () {
   // disable timeouts
   this.timeout(0);
   it('200, Get project data by project ID with valid ID', function (done) {
@@ -34,6 +34,35 @@ describe('Test the create endpoint of project api', function () {
       .request(apiUrl)
       .get(`/project/${wrongProjectID}`)
       .set('content-type', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body).to.contain.property('errors');
+        done();
+      });
+  });
+
+  it('200, Get list of projects by username with existing username', function (done) {
+    const username = 'lex';
+    chai
+      .request(apiUrl)
+      .get('/project')
+      .set('content-type', 'application/json')
+      .query({ username })
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        console.log(res.body);
+        expect(res.body).to.contain.property('projects');
+        done();
+      });
+  });
+
+  it('400, Get list of projects by username with non-existant username', function (done) {
+    const nonExistantUsername = 'lex102398742386';
+    chai
+      .request(apiUrl)
+      .get('/project')
+      .set('content-type', 'application/json')
+      .query({ username: nonExistantUsername })
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body).to.contain.property('errors');
