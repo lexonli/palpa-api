@@ -1,12 +1,14 @@
-const assert = require('chai').assert;
+const path = require('path');
+
+const dotEnvPath = path.resolve('./.env');
+require('dotenv').config({ path: dotEnvPath });
+
 const axios = require('axios');
 const { expect } = require('chai');
 
 // template for a unittest
 // it('', function () {});
-// const apiUrl = process.env.API_URL;
-const apiUrl = 'https://palpa-api-ten.vercel.app/api';
-console.log(apiUrl); // undefined
+const apiUrl = process.env.API_URL;
 describe('Test the create endpoint of project api', function () {
   // disable timeouts
   this.timeout(0);
