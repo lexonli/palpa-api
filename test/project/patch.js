@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 require('../globalSetup');
 // path and dotenv are used to ensure .env variables are defined
 const path = require('path');
@@ -20,7 +21,19 @@ describe('Test the patch endpoint of project api', function () {
   this.timeout(0);
 
   let projectID = '';
-  // eslint-disable-next-line no-undef
+  const invalidProjectID = '276256';
+  let token = '';
+  let tokenOfAnotherUser = '';
+  const invalidToken = 'lexisagoodygoodyboi';
+  const username = 'testUser';
+  const cred = {
+    username1: 'testUser',
+    email1: 'test1@gmail.com',
+    username2: 'testUser2',
+    email2: 'test2@gmail.com',
+    pwd: 'swaggy',
+  };
+
   before('Create test instance(s)', async function () {
     const res = await chai
       .request(apiUrl)
@@ -28,19 +41,36 @@ describe('Test the patch endpoint of project api', function () {
       .set('content-type', 'application/json')
       .send({
         name: 'testGet',
-        username: 'lex',
+        username: 'testUser',
         pageData: { quote: 'a wise quote' },
         isPublished: true,
         views: 0,
       });
     projectID = res.body;
   });
-  const invalidProjectID = '276256';
 
-  const token = 'fnED178UMFACCAPXsKpQwAYISBUUH-0oSet1PF9U1uiouUnAFvQ';
-  const tokenOfAnotherUser =
-    'fnED16DqPdACDQPNEHYtkAYMaQpgZ4uU5aKy1yesi2d2lRZdyWI';
-  const invalidToken = 'lexisagoodygoodyboi';
+  before('Fetch fresh tokens for two users', async function () {
+    let res = await chai
+      .request(apiUrl)
+      .post('/user/login')
+      .set('content-type', 'application/json')
+      .send({
+        email: cred.email1,
+        password: cred.pwd,
+      });
+    token = res.body.token;
+
+    res = await chai
+      .request(apiUrl)
+      .post('/user/login')
+      .set('content-type', 'application/json')
+      .send({
+        email: cred.email2,
+        password: cred.pwd,
+      });
+    tokenOfAnotherUser = res.body.token;
+  });
+
   const content = {
     pageData: {
       type: 'block-quote',
