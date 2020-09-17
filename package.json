@@ -21,6 +21,7 @@
   "dependencies": {
     "@octokit/rest": "^18.0.3",
     "aws-sdk": "^2.739.0",
+    "axios": "^0.20.0",
     "faunadb": "^2.14.2",
     "helmet": "^4.1.0",
     "joi": "^17.2.1",
@@ -31,7 +32,6 @@
     "node": "12.14.1"
   },
   "devDependencies": {
-    "axios": "^0.20.0",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",

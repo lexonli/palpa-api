@@ -16,7 +16,7 @@ async function createTestUser(username, name, email, password) {
       email,
       password,
     })
-    .catch(function (err) {});
+    .catch(function () {});
 }
 
 before('Switch the node environment to TEST', function () {
