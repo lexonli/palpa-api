@@ -1,4 +1,5 @@
 require('../globalSetup');
+// path and dotenv are used to ensure .env variables are defined
 const path = require('path');
 
 const dotEnvPath = path.resolve('./.env');
@@ -14,7 +15,7 @@ chai.use(chaiHttp);
 // it('', function () {});
 const apiUrl = process.env.API_URL;
 describe('Test the create endpoint of project api', function () {
-  // disable timeouts
+  // disable timeouts so API tests can run till the end without being dropped
   this.timeout(0);
 
   it('create api should return status code 200 with valid request body', function (done) {
