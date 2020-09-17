@@ -25,7 +25,6 @@ describe('Test the patch endpoint of project api', function () {
   let token = '';
   let tokenOfAnotherUser = '';
   const invalidToken = 'lexisagoodygoodyboi';
-  const username = 'testUser';
   const cred = {
     username1: 'testUser',
     email1: 'test1@gmail.com',
