@@ -17,8 +17,8 @@ describe('Test the patch endpoint of project api', function () {
   // disable timeouts
   this.timeout(0);
 
-  const projectID = '276256822060384780';
-  const token = 'fnED16AqvQACDAPNEHYtkAYMjGhEFcFVJdn8LZozsyjREg2Wp_I';
+  const projectID = '276897576184185352';
+  const token = 'fnED178UMFACCAPXsKpQwAYISBUUH-0oSet1PF9U1uiouUnAFvQ';
   const tokenOfAnotherUser =
     'fnED16DqPdACDQPNEHYtkAYMaQpgZ4uU5aKy1yesi2d2lRZdyWI';
   const invalidToken = 'lexisagoodygoodyboi';

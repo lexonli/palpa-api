@@ -17,7 +17,7 @@ describe('Test the get endpoint of project api', function () {
   // disable timeouts
   this.timeout(0);
   it('200, Get project data by project ID with valid ID', function (done) {
-    const projectID = '273904644720165389';
+    const projectID = '276897576184185352';
     chai
       .request(apiUrl)
       .get(`/project/${projectID}`)

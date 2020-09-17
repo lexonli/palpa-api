@@ -81,7 +81,6 @@ export async function createProject(
       })
     )
     .catch((err) => {
-      console.log(err);
       throw err;
     });
 }
