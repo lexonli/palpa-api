@@ -45,4 +45,15 @@ describe('Test the delete endpoint of project api', function () {
         done();
       });
   });
+
+  it('400, attemp to delete a project that does not exist, or has been deleted', function (done) {
+    chai
+      .request(apiUrl)
+      .delete(`/project/${projectID}`)
+      .set('content-type', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        done();
+      });
+  });
 });
