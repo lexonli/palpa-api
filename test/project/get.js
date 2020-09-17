@@ -5,6 +5,7 @@ const path = require('path');
 const dotEnvPath = path.resolve('./.env');
 require('dotenv').config({ path: dotEnvPath });
 
+// import for unittests
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { expect } = require('chai');
