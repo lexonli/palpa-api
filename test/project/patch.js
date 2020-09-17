@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-require('../globalSetup');
+require('../globalConfig');
 // path and dotenv are used to ensure .env variables are defined
 const path = require('path');
 
