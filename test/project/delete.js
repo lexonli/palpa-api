@@ -20,7 +20,7 @@ describe('Test the delete endpoint of project api', function () {
   this.timeout(0);
   let projectID = '';
   // eslint-disable-next-line no-undef
-  before('Create test instances', async function () {
+  before('Create test instance(s)', async function () {
     const res = await chai
       .request(apiUrl)
       .post('/project')

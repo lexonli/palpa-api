@@ -19,7 +19,24 @@ describe('Test the patch endpoint of project api', function () {
   // disable timeouts so API tests can run till the end without being dropped
   this.timeout(0);
 
-  const projectID = '276897576184185352';
+  let projectID = '';
+  // eslint-disable-next-line no-undef
+  before('Create test instance(s)', async function () {
+    const res = await chai
+      .request(apiUrl)
+      .post('/project')
+      .set('content-type', 'application/json')
+      .send({
+        name: 'testGet',
+        username: 'lex',
+        pageData: { quote: 'a wise quote' },
+        isPublished: true,
+        views: 0,
+      });
+    projectID = res.body;
+  });
+  const invalidProjectID = '276256';
+
   const token = 'fnED178UMFACCAPXsKpQwAYISBUUH-0oSet1PF9U1uiouUnAFvQ';
   const tokenOfAnotherUser =
     'fnED16DqPdACDQPNEHYtkAYMaQpgZ4uU5aKy1yesi2d2lRZdyWI';
@@ -34,8 +51,6 @@ describe('Test the patch endpoint of project api', function () {
       ],
     },
   };
-
-  const invalidProjectID = '276256';
   const invalidContent = {
     pageDataaa: {
       type: 'block-quote',
