@@ -2,7 +2,7 @@ require('../globalConfig');
 // path and dotenv are used to ensure .env variables are defined
 const path = require('path');
 
-const dotEnvPath = path.resolve('./.env');
+const dotEnvPath = path.resolve('./test.env');
 require('dotenv').config({ path: dotEnvPath });
 
 // import for unittests

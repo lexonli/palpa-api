@@ -1,5 +1,10 @@
 /* eslint-disable no-undef */
 
+const path = require('path');
+
+const dotEnvPath = path.resolve('./test.env');
+require('dotenv').config({ path: dotEnvPath });
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
