@@ -24,7 +24,7 @@ router.get(optionalAuth, (req, res) => {
       });
     })
     .catch((error) => {
-      handleNotFoundError(error, res, 'Username does not exist');
+      handleNotFoundError(error, res, 'Project does not exist');
     });
 });
 
