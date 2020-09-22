@@ -1,3 +1,5 @@
+import faunadb, { query as q } from 'faunadb';
+
 export function getFaunaError(error) {
   try {
     const { errors } = error.requestResult.responseContent;
@@ -20,4 +22,10 @@ export function handleNotFoundError(error, res, message) {
       errors: [{ message: error.toString() }],
     });
   }
+}
+
+export async function getUserIDFromToken(token) {
+  const secret = token;
+  const client = new faunadb.Client({ secret });
+  return client.query(q.Identity());
 }
