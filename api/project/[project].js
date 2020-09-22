@@ -8,6 +8,7 @@ import {
 
 import { projectUpdateSchema } from '../../models/project';
 import validator from '../../middleware/validator';
+import validateToken from '../../middleware/validateToken';
 import auth from '../../middleware/auth';
 import optionalAuth from '../../middleware/optionalAuth';
 import { handleNotFoundError } from '../../utils/fauna';
@@ -28,15 +29,20 @@ router.get(optionalAuth, (req, res) => {
     });
 });
 
-router.patch(auth, validator(projectUpdateSchema), async (req, res) => {
-  try {
-    const projectID = req.query.project;
-    await updateProject(projectID, req.body);
-    res.status(200).send();
-  } catch (error) {
-    handleNotFoundError(error, res, 'Given project does not exist');
+router.patch(
+  auth,
+  validateToken,
+  validator(projectUpdateSchema),
+  async (req, res) => {
+    try {
+      const projectID = req.query.project;
+      await updateProject(projectID, req.body);
+      res.status(200).send();
+    } catch (error) {
+      handleNotFoundError(error, res, 'Given project does not exist');
+    }
   }
-});
+);
 
 router.delete(auth, async (req, res) => {
   try {
