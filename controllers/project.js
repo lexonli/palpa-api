@@ -1,6 +1,6 @@
 import { query as q } from 'faunadb';
 import { getUserFromUsername } from './user';
-import client from "../config/client";
+import client from '../config/client';
 
 /**
  * Sanitizes project data for response to the frontend

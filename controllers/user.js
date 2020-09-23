@@ -1,6 +1,6 @@
 import faunadb, { query as q } from 'faunadb';
 import { getFaunaError } from '../utils/fauna';
-import client from "../config/client";
+import client from '../config/client';
 
 /**
  * Lists all users

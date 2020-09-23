@@ -1,5 +1,5 @@
-import faunadb, { query as q } from 'faunadb';
-import client from "../config/client";
+import { query as q } from 'faunadb';
+import client from '../config/client';
 
 /**
  * Gets a user's portfolio
