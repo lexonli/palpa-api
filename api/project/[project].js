@@ -16,7 +16,7 @@ import { handleNotFoundError } from '../../utils/fauna';
 const router = nc();
 router.use(cors);
 
-router.get(optionalAuth, (req, res) => {
+router.get(optionalAuth, validateToken, (req, res) => {
   const projectId = req.query.project;
   getProject(projectId)
     .then((project) => {
