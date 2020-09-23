@@ -1,11 +1,6 @@
-import faunadb, { query as q } from 'faunadb';
+import { query as q } from 'faunadb';
 import { getUserFromUsername } from './user';
-
-const secret =
-  process.env.NODE_ENV === 'PROD'
-    ? process.env.FAUNADB_SECRET_KEY_PROD
-    : process.env.FAUNADB_SECRET_KEY_TEST;
-const client = new faunadb.Client({ secret });
+import client from "../config/client";
 
 /**
  * Sanitizes project data for response to the frontend

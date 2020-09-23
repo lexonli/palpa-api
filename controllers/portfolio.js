@@ -1,7 +1,5 @@
 import faunadb, { query as q } from 'faunadb';
-
-const secret = process.env.FAUNADB_SECRET_KEY;
-const client = new faunadb.Client({ secret });
+import client from "../config/client";
 
 /**
  * Gets a user's portfolio
