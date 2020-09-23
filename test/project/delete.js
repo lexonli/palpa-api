@@ -43,7 +43,7 @@ describe('Test the delete endpoint of project api', function () {
   });
 
   // eslint-disable-next-line no-undef
-  before('Fetch fresh tokens for two users', async function () {
+  before('Fetch fresh tokens for user', async function () {
     const res = await chai
       .request(apiUrl)
       .post('/user/login')

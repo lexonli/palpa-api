@@ -44,7 +44,7 @@ router.patch(
   }
 );
 
-router.delete(auth, async (req, res) => {
+router.delete(auth, validateToken, async (req, res) => {
   try {
     const projectID = req.query.project;
     await deleteProject(projectID);
