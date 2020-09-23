@@ -12,8 +12,9 @@ async function validateToken(req, res, next) {
   const projectID = req.query.project;
   let userID = '';
   try {
-    userID = await getUserIDFromProjectID(res, projectID);
+    userID = await getUserIDFromProjectID(projectID);
   } catch (err) {
+    // console.log(err);
     res
       .status(400)
       .json({ success: false, message: 'Error while fetching project.' });

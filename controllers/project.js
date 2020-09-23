@@ -84,13 +84,13 @@ export async function createProject(
   isPublished,
   views
 ) {
-  const userRef = await getUserFromUsername(username);
+  const user = await getUserFromUsername(username);
   return client
     .query(
       q.Create(q.Collection('projects'), {
         data: {
           name,
-          userRef,
+          user,
           pageData,
           isPublished,
           views,
