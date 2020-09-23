@@ -1,12 +1,24 @@
 import { getProject } from '../controllers/project';
 import { getUserIDFromToken } from '../utils/fauna';
 
-async function validateToken(req, res, next) {
-  const projectId = req.query.project;
-  const project = await getProject(projectId);
+async function getUserIDFromProjectID(projectID) {
+  const project = await getProject(projectID);
   const userID = project.user;
+  return userID;
+}
 
+async function validateToken(req, res, next) {
   // The previous middleware should've added token to the req
+  const projectID = req.query.project;
+  let userID = '';
+  try {
+    userID = await getUserIDFromProjectID(res, projectID);
+  } catch (err) {
+    res
+      .status(400)
+      .json({ success: false, message: 'Error while fetching project.' });
+  }
+
   try {
     const user = await getUserIDFromToken(req.token);
     if (userID !== user.id) {
