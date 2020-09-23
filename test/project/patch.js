@@ -97,8 +97,7 @@ describe('Test the patch endpoint of project api', function () {
     chai
       .request(apiUrl)
       .patch(`/project/${projectID}`)
-      .set('content-type', 'application/json')
-      .auth('token', token)
+      .set('Authorization', `Bearer ${token}`)
       .send(content)
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -110,12 +109,10 @@ describe('Test the patch endpoint of project api', function () {
     chai
       .request(apiUrl)
       .patch(`/project/${invalidProjectID}`)
-      .set('content-type', 'application/json')
-      .auth('token', token)
+      .set('Authorization', `Bearer ${token}`)
       .send(content)
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.contain.property('errors');
         done();
       });
   });
@@ -124,12 +121,10 @@ describe('Test the patch endpoint of project api', function () {
     chai
       .request(apiUrl)
       .patch(`/project/${projectID}`)
-      .set('content-type', 'application/json')
-      .auth('token', token)
+      .set('Authorization', `Bearer ${token}`)
       .send(invalidContent)
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.contain.property('errors');
         done();
       });
   });
@@ -138,12 +133,10 @@ describe('Test the patch endpoint of project api', function () {
     chai
       .request(apiUrl)
       .patch(`/project/${invalidProjectID}`)
-      .set('content-type', 'application/json')
-      .auth('token', token)
+      .set('Authorization', `Bearer ${token}`)
       .send(invalidContent)
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.contain.property('errors');
         done();
       });
   });
@@ -164,8 +157,7 @@ describe('Test the patch endpoint of project api', function () {
     chai
       .request(apiUrl)
       .patch(`/project/${projectID}`)
-      .set('content-type', 'application/json')
-      .auth('token', invalidToken)
+      .set('Authorization', `Bearer ${invalidToken}`)
       .send(content)
       .end((err, res) => {
         expect(res.status).to.equal(403);
@@ -177,8 +169,7 @@ describe('Test the patch endpoint of project api', function () {
     chai
       .request(apiUrl)
       .patch(`/project/${projectID}`)
-      .set('content-type', 'application/json')
-      .auth('token', tokenOfAnotherUser)
+      .set('Authorization', `Bearer ${tokenOfAnotherUser}`)
       .send(content)
       .end((err, res) => {
         expect(res.status).to.equal(403);
