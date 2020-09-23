@@ -8,29 +8,30 @@ async function getUserIDFromProjectID(projectID) {
 }
 
 async function validateToken(req, res, next) {
-  // The previous middleware should've added token to the req
-  const projectID = req.query.project;
-  let userID = '';
-  try {
-    userID = await getUserIDFromProjectID(projectID);
-  } catch (err) {
-    // console.log(err);
-    res
-      .status(400)
-      .json({ success: false, message: 'Error while fetching project.' });
-  }
-
-  try {
-    const user = await getUserIDFromToken(req.token);
-    if (userID !== user.id) {
-      res.status(403).json({ success: false, message: 'Token is invalid' });
+  if (req.token !== undefined) {
+    // The previous middleware should've added token to the req
+    const projectID = req.query.project;
+    let userID = '';
+    try {
+      userID = await getUserIDFromProjectID(projectID);
+    } catch (err) {
+      // console.log(err);
+      res
+        .status(400)
+        .json({ success: false, message: 'Error while fetching project.' });
     }
-  } catch (err) {
-    res
-      .status(403)
-      .json({ success: false, message: 'Non-existant token received' });
-  }
 
+    try {
+      const user = await getUserIDFromToken(req.token);
+      if (userID !== user.id) {
+        res.status(403).json({ success: false, message: 'Token is invalid' });
+      }
+    } catch (err) {
+      res
+        .status(403)
+        .json({ success: false, message: 'Non-existant token received' });
+    }
+  }
   next();
 }
 
