@@ -16,17 +16,16 @@ import { handleNotFoundError } from '../../utils/fauna';
 const router = nc();
 router.use(cors);
 
-router.get(optionalAuth, validateToken, (req, res) => {
+router.get(optionalAuth, async (req, res) => {
   const projectId = req.query.project;
-  getProject(projectId)
-    .then((project) => {
-      res.status(200).json({
-        project,
-      });
-    })
-    .catch((error) => {
-      handleNotFoundError(error, res, 'Project does not exist');
+  try {
+    const project = await getProject(projectId);
+    await res.status(200).json({
+      project,
     });
+  } catch (error) {
+    handleNotFoundError(error, res, 'Project does not exist');
+  }
 });
 
 router.patch(

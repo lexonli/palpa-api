@@ -23,12 +23,11 @@ function sanitizedOne(project) {
  * @param projectId {string} - the project id
  * @returns {Promise<object>} - a promise with the project object
  */
-export function getProject(projectId) {
-  return client
-    .query(q.Get(q.Ref(q.Collection('projects'), projectId)))
-    .then((project) => {
-      return sanitizedOne(project);
-    });
+export async function getProject(projectId) {
+  const project = await client.query(
+    q.Get(q.Ref(q.Collection('projects'), projectId))
+  );
+  return sanitizedOne(project);
 }
 
 /**

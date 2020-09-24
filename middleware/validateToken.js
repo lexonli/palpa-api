@@ -3,36 +3,36 @@ import { getUserIDFromToken } from '../utils/fauna';
 
 async function getUserIDFromProjectID(projectID) {
   const project = await getProject(projectID);
-  const userID = project.user;
-  return userID;
+  return project.user;
 }
 
 async function validateToken(req, res, next) {
-  if (req.token !== undefined) {
+  if (req.token) {
     // The previous middleware should've added token to the req
     const projectID = req.query.project;
     let userID = '';
     try {
       userID = await getUserIDFromProjectID(projectID);
     } catch (err) {
-      // console.log(err);
-      res
-        .status(400)
-        .json({ success: false, message: 'Error while fetching project.' });
+      await res.status(400).json({
+        errors: [{ message: 'Error while fetching project.' }],
+      });
     }
 
     try {
       const user = await getUserIDFromToken(req.token);
       if (userID !== user.id) {
-        res.status(403).json({ success: false, message: 'Token is invalid' });
+        await res.status(403).json({
+          errors: [{ message: 'Your token cannot access this resource.' }],
+        });
       }
+      next();
     } catch (err) {
-      res
-        .status(403)
-        .json({ success: false, message: 'Non-existant token received' });
+      await res.status(403).json({
+        errors: [{ message: 'Non-existent token received' }],
+      });
     }
   }
-  next();
 }
 
 export default validateToken;
