@@ -20,15 +20,35 @@ describe('Test the get endpoint of project api', function () {
   this.timeout(0);
 
   let projectID = '';
+  let token = '';
+  const cred = {
+    username: 'testUser',
+    email: 'test1@gmail.com',
+    pwd: 'swaggy',
+  };
+
+  // eslint-disable-next-line no-undef
+  before('Fetch fresh tokens for user', async function () {
+    const res = await chai
+      .request(apiUrl)
+      .post('/user/login')
+      .set('content-type', 'application/json')
+      .send({
+        email: cred.email,
+        password: cred.pwd,
+      });
+    token = res.body.token;
+  });
+
   // eslint-disable-next-line no-undef
   before('Create test instance(s)', async function () {
     const res = await chai
       .request(apiUrl)
       .post('/project')
-      .set('content-type', 'application/json')
+      .set('Authorization', `Bearer ${token}`)
       .send({
-        name: 'testGet',
-        username: 'lex',
+        name: 'toBeDeleted',
+        username: cred.username,
         pageData: { quote: 'a wise quote' },
         isPublished: true,
         views: 0,

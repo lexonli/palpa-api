@@ -19,11 +19,31 @@ describe('Test the create endpoint of project api', function () {
   // disable timeouts so API tests can run till the end without being dropped
   this.timeout(0);
 
+  let token = '';
+  const cred = {
+    username: 'testUser',
+    email: 'test1@gmail.com',
+    pwd: 'swaggy',
+  };
+
+  // eslint-disable-next-line no-undef
+  before('Fetch fresh tokens for user', async function () {
+    const res = await chai
+      .request(apiUrl)
+      .post('/user/login')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        email: cred.email,
+        password: cred.pwd,
+      });
+    token = res.body.token;
+  });
+
   it('create api should return status code 200 with valid request body', function (done) {
     chai
       .request(apiUrl)
       .post('/project')
-      .set('content-type', 'application/json')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         name: 'palpa 12',
         username: 'lex',
@@ -41,7 +61,7 @@ describe('Test the create endpoint of project api', function () {
     chai
       .request(apiUrl)
       .post('/project')
-      .set('content-type', 'application/json')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         nname: 'palpa 12',
         uusername: 'lex',

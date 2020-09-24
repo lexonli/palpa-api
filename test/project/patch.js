@@ -33,21 +33,6 @@ describe('Test the patch endpoint of project api', function () {
     pwd: 'swaggy',
   };
 
-  before('Create test instance(s)', async function () {
-    const res = await chai
-      .request(apiUrl)
-      .post('/project')
-      .set('content-type', 'application/json')
-      .send({
-        name: 'testGet',
-        username: 'testUser',
-        pageData: { quote: 'a wise quote' },
-        isPublished: true,
-        views: 0,
-      });
-    projectID = res.body;
-  });
-
   before('Fetch fresh tokens for two users', async function () {
     let res = await chai
       .request(apiUrl)
@@ -68,6 +53,21 @@ describe('Test the patch endpoint of project api', function () {
         password: cred.pwd,
       });
     tokenOfAnotherUser = res.body.token;
+  });
+
+  before('Create test instance(s)', async function () {
+    const res = await chai
+      .request(apiUrl)
+      .post('/project')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: 'testGet',
+        username: 'testUser',
+        pageData: { quote: 'a wise quote' },
+        isPublished: true,
+        views: 0,
+      });
+    projectID = res.body;
   });
 
   const content = {

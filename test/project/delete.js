@@ -27,22 +27,6 @@ describe('Test the delete endpoint of project api', function () {
   };
 
   // eslint-disable-next-line no-undef
-  before('Create test instance(s)', async function () {
-    const res = await chai
-      .request(apiUrl)
-      .post('/project')
-      .set('content-type', 'application/json')
-      .send({
-        name: 'toBeDeleted',
-        username: cred.username,
-        pageData: { quote: 'a wise quote' },
-        isPublished: true,
-        views: 0,
-      });
-    projectID = res.body;
-  });
-
-  // eslint-disable-next-line no-undef
   before('Fetch fresh tokens for user', async function () {
     const res = await chai
       .request(apiUrl)
@@ -53,6 +37,22 @@ describe('Test the delete endpoint of project api', function () {
         password: cred.pwd,
       });
     token = res.body.token;
+  });
+
+  // eslint-disable-next-line no-undef
+  before('Create test instance(s)', async function () {
+    const res = await chai
+      .request(apiUrl)
+      .post('/project')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: 'toBeDeleted',
+        username: cred.username,
+        pageData: { quote: 'a wise quote' },
+        isPublished: true,
+        views: 0,
+      });
+    projectID = res.body;
   });
 
   it('200, successfully deleting a project', function (done) {
