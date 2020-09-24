@@ -48,7 +48,7 @@ describe('Test the get endpoint of project api', function () {
       });
   });
 
-  it('400, Get project data by project ID with non-existant ID', function (done) {
+  it('400, Get project data by project ID with non-existent ID', function (done) {
     const wrongProjectID = '2739046';
     chai
       .request(apiUrl)
@@ -75,13 +75,13 @@ describe('Test the get endpoint of project api', function () {
       });
   });
 
-  it('400, Get list of projects by username with non-existant username', function (done) {
-    const nonExistantUsername = 'lex102398742386';
+  it('400, Get list of projects by username with non-existent username', function (done) {
+    const nonexistentUsername = 'lex102398742386';
     chai
       .request(apiUrl)
       .get('/project')
       .set('content-type', 'application/json')
-      .query({ username: nonExistantUsername })
+      .query({ username: nonexistentUsername })
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body).to.contain.property('errors');
