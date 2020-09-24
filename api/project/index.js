@@ -9,6 +9,7 @@ import { usernameSchema } from '../../models/user';
 import projectSchema from '../../models/project';
 import optionalAuth from '../../middleware/optionalAuth';
 import { handleNotFoundError } from '../../utils/fauna';
+import auth from '../../middleware/auth';
 
 const router = proto();
 
@@ -21,7 +22,7 @@ router.get(
       const user = await getUserFromUsername(username);
       const isOwner = await isUserOwner(req.token, user.id);
       const projects = await getProjectsFromUserId(user, isOwner);
-      res.status(200).json({
+      await res.status(200).json({
         projects,
       });
     } catch (error) {
@@ -30,7 +31,7 @@ router.get(
   }
 );
 
-router.post(validator(projectSchema), async (req, res) => {
+router.post(auth, validator(projectSchema), async (req, res) => {
   try {
     const { name, username, pageData, isPublished, views } = req.body;
     // save the project to fauna
@@ -41,9 +42,9 @@ router.post(validator(projectSchema), async (req, res) => {
       isPublished,
       views
     );
-    res.status(200).json(project.ref.id);
+    await res.status(200).json(project.ref.id);
   } catch (error) {
-    res.status(500).json({
+    await res.status(500).json({
       errors: [{ message: error.toString() }],
     });
   }

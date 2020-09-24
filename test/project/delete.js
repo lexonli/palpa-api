@@ -19,6 +19,13 @@ describe('Test the delete endpoint of project api', function () {
   // disable timeouts so API tests can run till the end without being dropped
   this.timeout(0);
   let projectID = '';
+  let token = '';
+  const cred = {
+    username: 'testUser',
+    email: 'test1@gmail.com',
+    pwd: 'swaggy',
+  };
+
   // eslint-disable-next-line no-undef
   before('Create test instance(s)', async function () {
     const res = await chai
@@ -27,7 +34,7 @@ describe('Test the delete endpoint of project api', function () {
       .set('content-type', 'application/json')
       .send({
         name: 'toBeDeleted',
-        username: 'lex',
+        username: cred.username,
         pageData: { quote: 'a wise quote' },
         isPublished: true,
         views: 0,
@@ -35,11 +42,24 @@ describe('Test the delete endpoint of project api', function () {
     projectID = res.body;
   });
 
+  // eslint-disable-next-line no-undef
+  before('Fetch fresh tokens for user', async function () {
+    const res = await chai
+      .request(apiUrl)
+      .post('/user/login')
+      .set('content-type', 'application/json')
+      .send({
+        email: cred.email,
+        password: cred.pwd,
+      });
+    token = res.body.token;
+  });
+
   it('200, successfully deleting a project', function (done) {
     chai
       .request(apiUrl)
       .delete(`/project/${projectID}`)
-      .set('content-type', 'application/json')
+      .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res.status).to.equal(200);
         done();
@@ -50,7 +70,7 @@ describe('Test the delete endpoint of project api', function () {
     chai
       .request(apiUrl)
       .delete(`/project/${projectID}`)
-      .set('content-type', 'application/json')
+      .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res.status).to.equal(400);
         done();

@@ -18,12 +18,11 @@ function sanitizedOne(project) {
  * @param projectId {string} - the project id
  * @returns {Promise<object>} - a promise with the project object
  */
-export function getProject(projectId) {
-  return client
-    .query(q.Get(q.Ref(q.Collection('projects'), projectId)))
-    .then((project) => {
-      return sanitizedOne(project);
-    });
+export async function getProject(projectId) {
+  const project = await client.query(
+    q.Get(q.Ref(q.Collection('projects'), projectId))
+  );
+  return sanitizedOne(project);
 }
 
 /**
@@ -79,13 +78,13 @@ export async function createProject(
   isPublished,
   views
 ) {
-  const userRef = await getUserFromUsername(username);
+  const user = await getUserFromUsername(username);
   return client
     .query(
       q.Create(q.Collection('projects'), {
         data: {
           name,
-          userRef,
+          user,
           pageData,
           isPublished,
           views,
