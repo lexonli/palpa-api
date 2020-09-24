@@ -76,12 +76,12 @@ describe('Test the get endpoint of project api', function () {
   });
 
   it('400, Get list of projects by username with non-existent username', function (done) {
-    const nonexistentUsername = 'lex102398742386';
+    const nonExistentUsername = 'lex102398742386';
     chai
       .request(apiUrl)
       .get('/project')
       .set('content-type', 'application/json')
-      .query({ username: nonexistentUsername })
+      .query({ username: nonExistentUsername })
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body).to.contain.property('errors');
