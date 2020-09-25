@@ -7,7 +7,7 @@ const router = proto();
 
 router.post(validator(loginSchema), async (req, res) => {
   try {
-    const secret = loginUser(req.body.email, req.body.password, req.body.rememberMe)
+    const secret = await loginUser(req.body.email, req.body.password, req.body.rememberMe)
     await res.status(200).json({
       token: secret,
     });
