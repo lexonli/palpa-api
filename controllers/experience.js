@@ -16,7 +16,6 @@ export default async function createExperience(
   const sDate = q.Date(startDate);
   const eDate = q.Date(endDate);
   const companyRef = await getCompanyByName(company);
-  console.log(companyRef);
 
   return client
     .query(
