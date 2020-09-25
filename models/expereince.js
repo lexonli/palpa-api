@@ -31,7 +31,8 @@ const experienceSchema = Joi.object({
   company: experience.company,
   description: experienceMeta.description,
   employmentType: experience.employmentType.required(),
-  username: user.username.required(),
+  // user.username is already required
+  username: user.username,
   startDate: experience.startDate.required(),
   endDate: experience.endDate,
 });
