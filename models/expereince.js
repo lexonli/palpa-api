@@ -4,7 +4,20 @@ import { user } from './user';
 const experience = {
   title: Joi.string().min(2),
   company: Joi.string().min(2),
-  employmentType: 'should be enum',
+  employmentType: Joi.object().keys({
+    type: Joi.string().valid(
+      'full-time',
+      'part-time',
+      'self-employed',
+      'freelance',
+      'contract',
+      'internship',
+      'apprenticeship',
+      'volunteering'
+    ),
+  }),
+  // date documentation
+  // https://joi.dev/api/?v=17.2.1#dategreaterdate
   startDate: Joi.date(),
   endDate: Joi.date(),
 };
@@ -17,15 +30,20 @@ const experienceSchema = Joi.object({
   title: experience.title.required(),
   company: experience.company,
   description: experienceMeta.description,
-  employmentType: experience.employmentType,
-  username: user.username,
+  employmentType: experience.employmentType.required(),
+  username: user.username.required(),
   startDate: experience.startDate.required(),
   endDate: experience.endDate,
 });
 
 export const experienceUpdateSchema = Joi.object({
-  name: experience.name,
+  title: experience.title,
   description: experienceMeta.description,
+  company: experience.company,
+  employmentType: experience.employmentType,
+  username: user.username,
+  startDate: experience.startDate,
+  endDate: experience.endDate,
 });
 
 export default experienceSchema;
