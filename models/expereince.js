@@ -4,18 +4,16 @@ import { user } from './user';
 const experience = {
   title: Joi.string().min(2),
   company: Joi.string().min(2),
-  employmentType: Joi.object().keys({
-    type: Joi.string().valid(
-      'full-time',
-      'part-time',
-      'self-employed',
-      'freelance',
-      'contract',
-      'internship',
-      'apprenticeship',
-      'volunteering'
-    ),
-  }),
+  employmentType: Joi.string().valid(
+    'full-time',
+    'part-time',
+    'self-employed',
+    'freelance',
+    'contract',
+    'internship',
+    'apprenticeship',
+    'volunteering'
+  ),
   // date documentation
   // https://joi.dev/api/?v=17.2.1#dategreaterdate
   startDate: Joi.date(),
