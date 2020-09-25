@@ -44,16 +44,16 @@ export function createUser(email, password, username, name) {
  * @param rememberMe {boolean}
  * @returns {Promise<object>|Promise<string>}
  */
-export function loginUser(email, password, rememberMe) {
+export async function loginUser(email, password, rememberMe) {
   const days = rememberMe ? 7 : 1;
-  return client
-    .query(
-      q.Login(q.Match(q.Index('users_by_email'), email), {
-        password,
-        ttl: q.TimeAdd(q.Now(), days, 'day'),
-      })
-    )
-    .then((data) => data.secret);
+  const data = client.query(
+    q.Login(q.Match(q.Index('users_by_email'), email), {
+      password,
+      ttl: q.TimeAdd(q.Now(), days, 'day'),
+      data: { rememberMe: rememberMe }
+    })
+  )
+  return data.secret;
 }
 
 /**

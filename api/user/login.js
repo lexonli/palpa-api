@@ -5,19 +5,17 @@ import { loginUser } from '../../controllers/user';
 
 const router = proto();
 
-router.post(validator(loginSchema), (req, res) => {
-  loginUser(req.body.email, req.body.password, req.body.rememberMe)
-    .then((secret) => {
-      res.status(200).json({
-        token: secret,
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        errors: [{ message: error.toString() }],
-      });
+router.post(validator(loginSchema), async (req, res) => {
+  try {
+    const secret = loginUser(req.body.email, req.body.password, req.body.rememberMe)
+    await res.status(200).json({
+      token: secret,
     });
-  return res;
+  } catch(error) {
+    await res.status(500).json({
+      errors: [{ message: error.toString() }],
+    });
+  }
 });
 
 export default router;
