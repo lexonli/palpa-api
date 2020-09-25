@@ -12,6 +12,8 @@ export default async function createExperience(
   endDate
 ) {
   const user = await getUserFromUsername(username);
+  const s = q.Date(startDate);
+  const e = q.Date(endDate);
   return client
     .query(
       q.Create(q.Collection('experiences'), {
@@ -21,8 +23,8 @@ export default async function createExperience(
           description,
           employmentType,
           user,
-          startDate,
-          endDate,
+          s,
+          e,
         },
       })
     )
