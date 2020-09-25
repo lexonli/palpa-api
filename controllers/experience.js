@@ -1,6 +1,7 @@
 import { query as q } from 'faunadb';
 import { getUserFromUsername } from './user';
 import client from '../config/client';
+import { getCompanyByName } from './company';
 
 export default async function createExperience(
   title,
@@ -12,19 +13,22 @@ export default async function createExperience(
   endDate
 ) {
   const user = await getUserFromUsername(username);
-  const s = q.Date(startDate);
-  const e = q.Date(endDate);
+  const sDate = q.Date(startDate);
+  const eDate = q.Date(endDate);
+  const companyRef = await getCompanyByName(company);
+  console.log(companyRef);
+
   return client
     .query(
       q.Create(q.Collection('experiences'), {
         data: {
           title,
-          company,
+          company: companyRef,
           description,
           employmentType,
           user,
-          s,
-          e,
+          startDate: sDate,
+          endDate: eDate,
         },
       })
     )
