@@ -1,10 +1,11 @@
 import proto from '../../utils/proto';
 import { deleteExperience } from '../../controllers/experience';
 import { handleNotFoundError } from '../../utils/fauna';
+import auth from '../../middleware/auth';
 
 const router = proto();
 
-router.delete(async (req, res) => {
+router.delete(auth, async (req, res) => {
   try {
     const experienceID = req.query.experience;
     await deleteExperience(experienceID);
