@@ -1,4 +1,4 @@
-import nc from 'next-connect';
+import proto from '../../utils/proto';
 import cors from '../../middleware/cors';
 import {
   getProject,
@@ -13,7 +13,7 @@ import auth from '../../middleware/auth';
 import optionalAuth from '../../middleware/optionalAuth';
 import { handleNotFoundError } from '../../utils/fauna';
 
-const router = nc();
+const router = proto();
 router.use(cors);
 
 router.get(optionalAuth, async (req, res) => {
