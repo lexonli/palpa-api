@@ -35,3 +35,9 @@ export default async function createExperience(
       throw err;
     });
 }
+
+export async function deleteExperience(experienceID) {
+  return client.query(
+    q.Delete(q.Ref(q.Collection('experiences'), experienceID))
+  );
+}
