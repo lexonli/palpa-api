@@ -40,7 +40,6 @@ export const experienceUpdateSchema = Joi.object({
   description: experienceMeta.description,
   company: experience.company,
   employmentType: experience.employmentType,
-  username: user.username,
   startDate: experience.startDate,
   endDate: experience.endDate,
 });

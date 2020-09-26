@@ -36,6 +36,14 @@ export default async function createExperience(
     });
 }
 
+export async function updateExperience(experienceID, update) {
+  return client.query(
+    q.Update(q.Ref(q.Collection('experiences'), experienceID), {
+      data: update,
+    })
+  );
+}
+
 export async function deleteExperience(experienceID) {
   return client.query(
     q.Delete(q.Ref(q.Collection('experiences'), experienceID))
