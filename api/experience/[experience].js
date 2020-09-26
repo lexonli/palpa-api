@@ -1,14 +1,28 @@
 import proto from '../../utils/proto';
 import {
+  getExperience,
   deleteExperience,
   updateExperience,
 } from '../../controllers/experience';
 import { handleNotFoundError } from '../../utils/fauna';
 import validator from '../../middleware/validator';
 import { experienceUpdateSchema } from '../../models/expereince';
+import optionalAuth from '../../middleware/optionalAuth';
 import auth from '../../middleware/auth';
 
 const router = proto();
+
+router.get(optionalAuth, async (req, res) => {
+  const experienceID = req.query.experience;
+  try {
+    const experience = await getExperience(experienceID);
+    await res.status(200).json({
+      experience,
+    });
+  } catch (error) {
+    handleNotFoundError(error, res, 'Project does not exist');
+  }
+});
 
 router.patch(auth, validator(experienceUpdateSchema), async (req, res) => {
   try {

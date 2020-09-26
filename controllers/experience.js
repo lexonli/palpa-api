@@ -2,6 +2,14 @@ import { query as q } from 'faunadb';
 import { getUserFromUsername } from './user';
 import client from '../config/client';
 import { getCompanyByName } from './company';
+import { sanitizedOne } from './utils';
+
+export async function getExperience(experienceID) {
+  const experience = await client.query(
+    q.Get(q.Ref(q.Collection('experiences'), experienceID))
+  );
+  return sanitizedOne(experience);
+}
 
 export default async function createExperience(
   title,
