@@ -5,11 +5,11 @@ import createExperience from '../../controllers/experience';
 import experienceSchema from '../../models/expereince';
 // // import optionalAuth from '../../middleware/optionalAuth';
 // // import { handleNotFoundError } from '../../utils/fauna';
-// // import auth from '../../middleware/auth';
+import auth from '../../middleware/auth';
 
 const router = proto();
 
-router.post(validator(experienceSchema), async (req, res) => {
+router.post(auth, validator(experienceSchema), async (req, res) => {
   try {
     const {
       title,
