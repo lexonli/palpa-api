@@ -1,6 +1,6 @@
 import faunadb, { query as q } from 'faunadb';
 import { getFaunaError } from '../utils/fauna';
-import client from '../config/client';
+import client, { noRememberMeDays, rememberMeDays } from '../config/client';
 
 /**
  * Lists all users
@@ -38,22 +38,32 @@ export function createUser(email, password, username, name) {
 }
 
 /**
+ * Get the time to live fauna date with days added from now
+ * @param rememberMe {boolean} - whether user prefers to stay logged in longer
+ * @return A fauna db date with the number of days from now added
+ */
+function ttlFromRememberMe(rememberMe) {
+  const days = rememberMe ? rememberMeDays : noRememberMeDays;
+  return q.TimeAdd(q.Now(), days, 'day');
+}
+
+/**
  * Logs in a user and returns a promise with the token if success
  * @param email {string}
  * @param password {string}
  * @param rememberMe {boolean}
  * @returns {Promise<object>|Promise<string>}
  */
-export function loginUser(email, password, rememberMe) {
-  const days = rememberMe ? 7 : 1;
-  return client
-    .query(
-      q.Login(q.Match(q.Index('users_by_email'), email), {
-        password,
-        ttl: q.TimeAdd(q.Now(), days, 'day'),
-      })
-    )
-    .then((data) => data.secret);
+export async function loginUser(email, password, rememberMe) {
+  const remember = rememberMe ?? false;
+  const data = await client.query(
+    q.Login(q.Match(q.Index('users_by_email'), email), {
+      password,
+      ttl: ttlFromRememberMe(remember),
+      data: { rememberMe: remember },
+    })
+  );
+  return data.secret;
 }
 
 /**
@@ -107,6 +117,19 @@ export function isUsernameAvailable(username) {
 export function authenticate(token) {
   const userClient = new faunadb.Client({ secret: token });
   return userClient.query(q.Identity());
+}
+
+/**
+ * Renews token by extending TTL based on rememberMe field in token
+ * Note: Call this only after authenticating the token
+ * @param token {string} - token from calling login
+ */
+export async function renewToken(token) {
+  const tokenDoc = await client.query(q.KeyFromSecret(token));
+  const rememberMe = tokenDoc.data?.rememberMe ?? false;
+  await client.query(
+    q.Update(tokenDoc.ref, { ttl: ttlFromRememberMe(rememberMe) })
+  );
 }
 
 /**
