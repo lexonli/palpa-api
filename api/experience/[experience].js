@@ -6,6 +6,8 @@ import {
 } from '../../controllers/experience';
 import { handleNotFoundError } from '../../utils/fauna';
 import validator from '../../middleware/validator';
+import getUserID from '../../middleware/getUserID';
+import validateToken from '../../middleware/validateToken';
 import { experienceUpdateSchema } from '../../models/expereince';
 import optionalAuth from '../../middleware/optionalAuth';
 import auth from '../../middleware/auth';
@@ -24,24 +26,35 @@ router.get(optionalAuth, async (req, res) => {
   }
 });
 
-router.patch(auth, validator(experienceUpdateSchema), async (req, res) => {
-  try {
-    const experienceID = req.query.experience;
-    await updateExperience(experienceID, req.body);
-    res.status(200).send();
-  } catch (error) {
-    handleNotFoundError(error, res, 'Given project does not exist');
+router.patch(
+  auth,
+  getUserID('experienceID'),
+  validateToken,
+  validator(experienceUpdateSchema),
+  async (req, res) => {
+    try {
+      const experienceID = req.query.experience;
+      await updateExperience(experienceID, req.body);
+      res.status(200).send();
+    } catch (error) {
+      handleNotFoundError(error, res, 'Given project does not exist');
+    }
   }
-});
+);
 
-router.delete(auth, async (req, res) => {
-  try {
-    const experienceID = req.query.experience;
-    await deleteExperience(experienceID);
-    res.status(200).send();
-  } catch (error) {
-    handleNotFoundError(error, res, 'Given project does not exist');
+router.delete(
+  auth,
+  getUserID('experienceID'),
+  validateToken,
+  async (req, res) => {
+    try {
+      const experienceID = req.query.experience;
+      await deleteExperience(experienceID);
+      res.status(200).send();
+    } catch (error) {
+      handleNotFoundError(error, res, 'Given project does not exist');
+    }
   }
-});
+);
 
 export default router;
