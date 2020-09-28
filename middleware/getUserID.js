@@ -27,7 +27,6 @@ function getUserID(IDType) {
       }
       next();
     } catch (err) {
-      console.log(err);
       await res.status(400).json({
         errors: [{ message: 'Error while getting user ID' }],
       });
