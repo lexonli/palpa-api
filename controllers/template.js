@@ -19,38 +19,21 @@ export async function getTemplate(templateId) {
  */
 export async function getAllTemplates() {
   const templates = await client.query(
-    q.Map(
-      q.Paginate(
-        q.Match(q.Index('all_templates'))
-      ),
-      (ref) =>
-        q.Let(
-          {
-            templateDoc: q.Get(ref)
-          },
-          {
-            template: q.Select(['ref', 'id'], q.Var('templateDoc')),
-            templateName: q.Select(['data', 'templateName'], q.Var('templateDoc')),
-            thumbnail: q.Select(['data', 'thumbnail'], q.Var('templateDoc')),
-          }
-        )
+    q.Map(q.Paginate(q.Match(q.Index('all_templates'))), (ref) =>
+      q.Let(
+        {
+          templateDoc: q.Get(ref),
+        },
+        {
+          template: q.Select(['ref', 'id'], q.Var('templateDoc')),
+          templateName: q.Select(
+            ['data', 'templateName'],
+            q.Var('templateDoc')
+          ),
+          thumbnail: q.Select(['data', 'thumbnail'], q.Var('templateDoc')),
+        }
+      )
     )
   );
   return templates.data;
 }
-
-/**
- * Sanitizes templates data for response to the frontend
- * @param projects - list of templates taken from faunadb
- * @returns {[object]} - list of template objects
- */
-function sanitizedAll(templates) {
-  return templates.map((template) => {
-    const { data } = template;
-    data.id = project.ref.id;
-    return data;
-  });
-}
-
-
-

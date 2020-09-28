@@ -1,4 +1,4 @@
-import proto from '../../utils/proto'
+import proto from '../../utils/proto';
 import { getAllTemplates } from '../../controllers/template';
 
 const router = proto();

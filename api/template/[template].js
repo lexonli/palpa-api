@@ -1,4 +1,4 @@
-import proto from '../../utils/proto'
+import proto from '../../utils/proto';
 import { getTemplate } from '../../controllers/template';
 import { handleNotFoundError } from '../../utils/fauna';
 
