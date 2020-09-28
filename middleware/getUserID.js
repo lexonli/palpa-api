@@ -23,7 +23,9 @@ function getUserID(IDType) {
       req.userID = userID;
       // Make sure a valid user ID is actually extracted
       if (req.userID === '') {
-        throw new Error('User ID extraction failed');
+        await res.status(400).json({
+          errors: [{ message: 'User ID extraction failed' }],
+        });
       }
       next();
     } catch (err) {

@@ -25,23 +25,19 @@ export default async function createExperience(
   const eDate = q.Date(endDate);
   const companyRef = await getCompanyByName(company);
 
-  return client
-    .query(
-      q.Create(q.Collection('experiences'), {
-        data: {
-          title,
-          company: companyRef,
-          description,
-          employmentType,
-          user,
-          startDate: sDate,
-          endDate: eDate,
-        },
-      })
-    )
-    .catch((err) => {
-      throw err;
-    });
+  return client.query(
+    q.Create(q.Collection('experiences'), {
+      data: {
+        title,
+        company: companyRef,
+        description,
+        employmentType,
+        user,
+        startDate: sDate,
+        endDate: eDate,
+      },
+    })
+  );
 }
 
 export async function updateExperience(experienceID, update) {
