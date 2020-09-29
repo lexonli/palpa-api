@@ -2,27 +2,6 @@ import { query as q } from 'faunadb';
 import { getUserFromUsername } from './user';
 import client from '../config/client';
 import { getCompanyByName } from './company';
-import { sanitizedOneUserRef } from './utils';
-
-function sanitizedOneDate(experience) {
-  const { data } = experience;
-  const startDiff = q.TimeDiff(q.Epoch(0, 'second'), data.startDate, 'second');
-  console.log(startDiff);
-  // data.startDate =
-  // endDate might be null, so we only convert to epoch time
-  // if it is not null, otherwise just return null
-  // data.endDate = q.If(
-  //   q.Equals(data.endDate, null),
-  //   null,
-  //   q.TimeDiff(q.Epoch(0, 'second'), data.endDate, 'second')
-  // );
-}
-
-function sanitizedOneExperience(experience) {
-  sanitizedOneUserRef(experience);
-  sanitizedOneDate(experience);
-  return experience;
-}
 
 export async function getExperience(experienceID) {
   const experience = await client.query(
@@ -33,16 +12,21 @@ export async function getExperience(experienceID) {
         company: q.Select(['data', 'company'], q.Var('expDoc')),
         description: q.Select(['data', 'description'], q.Var('expDoc')),
         employmentType: q.Select(['data', 'employmentType'], q.Var('expDoc')),
-        user: q.Select(['data', 'user'], q.Var('expDoc')),
+        user: q.Select(['data', 'user', 'id'], q.Var('expDoc')),
         startDate: q.TimeDiff(
           q.Epoch(0, 'second'),
           q.Select(['data', 'startDate'], q.Var('expDoc')),
           'second'
         ),
-        endDate: q.TimeDiff(
-          q.Epoch(0, 'second'),
-          q.Select(['data', 'startDate'], q.Var('expDoc')),
-          'second'
+        endDate: q.Let(
+          {
+            end: q.Select(['data', 'endDate'], q.Var('expDoc'), null),
+          },
+          q.If(
+            q.Equals(q.Var('end'), null),
+            null,
+            q.TimeDiff(q.Epoch(0, 'second'), q.Var('end'), 'second')
+          )
         ),
       }
     )
