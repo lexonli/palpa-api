@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 // template for a unittest
 // it('', function (done) {});
 const apiUrl = process.env.API_URL;
-describe('Test the delete endpoint of project api', function () {
+describe('Test the delete endpoint of Project API', function () {
   // disable timeouts so API tests can run till the end without being dropped
   this.timeout(0);
   let projectID = '';
@@ -55,7 +55,7 @@ describe('Test the delete endpoint of project api', function () {
     projectID = res.body;
   });
 
-  it('200, successfully deleting a project', function (done) {
+  it('200, Successfully delete a project', function (done) {
     chai
       .request(apiUrl)
       .delete(`/project/${projectID}`)
@@ -66,7 +66,7 @@ describe('Test the delete endpoint of project api', function () {
       });
   });
 
-  it('400, attemp to delete a project that does not exist, or has been deleted', function (done) {
+  it('400, Attempt to delete a project that does not exist or that has been deleted', function (done) {
     chai
       .request(apiUrl)
       .delete(`/project/${projectID}`)

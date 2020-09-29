@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 // template for a unittest
 // it('', function (done) {});
 const apiUrl = process.env.API_URL;
-describe('Test the get endpoint of project api', function () {
+describe('Test the get endpoint of Project API', function () {
   // disable timeouts so API tests can run till the end without being dropped
   this.timeout(0);
 

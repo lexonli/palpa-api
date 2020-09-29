@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 // template for a unittest
 // it('', function () {});
 const apiUrl = process.env.API_URL;
-describe('Test the create endpoint of project api', function () {
+describe('Test the create endpoint of Project API', function () {
   // disable timeouts so API tests can run till the end without being dropped
   this.timeout(0);
 
@@ -39,7 +39,7 @@ describe('Test the create endpoint of project api', function () {
     token = res.body.token;
   });
 
-  it('create api should return status code 200 with valid request body', function (done) {
+  it('Create API should return status code 200 with valid request body', function (done) {
     chai
       .request(apiUrl)
       .post('/project')
@@ -57,7 +57,7 @@ describe('Test the create endpoint of project api', function () {
       });
   });
 
-  it('create api should return status code 400 with erroneous request body', function (done) {
+  it('Create API should return status code 400 with erroneous request body', function (done) {
     chai
       .request(apiUrl)
       .post('/project')

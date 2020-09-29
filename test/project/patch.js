@@ -141,7 +141,7 @@ describe('Test the patch endpoint of project api', function () {
       });
   });
 
-  it('403, update project without passing a token', function (done) {
+  it('403, Update project without passing a token', function (done) {
     chai
       .request(apiUrl)
       .patch(`/project/${projectID}`)
@@ -153,7 +153,7 @@ describe('Test the patch endpoint of project api', function () {
       });
   });
 
-  it('403, update project with an invalid token', function (done) {
+  it('403, Update project with an invalid token', function (done) {
     chai
       .request(apiUrl)
       .patch(`/project/${projectID}`)
@@ -165,7 +165,7 @@ describe('Test the patch endpoint of project api', function () {
       });
   });
 
-  it('403, update project with a token that does not belong to the user', function (done) {
+  it('403, Update project with a token that does not belong to the user', function (done) {
     chai
       .request(apiUrl)
       .patch(`/project/${projectID}`)
