@@ -1,7 +1,7 @@
 import { query as q } from 'faunadb';
 import { getUserFromUsername } from './user';
 import client from '../config/client';
-import { sanitizedOne, sanitizedAll } from './utils';
+import { sanitizedOneUserRef, sanitizedAllUserRef } from './utils';
 /**
  * Sanitizes project data for response to the frontend
  * @param project - a single project taken from faunadb
@@ -17,7 +17,7 @@ export async function getProject(projectId) {
   const project = await client.query(
     q.Get(q.Ref(q.Collection('projects'), projectId))
   );
-  return sanitizedOne(project);
+  return sanitizedOneUserRef(project);
 }
 
 /**
@@ -55,7 +55,7 @@ export async function getProjectsFromUserId(user, isOwner) {
       )
     )
   );
-  return sanitizedAll(projects.data);
+  return sanitizedAllUserRef(projects.data);
 }
 
 export async function createProject(

@@ -1,10 +1,10 @@
-export function sanitizedOne(document) {
+export function sanitizedOneUserRef(document) {
   const { data } = document;
   data.user = data.user.id;
   return data;
 }
 
-export function sanitizedAll(documents) {
+export function sanitizedAllUserRef(documents) {
   return documents.map((document) => {
     const { data } = document;
     data.user = data.user.id;
