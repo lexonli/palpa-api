@@ -21,8 +21,8 @@ export default async function createExperience(
   endDate
 ) {
   const user = await getUserFromUsername(username);
-  const sDate = q.Date(startDate);
-  const eDate = q.Date(endDate);
+  const sTimeStamp = q.ToTime(q.Date(startDate));
+  const eTimeStamp = endDate !== undefined ? q.ToTime(q.Date(endDate)) : null;
   const companyRef = await getCompanyByName(company);
 
   return client.query(
@@ -33,8 +33,16 @@ export default async function createExperience(
         description,
         employmentType,
         user,
-        startDate: sDate,
-        endDate: eDate,
+        // convert dates to epoch times in the form of
+        // (eg. 1230728400)
+        startDate: q.TimeDiff(q.Epoch(0, 'second'), sTimeStamp, 'second'),
+        // endDate might be null, so we only convert to epoch time
+        // if it is not null, otherwise just return null
+        endDate: q.If(
+          q.Equals(eTimeStamp, null),
+          null,
+          q.TimeDiff(q.Epoch(0, 'second'), eTimeStamp, 'second')
+        ),
       },
     })
   );
