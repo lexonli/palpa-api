@@ -9,7 +9,17 @@ export async function getExperience(experienceID) {
       { expDoc: q.Get(q.Ref(q.Collection('experiences'), experienceID)) },
       {
         title: q.Select(['data', 'title'], q.Var('expDoc')),
-        company: q.Select(['data', 'company'], q.Var('expDoc')),
+        company: q.Let(
+          {
+            companyDoc: q.Get(
+              q.Ref(
+                q.Collection('companies'),
+                q.Select(['data', 'company', 'id'], q.Var('expDoc'))
+              )
+            ),
+          },
+          q.Select(['data'], q.Var('companyDoc'))
+        ),
         description: q.Select(['data', 'description'], q.Var('expDoc')),
         employmentType: q.Select(['data', 'employmentType'], q.Var('expDoc')),
         user: q.Select(['data', 'user', 'id'], q.Var('expDoc')),
