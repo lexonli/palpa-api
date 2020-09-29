@@ -167,8 +167,7 @@ export async function isUserOwner(token, givenUserId) {
   return false;
 }
 
-export async function appendExperience(username, expRef) {
-  const userRef = await getUserFromUsername(username);
+export async function appendExperience(userRef, expRef) {
   const userDoc = await client.query(q.Get(userRef));
   const newExpArray = await client.query(
     q.Append(expRef, userDoc.data.experiences)

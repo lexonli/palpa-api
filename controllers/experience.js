@@ -75,7 +75,7 @@ export default async function createExperience(
       },
     })
   );
-  await appendExperience(username, experience.ref);
+  await appendExperience(user, experience.ref);
   return experience;
 }
 
