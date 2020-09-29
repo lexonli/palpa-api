@@ -1,8 +1,7 @@
 import { query as q } from 'faunadb';
-import { getUserFromUsername } from './user';
+import { getUserFromUsername, appendExperience } from './user';
 import client from '../config/client';
 import { getCompanyByName } from './company';
-import { appendExperience } from './user';
 
 export async function getExperience(experienceID) {
   const experience = await client.query(
