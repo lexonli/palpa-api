@@ -1,4 +1,4 @@
-import nc from 'next-connect';
+import proto from '../../utils/proto';
 import cors from '../../middleware/cors';
 import {
   getProject,
@@ -9,11 +9,12 @@ import {
 import { projectUpdateSchema } from '../../models/project';
 import validator from '../../middleware/validator';
 import validateToken from '../../middleware/validateToken';
+import getUserID from '../../middleware/getUserID';
 import auth from '../../middleware/auth';
 import optionalAuth from '../../middleware/optionalAuth';
 import { handleNotFoundError } from '../../utils/fauna';
 
-const router = nc();
+const router = proto();
 router.use(cors);
 
 router.get(optionalAuth, async (req, res) => {
@@ -30,6 +31,7 @@ router.get(optionalAuth, async (req, res) => {
 
 router.patch(
   auth,
+  getUserID('projectID'),
   validateToken,
   validator(projectUpdateSchema),
   async (req, res) => {
@@ -43,7 +45,7 @@ router.patch(
   }
 );
 
-router.delete(auth, validateToken, async (req, res) => {
+router.delete(auth, getUserID('projectID'), validateToken, async (req, res) => {
   try {
     const projectID = req.query.project;
     await deleteProject(projectID);

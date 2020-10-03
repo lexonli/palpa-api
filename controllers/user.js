@@ -189,3 +189,11 @@ export async function isUserOwner(token, givenUserId) {
   }
   return false;
 }
+
+export async function appendExperience(userRef, expRef) {
+  const userDoc = await client.query(q.Get(userRef));
+  const newExpArray = await client.query(
+    q.Append(expRef, userDoc.data.experiences)
+  );
+  client.query(q.Update(userRef, { data: { experiences: newExpArray } }));
+}

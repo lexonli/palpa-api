@@ -15,6 +15,7 @@ const projectMeta = {
 
 const projectSchema = Joi.object({
   name: project.name.required(),
+  // user.username is already required
   username: user.username,
   pageData: project.pageData.required(),
   isPublished: projectMeta.isPublished.required(),
