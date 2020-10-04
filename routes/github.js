@@ -1,10 +1,12 @@
 import axios from 'axios';
 import querystring from 'querystring';
-import faunadb, { query as q } from 'faunadb';
-import { Octokit } from '@octokit/rest';
-import proto from '../../utils/proto';
-import { CLIENT_ID, CLIENT_SECRET, TOKEN_URL } from '../../config/github';
-import auth from '../../middleware/auth';
+import faunadb from 'faunadb';
+const { query: q } = faunadb;
+import octokit from '@octokit/rest';
+const { Octokit } = octokit;
+import express from 'express';
+import config from '../config/github.js';
+import auth from '../middleware/auth.js';
 
 /**
  * Makes a post request to github api with a code to obtain an access token
@@ -15,7 +17,7 @@ import auth from '../../middleware/auth';
  */
 function fetchGithubToken(code, clientId, clientSecret) {
   return axios
-    .post(TOKEN_URL, null, {
+    .post(config.TOKEN_URL, null, {
       params: {
         code,
         client_id: clientId,
@@ -74,10 +76,9 @@ function authenticate(client) {
   return client.query(q.Identity());
 }
 
-const router = proto();
-router.use(auth);
+const router = express.Router();
 
-router.get((req, res) => {
+router.get('/connect', auth, (req, res) => {
   const client = new faunadb.Client({ secret: req.token });
   authenticate(client)
     .then((authInfo) => {
@@ -86,8 +87,8 @@ router.get((req, res) => {
       }
       return fetchGithubToken(
         req.query.code,
-        CLIENT_ID,
-        CLIENT_SECRET
+        config.CLIENT_ID,
+        config.CLIENT_SECRET
       ).then((token) => [token, authInfo.id]);
     })
     .then(([token, ref]) => storeGithubToken(client, token, ref))

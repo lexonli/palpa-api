@@ -1,5 +1,6 @@
 import userRouter from './routes/user.js'
 import experienceRouter from './routes/experience.js'
+import githubRouter from './routes/github.js'
 import express from 'express';
 import morganBody from 'morgan-body';
 import bodyParser from 'body-parser';
@@ -16,9 +17,10 @@ morganBody(app, { noColors: true });
 
 app.get('/', (req, res) => res.send('Welcome to Palpa API! Hope you enjoy your time here ;)'));
 app.get('/version', (req, res) => res.json({ version: '1.0.0' }));
+
 app.use('/user', userRouter);
 app.use('/experience', experienceRouter);
-app.get('/contact/:id', (req, res) => res.send('Contact Page Route'));
+app.use('/github', githubRouter);
 
 const port = vars.PORT || 3000;
 
