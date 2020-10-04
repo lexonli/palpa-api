@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllTemplates, getTemplate } from "../controllers/template.js";
+import { getAllTemplates, getTemplate } from '../controllers/template.js';
 import { handleNotFoundError } from '../utils/fauna.js';
 
 const router = express.Router();

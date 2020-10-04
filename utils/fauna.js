@@ -1,4 +1,5 @@
 import faunadb from 'faunadb';
+
 const { query: q } = faunadb;
 
 export function getFaunaError(error) {

@@ -1,11 +1,12 @@
 import faunadb from 'faunadb';
+import { appendExperience, getUserFromUsername } from './user.js';
+import client from '../config/client.js';
+import { getCompanyByName } from './company.js';
+
 const { query: q } = faunadb;
-import { appendExperience, getUserFromUsername } from "./user.js";
-import client from "../config/client.js";
-import { getCompanyByName } from "./company.js";
 
 export async function getExperience(experienceID) {
-  return await client.query(
+  return client.query(
     q.Let(
       { expDoc: q.Get(q.Ref(q.Collection('experiences'), experienceID)) },
       {

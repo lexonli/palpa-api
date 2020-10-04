@@ -1,13 +1,17 @@
 import express from 'express';
 import {
-  authenticate, getUserFromId, renewToken, getAllUsers,
+  authenticate,
+  getUserFromId,
+  renewToken,
+  getAllUsers,
   createUser,
-  isUsernameAvailable, loginUser
-} from "../controllers/user.js";
+  isUsernameAvailable,
+  loginUser,
+} from '../controllers/user.js';
 import validator from '../middleware/validator.js';
 import auth from '../middleware/auth.js';
-import { createSchema, loginSchema, usernameSchema } from "../models/user.js";
-import { getFaunaError } from "../utils/fauna.js";
+import { createSchema, loginSchema, usernameSchema } from '../models/user.js';
+import { getFaunaError } from '../utils/fauna.js';
 
 const router = express.Router();
 
@@ -117,6 +121,5 @@ router.get('/username', validator(usernameSchema, 'query'), (req, res) => {
       });
     });
 });
-
 
 export default router;

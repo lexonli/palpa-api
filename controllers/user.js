@@ -1,7 +1,8 @@
 import faunadb from 'faunadb';
-const { query: q } = faunadb;
 import { getFaunaError } from '../utils/fauna.js';
 import client, { noRememberMeDays, rememberMeDays } from '../config/client.js';
+
+const { query: q } = faunadb;
 
 /**
  * Lists all users

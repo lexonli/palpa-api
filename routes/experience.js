@@ -8,7 +8,9 @@ import { handleNotFoundError } from '../utils/fauna.js';
 import validator from '../middleware/validator.js';
 import getUserID from '../middleware/getUserID.js';
 import validateToken from '../middleware/validateToken.js';
-import experienceSchema, { experienceUpdateSchema } from '../models/experience.js';
+import experienceSchema, {
+  experienceUpdateSchema,
+} from '../models/experience.js';
 import optionalAuth from '../middleware/optionalAuth.js';
 import auth from '../middleware/auth.js';
 
@@ -54,7 +56,8 @@ router.get('/:experience', optionalAuth, async (req, res) => {
   }
 });
 
-router.patch('/:experience',
+router.patch(
+  '/:experience',
   auth,
   getUserID('experienceID'),
   validateToken,
@@ -70,7 +73,8 @@ router.patch('/:experience',
   }
 );
 
-router.delete('/:experience',
+router.delete(
+  '/:experience',
   auth,
   getUserID('experienceID'),
   validateToken,

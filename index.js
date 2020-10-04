@@ -21,7 +21,9 @@ app.use(cors());
 
 morganBody(app, { noColors: true });
 
-app.get('/', (req, res) => res.send('Welcome to Palpa API! Hope you enjoy your time here ;)'));
+app.get('/', (req, res) =>
+  res.send('Welcome to Palpa API! Hope you enjoy your time here ;)')
+);
 app.get('/version', (req, res) => res.json({ version: '1.0.0' }));
 
 app.use('/user', userRouter);
@@ -34,4 +36,7 @@ app.use('/template', templateRouter);
 
 const port = vars.PORT || 3000;
 
-app.listen(port, () => console.log(`Server running on ${port}, http://localhost:${port}`));
+app.listen(port, () =>
+  // eslint-disable-next-line no-console
+  console.log(`Server running on ${port}, http://localhost:${port}`)
+);

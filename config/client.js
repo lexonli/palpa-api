@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 
-dotenv.config();
-
 import faunadb from 'faunadb';
+
+dotenv.config();
 
 const secret =
   process.env.NODE_ENV === 'PROD'

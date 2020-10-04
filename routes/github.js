@@ -1,12 +1,13 @@
 import axios from 'axios';
 import querystring from 'querystring';
 import faunadb from 'faunadb';
-const { query: q } = faunadb;
-import octokit from '@octokit/rest';
-const { Octokit } = octokit;
+import octokitRest from '@octokit/rest';
 import express from 'express';
 import config from '../config/github.js';
 import auth from '../middleware/auth.js';
+
+const { query: q } = faunadb;
+const { Octokit } = octokitRest;
 
 /**
  * Makes a post request to github api with a code to obtain an access token
