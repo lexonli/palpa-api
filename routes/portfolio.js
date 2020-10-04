@@ -1,24 +1,24 @@
-import validator from '../../middleware/validator';
-import getPortfolio from '../../controllers/portfolio';
-import { isUsernameOwner } from '../../controllers/user';
-import { usernameSchema } from '../../models/user';
-import { getFaunaError } from '../../utils/fauna';
-import optionalAuth from '../../middleware/optionalAuth';
-import proto from '../../utils/proto';
+import validator from '../middleware/validator.js';
+import getPortfolio from '../controllers/portfolio.js';
+import { isUsernameOwner } from '../controllers/user.js';
+import { usernameSchema } from '../models/user.js';
+import { getFaunaError } from '../utils/fauna.js';
+import optionalAuth from '../middleware/optionalAuth.js';
+import express from 'express';
 
-const router = proto();
-router.use(optionalAuth);
+const router = express.Router();
 
 /**
  * Gets a portfolio
  */
-router.get(validator(usernameSchema, 'query'), async (req, res) => {
+router.get('/', optionalAuth, validator(usernameSchema, 'query'), async (req, res) => {
   const { username } = req.query;
   let isOwner = false;
   try {
     // check if current user is portfolio owner
     isOwner = await isUsernameOwner(req.token, username);
     // fetch portfolio
+    console.log(username);
     const portfolio = await getPortfolio(username, isOwner);
     res.status(200).json(portfolio);
   } catch (error) {
@@ -32,10 +32,11 @@ router.get(validator(usernameSchema, 'query'), async (req, res) => {
           },
         ],
       });
+    } else {
+      res.status(500).json({
+        errors: [{ message: error.toString() }],
+      });
     }
-    res.status(500).json({
-      errors: [{ message: error.toString() }],
-    });
   }
 });
 
