@@ -3,7 +3,7 @@ import { user } from './user.js';
 
 const project = {
   name: Joi.string().min(2),
-  pageData: Joi.object(),
+  pageData: Joi.array(),
   image: Joi.link(),
 };
 
