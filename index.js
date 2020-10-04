@@ -9,6 +9,7 @@ import experienceRouter from './routes/experience.js'
 import githubRouter from './routes/github.js'
 import imageRouter from './routes/image.js'
 import portfolioRouter from './routes/portfolio.js'
+import projectRouter from './routes/project.js'
 
 import vars from './config/vars.js'
 
@@ -27,6 +28,7 @@ app.use('/experience', experienceRouter);
 app.use('/github', githubRouter);
 app.use('/image', imageRouter);
 app.use('/portfolio', portfolioRouter);
+app.use('/project', projectRouter)
 
 const port = vars.PORT || 3000;
 
