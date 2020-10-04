@@ -1,6 +1,7 @@
 import userRouter from './routes/user.js'
 import experienceRouter from './routes/experience.js'
 import githubRouter from './routes/github.js'
+import imageRouter from './routes/image.js'
 import express from 'express';
 import morganBody from 'morgan-body';
 import bodyParser from 'body-parser';
@@ -21,6 +22,7 @@ app.get('/version', (req, res) => res.json({ version: '1.0.0' }));
 app.use('/user', userRouter);
 app.use('/experience', experienceRouter);
 app.use('/github', githubRouter);
+app.use('/image', imageRouter);
 
 const port = vars.PORT || 3000;
 

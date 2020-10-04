@@ -1,21 +1,16 @@
 import AWS from 'aws-sdk';
 
-import {
-  S3_ACCESS_KEY_ID,
-  S3_SECRET_ACCESS_KEY,
-  S3_IMAGE_BUCKET,
-  S3_EXPIRE_SECONDS,
-} from '../config/aws';
+import config from '../config/aws.js';
 
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
   region: 'ap-southeast-2',
-  accessKeyId: S3_ACCESS_KEY_ID,
-  secretAccessKey: S3_SECRET_ACCESS_KEY,
+  accessKeyId: config.S3_ACCESS_KEY_ID,
+  secretAccessKey: config.S3_SECRET_ACCESS_KEY,
 });
 
-const bucketName = S3_IMAGE_BUCKET;
-const signedUrlExpireSeconds = S3_EXPIRE_SECONDS;
+const bucketName = config.S3_IMAGE_BUCKET;
+const signedUrlExpireSeconds = config.S3_EXPIRE_SECONDS;
 
 /**
  * Makes a request to S3 api with the preset AWS IAM credentials to obtain

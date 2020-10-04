@@ -1,14 +1,14 @@
-import proto from '../../utils/proto';
-import sign from '../../controllers/file';
-import validator from '../../middleware/validator';
-import { imageSchema } from '../../models/s3';
+import express from 'express';
+import sign from '../controllers/file.js';
+import validator from '../middleware/validator.js';
+import { imageSchema } from '../models/s3.js';
 
-const router = proto();
+const router = express.Router();
 
 /**
  * Get a signed url for image upload
  */
-router.post(validator(imageSchema), (req, res) => {
+router.post('/presign', validator(imageSchema), (req, res) => {
   try {
     const signed = sign(req.body.filename, req.body.filetype);
     res.status(200).json({
