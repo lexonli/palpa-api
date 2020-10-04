@@ -1,5 +1,5 @@
-import { getProject } from '../controllers/project';
-import { getExperience } from '../controllers/experience';
+import { getProject } from '../controllers/project.js';
+import { getExperience } from '../controllers/experience.js';
 
 async function getUserIDFromProjectID(projectID) {
   const project = await getProject(projectID);

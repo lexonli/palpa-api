@@ -1,4 +1,4 @@
-import { getUserIDFromToken } from '../utils/fauna';
+import { getUserIDFromToken } from '../utils/fauna.js';
 
 async function validateToken(req, res, next) {
   // The previous middleware should've added token to the req

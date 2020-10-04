@@ -1,5 +1,6 @@
-import { query as q } from 'faunadb';
-import client from '../config/client';
+import faunadb from 'faunadb';
+const { query: q } = faunadb;
+import client from '../config/client.js';
 
 export default function createCompany(name, imageURL) {
   return client

@@ -1,10 +1,11 @@
-import { query as q } from 'faunadb';
-import { getUserFromUsername, appendExperience } from './user';
-import client from '../config/client';
-import { getCompanyByName } from './company';
+import faunadb from 'faunadb';
+const { query: q } = faunadb;
+import { appendExperience, getUserFromUsername } from "./user.js";
+import client from "../config/client.js";
+import { getCompanyByName } from "./company.js";
 
 export async function getExperience(experienceID) {
-  const experience = await client.query(
+  return await client.query(
     q.Let(
       { expDoc: q.Get(q.Ref(q.Collection('experiences'), experienceID)) },
       {
@@ -41,7 +42,6 @@ export async function getExperience(experienceID) {
       }
     )
   );
-  return experience;
 }
 
 export default async function createExperience(
