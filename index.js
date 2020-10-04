@@ -4,14 +4,15 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import cors from 'cors';
 
-import userRouter from './routes/user.js'
-import experienceRouter from './routes/experience.js'
-import githubRouter from './routes/github.js'
-import imageRouter from './routes/image.js'
-import portfolioRouter from './routes/portfolio.js'
-import projectRouter from './routes/project.js'
+import userRouter from './routes/user.js';
+import experienceRouter from './routes/experience.js';
+import githubRouter from './routes/github.js';
+import imageRouter from './routes/image.js';
+import portfolioRouter from './routes/portfolio.js';
+import projectRouter from './routes/project.js';
+import templateRouter from './routes/template.js';
 
-import vars from './config/vars.js'
+import vars from './config/vars.js';
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,7 +29,8 @@ app.use('/experience', experienceRouter);
 app.use('/github', githubRouter);
 app.use('/image', imageRouter);
 app.use('/portfolio', portfolioRouter);
-app.use('/project', projectRouter)
+app.use('/project', projectRouter);
+app.use('/template', templateRouter);
 
 const port = vars.PORT || 3000;
 
