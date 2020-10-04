@@ -4,12 +4,13 @@
   "description": "API backend for Palpa",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --exec babel-node index.js",
     "lint": "npx eslint . --fix",
     "test": "mocha --recursive --exit || true"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PALPA-HQ/palpa-api.git"
+    "url": "git+https://github.com/lexonli/palpa-api.git"
   },
   "keywords": [],
   "author": "",
@@ -22,20 +23,28 @@
     "@octokit/rest": "^18.0.3",
     "aws-sdk": "^2.739.0",
     "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "faunadb": "^2.14.2",
     "helmet": "^4.1.0",
     "joi": "^17.2.1",
+    "morgan-body": "^2.5.2",
     "next-connect": "^0.8.1",
-    "vercel": "^19.2.0"
+    "nodemon": "^2.0.4",
+    "vercel": "^19.2.0",
+    "dotenv": "^8.2.0"
   },
   "engines": {
     "node": "12.14.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "dotenv": "^8.2.0",
     "eslint": "^7.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",

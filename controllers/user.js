@@ -1,6 +1,8 @@
-import faunadb, { query as q } from 'faunadb';
-import { getFaunaError } from '../utils/fauna';
-import client, { noRememberMeDays, rememberMeDays } from '../config/client';
+import faunadb from 'faunadb';
+import { getFaunaError } from '../utils/fauna.js';
+import client, { noRememberMeDays, rememberMeDays } from '../config/client.js';
+
+const { query: q } = faunadb;
 
 /**
  * Lists all users
@@ -55,7 +57,7 @@ function ttlFromRememberMe(rememberMe) {
  * @returns {Promise<object>|Promise<string>}
  */
 export async function loginUser(email, password, rememberMe) {
-  const remember = rememberMe ?? false;
+  const remember = rememberMe || false;
   const data = await client.query(
     q.Login(q.Match(q.Index('users_by_email'), email), {
       password,
@@ -126,7 +128,10 @@ export function authenticate(token) {
  */
 export async function renewToken(token) {
   const tokenDoc = await client.query(q.KeyFromSecret(token));
-  const rememberMe = tokenDoc.data?.rememberMe ?? false;
+  let rememberMe = false;
+  if (tokenDoc.data) {
+    rememberMe = tokenDoc.data.rememberMe || false;
+  }
   await client.query(
     q.Update(tokenDoc.ref, { ttl: ttlFromRememberMe(rememberMe) })
   );

@@ -1,11 +1,24 @@
-{
-  "env": {
-    "GITHUB_SECRET": "00fdbabee2a51957cf601f2f088efa37500384aa",
-    "S3_ACCESS_KEY_ID": "AKIAX5I4FBSKNPT32UDS",
-    "S3_SECRET_ACCESS_KEY": "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",
-    "AWS_BUCKET": "palpa-files-test",
-    "FAUNADB_SECRET_KEY_PROD": "fnADzRUvFoACDIIJIo4ssXddO2NfhyBRljrq3Nmb",
-    "FAUNADB_SECRET_KEY_TEST": "fnADzRUvFoACDIIJIo4ssXddO2NfhyBRljrq3Nmb:test-db:admin",
-    "NODE_ENV": "PROD"
-  }
+{	
+	"version": 2,
+	"builds": [
+	    {
+	        "src": "./index.js",
+	        "use": "@vercel/node"
+	    }
+	],
+	"routes": [
+	    {
+	        "src": "/(.*)",
+	        "dest": "/"
+	    }
+	],
+	"env": {
+		"GITHUB_SECRET": "00fdbabee2a51957cf601f2f088efa37500384aa",
+		"S3_ACCESS_KEY_ID": "AKIAX5I4FBSKNPT32UDS",
+		"S3_SECRET_ACCESS_KEY": "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",
+		"AWS_BUCKET": "palpa-files-test",
+		"FAUNADB_SECRET_KEY_PROD": "fnADzRUvFoACDIIJIo4ssXddO2NfhyBRljrq3Nmb",
+		"FAUNADB_SECRET_KEY_TEST": "fnADzRUvFoACDIIJIo4ssXddO2NfhyBRljrq3Nmb:test-db:admin",
+		"NODE_ENV": "PROD"
+	}
 }

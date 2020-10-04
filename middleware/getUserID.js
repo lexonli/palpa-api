@@ -1,5 +1,5 @@
-import { getProject } from '../controllers/project';
-import { getExperience } from '../controllers/experience';
+import { getProject } from '../controllers/project.js';
+import { getExperience } from '../controllers/experience.js';
 
 async function getUserIDFromProjectID(projectID) {
   const project = await getProject(projectID);
@@ -16,9 +16,9 @@ function getUserID(IDType) {
     try {
       let userID = '';
       if (IDType === 'projectID') {
-        userID = await getUserIDFromProjectID(req.query.project);
+        userID = await getUserIDFromProjectID(req.params.project);
       } else if (IDType === 'experienceID') {
-        userID = await getUserIDFromExperienceID(req.query.experience);
+        userID = await getUserIDFromExperienceID(req.params.experience);
       }
       req.userID = userID;
       // Make sure a valid user ID is actually extracted

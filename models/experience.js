@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { user } from './user';
+import { user } from './user.js';
 
 const experience = {
   title: Joi.string().min(2),

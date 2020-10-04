@@ -1,7 +1,9 @@
-import { query as q } from 'faunadb';
-import { getUserFromUsername } from './user';
-import client from '../config/client';
-import { sanitizedOneUserRef, sanitizedAllUserRef } from './utils';
+import faunadb from 'faunadb';
+import { getUserFromUsername } from './user.js';
+import client from '../config/client.js';
+import { sanitizedOneUserRef, sanitizedAllUserRef } from './utils.js';
+
+const { query: q } = faunadb;
 /**
  * Sanitizes project data for response to the frontend
  * @param project - a single project taken from faunadb
