@@ -1,7 +1,7 @@
-import faunadb from "faunadb";
-import { getUserFromUsername } from "./user.js";
-import client from "../config/client.js";
-import { sanitizedAllUserRef, sanitizedOneUserRef } from "./utils.js";
+import faunadb from 'faunadb';
+import { getUserFromUsername } from './user.js';
+import client from '../config/client.js';
+import { sanitizedAllUserRef, sanitizedOneUserRef } from './utils.js';
 
 const { query: q } = faunadb;
 /**
@@ -19,7 +19,7 @@ export async function getProject(projectId) {
   const project = await client.query(
     q.Get(q.Ref(q.Collection('projects'), projectId))
   );
-  return await sanitizedOneUserRef(project);
+  return sanitizedOneUserRef(project);
 }
 
 /**
@@ -57,7 +57,7 @@ export async function getProjectsFromUserId(user, isOwner) {
       )
     )
   );
-  return await sanitizedAllUserRef(projects.data)
+  return sanitizedAllUserRef(projects.data);
 }
 
 export async function createProject(
@@ -77,7 +77,7 @@ export async function createProject(
           pageData,
           isPublished,
           views,
-          lastEdited: q.Now()
+          lastEdited: q.Now(),
         },
       })
     )
@@ -87,11 +87,10 @@ export async function createProject(
 }
 
 export function updateProject(projectID, update) {
-  update.lastEdited = q.Now();
+  const data = update;
+  data.lastEdited = q.Now();
   return client
-    .query(
-      q.Update(q.Ref(q.Collection('projects'), projectID), { data: update })
-    )
+    .query(q.Update(q.Ref(q.Collection('projects'), projectID), { data }))
     .catch((err) => {
       throw err;
     });

@@ -6,17 +6,21 @@ const { query: q } = faunadb;
 export async function sanitizedOneUserRef(document) {
   const { data } = document;
   data.user = data.user.id;
-  data.lastEdited = await client.query(q.TimeDiff(q.Epoch(0, 'second'), data.lastEdited, 'second'))
+  data.lastEdited = await client.query(
+    q.TimeDiff(q.Epoch(0, 'second'), data.lastEdited, 'second')
+  );
   return data;
 }
 
 export async function sanitizedAllUserRef(documents) {
-  return await Promise.all(
+  return Promise.all(
     documents.map(async (document) => {
       const { data } = document;
       data.user = data.user.id;
       data.id = document.ref.id;
-      data.lastEdited = await client.query(q.TimeDiff(q.Epoch(0, 'second'), data.lastEdited, 'second'))
+      data.lastEdited = await client.query(
+        q.TimeDiff(q.Epoch(0, 'second'), data.lastEdited, 'second')
+      );
       return data;
     })
   );

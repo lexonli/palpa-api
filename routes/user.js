@@ -28,7 +28,7 @@ router.get('/current', auth, async (req, res) => {
       email: user.data.email,
       name: user.data.name,
       username: user.data.username,
-      profileImage: user.data.profileImage
+      profileImage: user.data.profileImage,
     });
   } catch (error) {
     await res.status(400).json({
