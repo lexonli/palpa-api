@@ -1,7 +1,7 @@
 import faunadb from 'faunadb';
 import { getUserFromUsername } from './user.js';
 import client from '../config/client.js';
-import { sanitizedOneUserRef, sanitizedAllUserRef } from './utils.js';
+import { sanitizedAllUserRef, sanitizedOneUserRef } from './utils.js';
 
 const { query: q } = faunadb;
 /**
@@ -77,6 +77,7 @@ export async function createProject(
           pageData,
           isPublished,
           views,
+          lastEdited: q.Now(),
         },
       })
     )
@@ -86,10 +87,10 @@ export async function createProject(
 }
 
 export function updateProject(projectID, update) {
+  const data = update;
+  data.lastEdited = q.Now();
   return client
-    .query(
-      q.Update(q.Ref(q.Collection('projects'), projectID), { data: update })
-    )
+    .query(q.Update(q.Ref(q.Collection('projects'), projectID), { data }))
     .catch((err) => {
       throw err;
     });
