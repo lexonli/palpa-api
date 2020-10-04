@@ -1,6 +1,7 @@
 import faunadb from 'faunadb';
 import { getFaunaError } from '../utils/fauna.js';
 import client, { noRememberMeDays, rememberMeDays } from '../config/client.js';
+import config from '../config/vars.js';
 
 const { query: q } = faunadb;
 
@@ -31,6 +32,15 @@ export function createUser(email, password, username, name) {
           username,
           email,
           name,
+          portfolioTitle: `My Awesome Portfolio`,
+          profileImage: config.DEFAULT_PROFILE_PIC,
+          description:
+            'Welcome to my portfolio page! Hope you enjoy your time here.',
+          coverImage: config.DEFAULT_COVER_IMG,
+          contactMessage: 'Want to chat? Get in touch!',
+          socialLinks: [],
+          projects: [],
+          experiences: [],
         },
       })
     )
@@ -200,5 +210,5 @@ export async function appendExperience(userRef, expRef) {
   const newExpArray = await client.query(
     q.Append(expRef, userDoc.data.experiences)
   );
-  client.query(q.Update(userRef, { data: { experiences: newExpArray } }));
+  await client.query(q.Update(userRef, { data: { experiences: newExpArray } }));
 }
