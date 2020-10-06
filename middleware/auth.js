@@ -6,8 +6,8 @@ function auth(req, res, next) {
     next();
   } else {
     res.status(403).json({
-        errors: [{ message: 'No authentication token provided' }],
-    })
+      errors: [{ message: 'No authentication token provided' }],
+    });
   }
 }
 

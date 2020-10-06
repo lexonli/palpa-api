@@ -218,5 +218,7 @@ export async function appendProject(userRef, projectRef) {
   const newProjectArray = await client.query(
     q.Append(projectRef, userDoc.data.projects)
   );
-  await client.query(q.Update(userRef, { data: { projects: newProjectArray } }));
+  await client.query(
+    q.Update(userRef, { data: { projects: newProjectArray } })
+  );
 }

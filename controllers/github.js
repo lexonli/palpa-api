@@ -3,7 +3,7 @@ import querystring from 'querystring';
 import faunadb from 'faunadb';
 import { Octokit } from '@octokit/rest';
 import config from '../config/github.js';
-import client from "../config/client";
+import client from '../config/client';
 
 const { query: q } = faunadb;
 
@@ -39,8 +39,8 @@ export async function fetchGithubToken(code, clientId, clientSecret) {
  * @returns {Promise<String>} - A promise with the same access token
  */
 export async function storeGithubToken(secret, token, ref) {
-  const client = new faunadb.Client({ secret });
-  await client.query(
+  const userClient = new faunadb.Client({ secret });
+  await userClient.query(
     q.Update(q.Ref(q.Collection('users'), ref), {
       data: { githubToken: token },
     })
@@ -54,7 +54,10 @@ export async function storeGithubToken(secret, token, ref) {
  */
 export async function getGithubToken(userId) {
   return client.query(
-    q.Select(['data', 'githubToken'], q.Get(q.Ref(q.Collection('users'), userId)))
+    q.Select(
+      ['data', 'githubToken'],
+      q.Get(q.Ref(q.Collection('users'), userId))
+    )
   );
 }
 
@@ -85,22 +88,25 @@ export async function listRepositoriesForIds(githubToken, repoIds) {
   const selectedRepos = repos.filter((repo) => repoIds.includes(repo.id));
   if (selectedRepos.length === repoIds.length) {
     return selectedRepos;
-  } else {
-    throw new Error('One or more repositories could not be selected')
   }
+  throw new Error('One or more repositories could not be selected');
 }
 
 /**
  * Gets a breakdown of languages for a specific repo
  * @param githubToken - The access token from github
  * @param repo - The repo object data taken from listRepositoriesForIds
- * @return {Promise<[object]>} - An object with language name as key and size as field
+ * @return {Promise<[object]>} - An object with language name as
+ * key and size as field
  */
 export async function getLanguagesForRepo(githubToken, repo) {
   const octokit = new Octokit({ auth: githubToken });
-  const languagesResponse = await octokit.request('GET /repos/{owner}/{repo}/languages', {
-    owner: repo.owner.login,
-    repo: repo.name
-  })
-  return languagesResponse.data
+  const languagesResponse = await octokit.request(
+    'GET /repos/{owner}/{repo}/languages',
+    {
+      owner: repo.owner.login,
+      repo: repo.name,
+    }
+  );
+  return languagesResponse.data;
 }

@@ -50,15 +50,20 @@ async function getPortfolio(username, isOwner) {
                     { projectDoc: q.Get(q.Var('project')) },
                     {
                       id: q.Select(['ref', 'id'], q.Var('projectDoc')),
-                      name: q.Select(['data', 'name'], q.Var('projectDoc'), 'untitled'),
+                      name: q.Select(
+                        ['data', 'name'],
+                        q.Var('projectDoc'),
+                        'untitled'
+                      ),
                       description: q.Select(
                         ['data', 'description'],
                         q.Var('projectDoc'),
                         ''
                       ),
                       image: q.Select(
-                        ['data', 'image'], q.Var('projectDoc'), config.DEFAULT_PROJECT_THUMBNAIL
-
+                        ['data', 'image'],
+                        q.Var('projectDoc'),
+                        config.DEFAULT_PROJECT_THUMBNAIL
                       ),
                       isPublished: q.Select(
                         ['data', 'isPublished'],
