@@ -208,6 +208,10 @@ export function createProjectFromRepo(userRef, repo, languages) {
     getPageData(repo, description),
     true,
     1,
-    { description, githubLink: repo.html_url, githubRepoId: repo.id }
+    {
+      description: repo.description || '',
+      githubLink: repo.html_url,
+      githubRepoId: repo.id,
+    }
   );
 }
