@@ -8,4 +8,5 @@ export default {
     'https://palpa-files.s3-ap-southeast-2.amazonaws.com/defaults/default-profile-pic.jpg',
   DEFAULT_COVER_IMG:
     'https://palpa-files.s3-ap-southeast-2.amazonaws.com/defaults/default-cover-image.png',
+  DEFAULT_PROJECT_THUMBNAIL: 'https://palpa-files.s3-ap-southeast-2.amazonaws.com/defaults/project-default-thumbnail.jpg'
 };

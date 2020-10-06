@@ -212,3 +212,11 @@ export async function appendExperience(userRef, expRef) {
   );
   await client.query(q.Update(userRef, { data: { experiences: newExpArray } }));
 }
+
+export async function appendProject(userRef, projectRef) {
+  const userDoc = await client.query(q.Get(userRef));
+  const newProjectArray = await client.query(
+    q.Append(projectRef, userDoc.data.projects)
+  );
+  await client.query(q.Update(userRef, { data: { projects: newProjectArray } }));
+}

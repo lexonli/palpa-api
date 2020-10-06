@@ -5,13 +5,19 @@ import { authenticate } from '../controllers/user.js';
 import {
   fetchGithubToken,
   storeGithubToken,
-  listRepositories,
-} from '../controllers/github';
+  listRepositories, getGithubToken, listRepositoriesForIds, getLanguagesForRepo
+} from "../controllers/github";
 import validator from '../middleware/validator';
-import { connectSchema } from '../models/github';
+import { connectSchema, selectSchema } from "../models/github";
+import { createProjectFromRepo, getLanguagesSentence } from "../controllers/project";
 
 const router = express.Router();
 
+/**
+ * After user auths https://github.com/login/oauth/authorize?client_id=623db91f2020120f6c63, frontend will
+ * receive a code from github, this code will be used to fetch the github token from github and store it in
+ * a user object in fauna and then fetch a list of all the repositories of the user and return it to the frontend
+ */
 router.get(
   '/connect',
   validator(connectSchema, 'query'),
@@ -35,5 +41,26 @@ router.get(
   }
 );
 
+router.post(
+  '/select',
+  validator(selectSchema),
+  auth,
+  async (req, res) => {
+    try {
+      const userRef = await authenticate(req.token);
+      const githubToken = await getGithubToken(userRef.id);
+      const selectedRepos = await listRepositoriesForIds(githubToken, req.body.repos);
+      for (const repo of selectedRepos) {
+        const languages = await getLanguagesForRepo(githubToken, repo);
+        await createProjectFromRepo(userRef, repo, languages);
+      }
+      await res.status(200).send();
+    } catch (err) {
+      await res.status(500).json({
+        errors: [{ message: err.toString() }],
+      });
+    }
+  }
+);
+
 export default router;
-// octokit.request('GET /repositories/:id', {id})
