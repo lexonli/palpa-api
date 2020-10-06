@@ -70,7 +70,7 @@ async function createProject(
 ) {
   const data = {
     name,
-    userRef,
+    user: userRef,
     pageData,
     isPublished,
     views,
