@@ -1,5 +1,5 @@
 import faunadb from 'faunadb';
-import { getUserFromUsername } from './user.js';
+import { appendProject, getUserFromUsername } from './user.js';
 import client from '../config/client.js';
 import { sanitizedAllUserRef, sanitizedOneUserRef } from './utils.js';
 
@@ -60,30 +60,43 @@ export async function getProjectsFromUserId(user, isOwner) {
   return sanitizedAllUserRef(projects.data);
 }
 
-export async function createProject(
+async function createProject(
+  name,
+  userRef,
+  pageData,
+  isPublished,
+  views,
+  extra = {}
+) {
+  const data = {
+    name,
+    userRef,
+    pageData,
+    isPublished,
+    views,
+  };
+  const project = await client.query(
+    q.Create(q.Collection('projects'), {
+      data: {
+        ...data,
+        ...extra,
+        lastEdited: q.Now(),
+      },
+    })
+  );
+  await appendProject(userRef, project.ref);
+  return project;
+}
+
+export async function createProjectForUsername(
   name,
   username,
   pageData,
   isPublished,
   views
 ) {
-  const user = await getUserFromUsername(username);
-  return client
-    .query(
-      q.Create(q.Collection('projects'), {
-        data: {
-          name,
-          user,
-          pageData,
-          isPublished,
-          views,
-          lastEdited: q.Now(),
-        },
-      })
-    )
-    .catch((err) => {
-      throw err;
-    });
+  const userRef = await getUserFromUsername(username);
+  return createProject(name, userRef, pageData, isPublished, views);
 }
 
 export function updateProject(projectID, update) {
@@ -102,4 +115,99 @@ export function deleteProject(projectID) {
     .catch((err) => {
       throw err;
     });
+}
+
+export function getLanguagesSentence(languages) {
+  if (Object.keys(languages).length === 0) {
+    return '';
+  }
+  return 'Written in '.concat(
+    Object.keys(languages)
+      .map((lang) => {
+        return `<b>${lang}</b>`;
+      })
+      .join(',&nbsp;'),
+    '.'
+  );
+}
+
+/**
+ *
+ * @param repo - A single repo object from github
+ * @param description - description of the repo
+ * @return {Array} - Page data for a project
+ */
+function getPageData(repo, description) {
+  return [
+    {
+      type: 'header',
+      data: {
+        text: 'Introduction',
+        level: 2,
+      },
+    },
+    {
+      type: 'quote',
+      data: {
+        text: `${description}`,
+        caption: `You can find the repository here: <a href="${repo.full_name}">${repo.html_url}</a>`,
+        alignment: 'left',
+      },
+    },
+    {
+      type: 'header',
+      data: {
+        text: 'Dates',
+        level: 2,
+      },
+    },
+    {
+      type: 'table',
+      data: {
+        content: [
+          ['Created on', `${new Date(repo.created_at).toLocaleString()}`],
+          ['Last update', `${new Date(repo.updated_at).toLocaleString()}`],
+        ],
+      },
+    },
+    {
+      type: 'header',
+      data: {
+        text: 'Statistics',
+        level: 2,
+      },
+    },
+    {
+      type: 'table',
+      data: {
+        content: [
+          ['Owner', `${repo.owner.login}`],
+          ['Stars', `${repo.stargazers_count}`],
+          ['Watchers', `${repo.watchers_count}`],
+          ['Forks', `${repo.forks_count}`],
+        ],
+      },
+    },
+  ];
+}
+
+/**
+ * Creates a project from a github repository
+ * @param userRef - fauna db user reference
+ * @param repo - the repository object taken from github api
+ * @param languages - languages object taken from github api
+ * @return {Promise<Object>} - The created project
+ */
+export function createProjectFromRepo(userRef, repo, languages) {
+  const description = `${repo.description || ''} ${getLanguagesSentence(
+    languages
+  )}`;
+  return createProject(
+    repo.name,
+    userRef,
+    getPageData(repo, description),
+    true,
+    1,
+    { description, githubLink: repo.html_url, githubRepoId: repo.id }
+  );
 }

@@ -1,5 +1,6 @@
 import faunadb from 'faunadb';
 import client from '../config/client.js';
+import config from '../config/vars.js';
 
 const { query: q } = faunadb;
 
@@ -49,15 +50,25 @@ async function getPortfolio(username, isOwner) {
                     { projectDoc: q.Get(q.Var('project')) },
                     {
                       id: q.Select(['ref', 'id'], q.Var('projectDoc')),
-                      name: q.Select(['data', 'name'], q.Var('projectDoc')),
+                      name: q.Select(
+                        ['data', 'name'],
+                        q.Var('projectDoc'),
+                        'untitled'
+                      ),
                       description: q.Select(
                         ['data', 'description'],
-                        q.Var('projectDoc')
+                        q.Var('projectDoc'),
+                        ''
                       ),
-                      image: q.Select(['data', 'image'], q.Var('projectDoc')),
+                      image: q.Select(
+                        ['data', 'image'],
+                        q.Var('projectDoc'),
+                        config.DEFAULT_PROJECT_THUMBNAIL
+                      ),
                       isPublished: q.Select(
                         ['data', 'isPublished'],
-                        q.Var('projectDoc')
+                        q.Var('projectDoc'),
+                        true
                       ),
                     }
                   )

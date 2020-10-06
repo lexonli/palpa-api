@@ -4,7 +4,7 @@ import {
   updateProject,
   deleteProject,
   getProjectsFromUserId,
-  createProject,
+  createProjectForUsername,
 } from '../controllers/project.js';
 
 import projectSchema, { projectUpdateSchema } from '../models/project.js';
@@ -42,7 +42,7 @@ router.post('/', auth, validator(projectSchema), async (req, res) => {
   try {
     const { name, username, pageData, isPublished, views } = req.body;
     // save the project to fauna
-    const project = await createProject(
+    const project = await createProjectForUsername(
       name,
       username,
       pageData,
