@@ -80,7 +80,8 @@ async function createProject(
       data: {
         ...data,
         ...extra,
-        lastEdited: q.Now(),
+        dateCreated: q.Now(),
+        lastChanged: q.Now(),
       },
     })
   );
@@ -101,7 +102,7 @@ export async function createProjectForUsername(
 
 export function updateProject(projectID, update) {
   const data = update;
-  data.lastEdited = q.Now();
+  data.lastChanged = q.Now();
   return client
     .query(q.Update(q.Ref(q.Collection('projects'), projectID), { data }))
     .catch((err) => {
