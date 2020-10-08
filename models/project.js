@@ -4,7 +4,8 @@ import { user } from './user.js';
 const project = {
   name: Joi.string().min(2),
   pageData: Joi.array(),
-  image: Joi.link(),
+  image: Joi.string(),
+  icon: Joi.string(),
 };
 
 const projectMeta = {
@@ -21,6 +22,7 @@ const projectSchema = Joi.object({
   isPublished: projectMeta.isPublished.required(),
   views: projectMeta.views.required(),
   image: project.image,
+  icon: project.icon,
   description: projectMeta.description,
 });
 
@@ -30,6 +32,7 @@ export const projectUpdateSchema = Joi.object({
   isPublished: projectMeta.isPublished,
   views: projectMeta.views,
   image: project.image,
+  icon: project.icon,
   description: projectMeta.description,
 });
 

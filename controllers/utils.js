@@ -6,8 +6,11 @@ const { query: q } = faunadb;
 export async function sanitizedOneUserRef(document) {
   const { data } = document;
   data.user = data.user.id;
-  data.lastEdited = await client.query(
-    q.TimeDiff(q.Epoch(0, 'second'), data.lastEdited, 'second')
+  data.lastChanged = await client.query(
+    q.TimeDiff(q.Epoch(0, 'second'), data.lastChanged, 'second')
+  );
+  data.dateCreated = await client.query(
+    q.TimeDiff(q.Epoch(0, 'second'), data.dateCreated, 'second')
   );
   return data;
 }
@@ -18,8 +21,11 @@ export async function sanitizedAllUserRef(documents) {
       const { data } = document;
       data.user = data.user.id;
       data.id = document.ref.id;
-      data.lastEdited = await client.query(
-        q.TimeDiff(q.Epoch(0, 'second'), data.lastEdited, 'second')
+      data.lastChanged = await client.query(
+        q.TimeDiff(q.Epoch(0, 'second'), data.lastChanged, 'second')
+      );
+      data.dateCreated = await client.query(
+        q.TimeDiff(q.Epoch(0, 'second'), data.dateCreated, 'second')
       );
       return data;
     })
