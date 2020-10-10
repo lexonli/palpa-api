@@ -13,6 +13,7 @@ import experienceSchema, {
 } from '../models/experience.js';
 import optionalAuth from '../middleware/optionalAuth.js';
 import auth from '../middleware/auth.js';
+import { removeExperienceFromUser } from "../controllers/user";
 
 const router = express.Router();
 
@@ -81,6 +82,7 @@ router.delete(
   async (req, res) => {
     try {
       const experienceID = req.params.experience;
+      await removeExperienceFromUser(req.userID, experienceID);
       await deleteExperience(experienceID);
       res.status(200).send();
     } catch (error) {
