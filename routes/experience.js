@@ -13,7 +13,7 @@ import experienceSchema, {
 } from '../models/experience.js';
 import optionalAuth from '../middleware/optionalAuth.js';
 import auth from '../middleware/auth.js';
-import { removeExperienceFromUser } from "../controllers/user";
+import { removeExperienceFromUser } from '../controllers/user';
 
 const router = express.Router();
 
