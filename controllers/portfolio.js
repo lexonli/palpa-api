@@ -11,7 +11,7 @@ const { query: q } = faunadb;
  * - is the person using this endpoint the owner of the portfolio
  * @return {Promise<object>}
  */
-async function getPortfolio(username, isOwner) {
+export async function getPortfolio(username, isOwner) {
   const portfolio = await client.query(
     q.Let(
       // setup variables, userDoc is a reference to the user
@@ -149,4 +149,17 @@ async function getPortfolio(username, isOwner) {
   return portfolio;
 }
 
-export default getPortfolio;
+/**
+ * Updates a portfolio with the given data
+ * @param username {string} - user's username
+ * @param data {object} - the data to update
+ * @return {Promise<object>}
+ */
+export async function updatePortfolio(username, data) {
+  return client.query(
+    q.Update(
+      q.Select(['ref'], q.Get(q.Match(q.Index('user_by_username'), username))),
+      { data }
+    )
+  );
+}

@@ -213,6 +213,23 @@ export async function appendExperience(userRef, expRef) {
   await client.query(q.Update(userRef, { data: { experiences: newExpArray } }));
 }
 
+/**
+ * Remove experience from user document
+ * @param userID {string} - user Id of the user
+ * @param experienceID {string}
+ * @return {Promise<void>}
+ */
+export async function removeExperienceFromUser(userID, experienceID) {
+  const userDoc = await getUserFromId(userID);
+  const oldExperiences = userDoc.data.experiences;
+  const newExperiences = oldExperiences.filter((experience) => {
+    return experience.id !== experienceID;
+  });
+  await client.query(
+    q.Update(userDoc.ref, { data: { experiences: newExperiences } })
+  );
+}
+
 export async function appendProject(userRef, projectRef) {
   const userDoc = await client.query(q.Get(userRef));
   const newProjectArray = await client.query(
@@ -220,5 +237,22 @@ export async function appendProject(userRef, projectRef) {
   );
   await client.query(
     q.Update(userRef, { data: { projects: newProjectArray } })
+  );
+}
+
+/**
+ * Removes project from user document
+ * @param userID {string}
+ * @param projectID {string}
+ * @return {Promise<void>}
+ */
+export async function removeProjectFromUser(userID, projectID) {
+  const userDoc = await getUserFromId(userID);
+  const oldProjects = userDoc.data.projects;
+  const newProjects = oldProjects.filter((project) => {
+    return project.id !== projectID;
+  });
+  await client.query(
+    q.Update(userDoc.ref, { data: { projects: newProjects } })
   );
 }
