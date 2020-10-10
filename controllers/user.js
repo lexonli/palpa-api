@@ -222,3 +222,14 @@ export async function appendProject(userRef, projectRef) {
     q.Update(userRef, { data: { projects: newProjectArray } })
   );
 }
+
+export async function removeProjectFromUser(userID, projectID) {
+  const userDoc = await getUserFromId(userID);
+  const oldProjects = userDoc.data.projects;
+  const newProjects = oldProjects.filter((project) => {
+    return project.id !== projectID;
+  });
+  await client.query(
+    q.Update(userDoc.ref, { data: { projects: newProjects } })
+  );
+}

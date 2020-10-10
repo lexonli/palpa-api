@@ -15,7 +15,11 @@ import auth from '../middleware/auth.js';
 import optionalAuth from '../middleware/optionalAuth.js';
 import { handleNotFoundError } from '../utils/fauna.js';
 import { usernameSchema } from '../models/user.js';
-import { getUserFromUsername, isUserOwner } from '../controllers/user.js';
+import {
+  getUserFromUsername,
+  isUserOwner,
+  removeProjectFromUser,
+} from '../controllers/user.js';
 
 const router = express.Router();
 
@@ -94,6 +98,7 @@ router.delete(
   async (req, res) => {
     try {
       const projectID = req.params.project;
+      await removeProjectFromUser(req.userID, projectID);
       await deleteProject(projectID);
       res.status(200).send();
     } catch (error) {

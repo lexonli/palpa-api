@@ -103,19 +103,13 @@ export async function createProjectForUsername(
 export function updateProject(projectID, update) {
   const data = update;
   data.lastChanged = q.Now();
-  return client
-    .query(q.Update(q.Ref(q.Collection('projects'), projectID), { data }))
-    .catch((err) => {
-      throw err;
-    });
+  return client.query(
+    q.Update(q.Ref(q.Collection('projects'), projectID), { data })
+  );
 }
 
 export function deleteProject(projectID) {
-  return client
-    .query(q.Delete(q.Ref(q.Collection('projects'), projectID)))
-    .catch((err) => {
-      throw err;
-    });
+  return client.query(q.Delete(q.Ref(q.Collection('projects'), projectID)));
 }
 
 export function getLanguagesSentence(languages) {
