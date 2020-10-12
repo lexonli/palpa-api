@@ -135,55 +135,88 @@ export function getLanguagesSentence(languages) {
 function getPageData(repo, description) {
   return [
     {
-      type: 'header',
-      data: {
-        text: 'Introduction',
-        level: 2,
-      },
-    },
-    {
-      type: 'quote',
-      data: {
-        text: `${description}`,
-        caption: `You can find the repository here: <a href="${repo.full_name}">${repo.html_url}</a>`,
-        alignment: 'left',
-      },
-    },
-    {
-      type: 'header',
-      data: {
-        text: 'Dates',
-        level: 2,
-      },
-    },
-    {
-      type: 'table',
-      data: {
-        content: [
-          ['Created on', `${new Date(repo.created_at).toLocaleString()}`],
-          ['Last update', `${new Date(repo.updated_at).toLocaleString()}`],
-        ],
-      },
-    },
-    {
-      type: 'header',
-      data: {
-        text: 'Statistics',
-        level: 2,
-      },
-    },
-    {
-      type: 'table',
-      data: {
-        content: [
-          ['Owner', `${repo.owner.login}`],
-          ['Stars', `${repo.stargazers_count}`],
-          ['Watchers', `${repo.watchers_count}`],
-          ['Forks', `${repo.forks_count}`],
-        ],
-      },
-    },
-  ];
+      "children": [
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": description
+            }
+          ],
+          "id": 10000
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": ""
+            }
+          ],
+          "id": 1602334770670
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "text": ""
+            }
+          ],
+          "id": 1602334770826
+        }
+      ]
+    }
+  ]
+  // return [
+  //   {
+  //     type: 'header',
+  //     data: {
+  //       text: 'Introduction',
+  //       level: 2,
+  //     },
+  //   },
+  //   {
+  //     type: 'quote',
+  //     data: {
+  //       text: `${description}`,
+  //       caption: `You can find the repository here: <a href="${repo.full_name}">${repo.html_url}</a>`,
+  //       alignment: 'left',
+  //     },
+  //   },
+  //   {
+  //     type: 'header',
+  //     data: {
+  //       text: 'Dates',
+  //       level: 2,
+  //     },
+  //   },
+  //   {
+  //     type: 'table',
+  //     data: {
+  //       content: [
+  //         ['Created on', `${new Date(repo.created_at).toLocaleString()}`],
+  //         ['Last update', `${new Date(repo.updated_at).toLocaleString()}`],
+  //       ],
+  //     },
+  //   },
+  //   {
+  //     type: 'header',
+  //     data: {
+  //       text: 'Statistics',
+  //       level: 2,
+  //     },
+  //   },
+  //   {
+  //     type: 'table',
+  //     data: {
+  //       content: [
+  //         ['Owner', `${repo.owner.login}`],
+  //         ['Stars', `${repo.stargazers_count}`],
+  //         ['Watchers', `${repo.watchers_count}`],
+  //         ['Forks', `${repo.forks_count}`],
+  //       ],
+  //     },
+  //   },
+  // ];
 }
 
 /**
