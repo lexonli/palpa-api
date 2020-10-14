@@ -112,111 +112,278 @@ export function deleteProject(projectID) {
   return client.query(q.Delete(q.Ref(q.Collection('projects'), projectID)));
 }
 
-export function getLanguagesSentence(languages) {
-  if (Object.keys(languages).length === 0) {
-    return '';
+function getBoldText(text) {
+  return {'text': text, 'bold': true}
+}
+
+export function getLanguagesArray(languages) {
+  const languageNames = Object.keys(languages)
+  if (languageNames.length === 0) {
+    return [];
   }
-  return 'Written in '.concat(
-    Object.keys(languages)
-      .map((lang) => {
-        return `<b>${lang}</b>`;
-      })
-      .join(',&nbsp;'),
-    '.'
-  );
+  const result = [{'text': 'Written in '}];
+  for (let i = 0; i < languageNames.length; i++) {
+    result.push(getBoldText(languageNames[i]));
+    if (i === languageNames.length - 1) {
+      result.push({'text': '.'});
+    } else {
+      result.push({'text': ', '});
+    }
+  }
+  return result;
 }
 
 /**
  *
  * @param repo - A single repo object from github
- * @param description - description of the repo
+ * @param languagesArray - an array of page data object representing a language
  * @return {Array} - Page data for a project
  */
-function getPageData(repo, description) {
+function getPageData(repo, languagesArray) {
   return [
     {
-      "children": [
+      'children':[
         {
-          "type": "p",
-          "children": [
+          'type':'h1',
+          'children':[
             {
-              "text": description
+              'text':'Introduction'
             }
           ],
-          "id": 10000
+          'id':1602334770670
         },
         {
-          "type": "p",
-          "children": [
+          'type':'blockquote',
+          'children':[
             {
-              "text": ""
+              'text':'You can find the repository here: '
+            },
+            {
+              'type':'a',
+              'url': repo.html_url,
+              'children':[
+                {
+                  'text': repo.full_name
+                }
+              ],
+              'id':1602639978864
+            },
+            {
+              'text':''
             }
           ],
-          "id": 1602334770670
+          'id':1602639888265
         },
         {
-          "type": "p",
-          "children": [
+          'type':'p',
+          'children':[
             {
-              "text": ""
+              'text':''
             }
           ],
-          "id": 1602334770826
+          'id':1602640019194
+        },
+        {
+          'type': 'p',
+          'children': [
+            {
+              'text': repo.description || ''
+            }]
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':''
+            }
+          ],
+          'id':1602640019194
+        },
+        {
+          'type':'p',
+          'children': languagesArray,
+          'id':10000
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':''
+            }
+          ],
+          'id':1602640019194
+        },
+        {
+          'type':'h2',
+          'children':[
+            {
+              'text': 'Dates'
+            }
+          ],
+          'id':1602640026917
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':`Created on: ${new Date(repo.created_at).toLocaleString()}`,
+              'code':true
+            }
+          ],
+          'id':1602640038727
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text': `Last updated: ${new Date(repo.updated_at).toLocaleString()}`,
+              'code':true
+            }
+          ],
+          'id':1602640172396
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':''
+            }
+          ],
+          'id':1602640182664
+        },
+        {
+          'type':'h2',
+          'children':[
+            {
+              'text':'Statistics'
+            }
+          ],
+          'id':1602640183536
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text': `Owner: ${repo.owner.login}`,
+              'code': true
+            }
+          ],
+          'id':1602640232569
+        },
+
+        {
+          'type':'p',
+          'children':[
+            {
+              'text': `Stars: ${repo.stargazers_count}`,
+              'code': true
+            }
+          ],
+          'id':1602640250629
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text': `Watchers: ${repo.watchers_count}`,
+              'code': true
+            }
+          ],
+          'id':1602640257826
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text': `Forks: ${repo.forks_count}`,
+              'code': true
+            }
+          ],
+          'id':1602640271500
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':''
+            }
+          ],
+          'id':1602640278292
+        },
+        {
+          'type':'h1',
+          'children':[
+            {
+              'text':'Description'
+            }
+          ],
+          'id':1602640279012
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':'Talk about your github repository here! \n\n'
+            },
+            {
+              'text':'What problem does this project solve?',
+              'italic':true
+            }
+          ],
+          'id':1602640317665
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':'',
+              'italic':true
+            }
+          ],
+          'id':1602640377672
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':'What is the solution?',
+              'italic':true
+            }
+          ],
+          'id':1602640378026
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':'',
+              'italic':true
+            }
+          ],
+          'id':1602640384873
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':'What are the major design decisions of your project?',
+              'italic':true
+            }
+          ],
+          'id':1602640385063
+        },
+        {
+          'type':'p',
+          'children':[
+            {
+              'text':''
+            }
+          ],
+          'id':1602640031094
         }
       ]
     }
   ]
-  // return [
-  //   {
-  //     type: 'header',
-  //     data: {
-  //       text: 'Introduction',
-  //       level: 2,
-  //     },
-  //   },
-  //   {
-  //     type: 'quote',
-  //     data: {
-  //       text: `${description}`,
-  //       caption: `You can find the repository here: <a href="${repo.full_name}">${repo.html_url}</a>`,
-  //       alignment: 'left',
-  //     },
-  //   },
-  //   {
-  //     type: 'header',
-  //     data: {
-  //       text: 'Dates',
-  //       level: 2,
-  //     },
-  //   },
-  //   {
-  //     type: 'table',
-  //     data: {
-  //       content: [
-  //         ['Created on', `${new Date(repo.created_at).toLocaleString()}`],
-  //         ['Last update', `${new Date(repo.updated_at).toLocaleString()}`],
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     type: 'header',
-  //     data: {
-  //       text: 'Statistics',
-  //       level: 2,
-  //     },
-  //   },
-  //   {
-  //     type: 'table',
-  //     data: {
-  //       content: [
-  //         ['Owner', `${repo.owner.login}`],
-  //         ['Stars', `${repo.stargazers_count}`],
-  //         ['Watchers', `${repo.watchers_count}`],
-  //         ['Forks', `${repo.forks_count}`],
-  //       ],
-  //     },
-  //   },
-  // ];
 }
 
 /**
@@ -227,13 +394,10 @@ function getPageData(repo, description) {
  * @return {Promise<Object>} - The created project
  */
 export function createProjectFromRepo(userRef, repo, languages) {
-  const description = `${repo.description || ''} ${getLanguagesSentence(
-    languages
-  )}`;
   return createProject(
     repo.name,
     userRef,
-    getPageData(repo, description),
+    getPageData(repo, getLanguagesArray(languages)),
     true,
     1,
     {
