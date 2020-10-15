@@ -113,21 +113,21 @@ export function deleteProject(projectID) {
 }
 
 function getBoldText(text) {
-  return {'text': text, 'bold': true}
+  return { text, bold: true };
 }
 
 export function getLanguagesArray(languages) {
-  const languageNames = Object.keys(languages)
+  const languageNames = Object.keys(languages);
   if (languageNames.length === 0) {
     return [];
   }
-  const result = [{'text': 'Written in '}];
-  for (let i = 0; i < languageNames.length; i++) {
+  const result = [{ text: 'Written using ' }];
+  for (let i = 0; i < languageNames.length; i += 1) {
     result.push(getBoldText(languageNames[i]));
     if (i === languageNames.length - 1) {
-      result.push({'text': '.'});
+      result.push({ text: '.' });
     } else {
-      result.push({'text': ', '});
+      result.push({ text: ', ' });
     }
   }
   return result;
@@ -142,248 +142,251 @@ export function getLanguagesArray(languages) {
 function getPageData(repo, languagesArray) {
   return [
     {
-      'children':[
+      children: [
         {
-          'type':'h1',
-          'children':[
+          type: 'h1',
+          children: [
             {
-              'text':'Introduction'
-            }
+              text: 'Introduction',
+            },
           ],
-          'id':1602334770670
+          id: 1602334770670,
         },
         {
-          'type':'blockquote',
-          'children':[
+          type: 'blockquote',
+          children: [
             {
-              'text':'You can find the repository here: '
+              text: 'You can find the repository here: ',
             },
             {
-              'type':'a',
-              'url': repo.html_url,
-              'children':[
+              type: 'a',
+              url: repo.html_url,
+              children: [
                 {
-                  'text': repo.full_name
-                }
+                  text: repo.full_name,
+                },
               ],
-              'id':1602639978864
+              id: 1602639978864,
             },
             {
-              'text':''
-            }
+              text: '',
+            },
           ],
-          'id':1602639888265
+          id: 1602639888265,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':''
-            }
+              text: '',
+            },
           ],
-          'id':1602640019194
+          id: 1602640019194,
         },
         {
-          'type': 'p',
-          'children': [
+          type: 'p',
+          children: [
             {
-              'text': repo.description || ''
-            }]
-        },
-        {
-          'type':'p',
-          'children':[
-            {
-              'text':''
-            }
+              text: repo.description || '',
+            },
           ],
-          'id':1602640019194
         },
         {
-          'type':'p',
-          'children': languagesArray,
-          'id':10000
-        },
-        {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':''
-            }
+              text: '',
+            },
           ],
-          'id':1602640019194
+          id: 1602640019194,
         },
         {
-          'type':'h2',
-          'children':[
-            {
-              'text': 'Dates'
-            }
-          ],
-          'id':1602640026917
+          type: 'p',
+          children: languagesArray,
+          id: 10000,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':`Created on: ${new Date(repo.created_at).toLocaleString()}`,
-              'code':true
-            }
+              text: '',
+            },
           ],
-          'id':1602640038727
+          id: 1602640019194,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'h2',
+          children: [
             {
-              'text': `Last updated: ${new Date(repo.updated_at).toLocaleString()}`,
-              'code':true
-            }
+              text: 'Dates',
+            },
           ],
-          'id':1602640172396
+          id: 1602640026917,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':''
-            }
+              text: `Created on: ${new Date(repo.created_at).toLocaleString()}`,
+              code: true,
+            },
           ],
-          'id':1602640182664
+          id: 1602640038727,
         },
         {
-          'type':'h2',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':'Statistics'
-            }
+              text: `Last updated: ${new Date(
+                repo.updated_at
+              ).toLocaleString()}`,
+              code: true,
+            },
           ],
-          'id':1602640183536
+          id: 1602640172396,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text': `Owner: ${repo.owner.login}`,
-              'code': true
-            }
+              text: '',
+            },
           ],
-          'id':1602640232569
+          id: 1602640182664,
+        },
+        {
+          type: 'h2',
+          children: [
+            {
+              text: 'Statistics',
+            },
+          ],
+          id: 1602640183536,
+        },
+        {
+          type: 'p',
+          children: [
+            {
+              text: `Owner: ${repo.owner.login}`,
+              code: true,
+            },
+          ],
+          id: 1602640232569,
         },
 
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text': `Stars: ${repo.stargazers_count}`,
-              'code': true
-            }
+              text: `Stars: ${repo.stargazers_count}`,
+              code: true,
+            },
           ],
-          'id':1602640250629
+          id: 1602640250629,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text': `Watchers: ${repo.watchers_count}`,
-              'code': true
-            }
+              text: `Watchers: ${repo.watchers_count}`,
+              code: true,
+            },
           ],
-          'id':1602640257826
+          id: 1602640257826,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text': `Forks: ${repo.forks_count}`,
-              'code': true
-            }
+              text: `Forks: ${repo.forks_count}`,
+              code: true,
+            },
           ],
-          'id':1602640271500
+          id: 1602640271500,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':''
-            }
+              text: '',
+            },
           ],
-          'id':1602640278292
+          id: 1602640278292,
         },
         {
-          'type':'h1',
-          'children':[
+          type: 'h1',
+          children: [
             {
-              'text':'Description'
-            }
+              text: 'Description',
+            },
           ],
-          'id':1602640279012
+          id: 1602640279012,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':'Talk about your github repository here! \n\n'
+              text: 'Talk about your github repository here! \n\n',
             },
             {
-              'text':'What problem does this project solve?',
-              'italic':true
-            }
+              text: 'What problem does this project solve?',
+              italic: true,
+            },
           ],
-          'id':1602640317665
+          id: 1602640317665,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':'',
-              'italic':true
-            }
+              text: '',
+              italic: true,
+            },
           ],
-          'id':1602640377672
+          id: 1602640377672,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':'What is the solution?',
-              'italic':true
-            }
+              text: 'What is the solution?',
+              italic: true,
+            },
           ],
-          'id':1602640378026
+          id: 1602640378026,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':'',
-              'italic':true
-            }
+              text: '',
+              italic: true,
+            },
           ],
-          'id':1602640384873
+          id: 1602640384873,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':'What are the major design decisions of your project?',
-              'italic':true
-            }
+              text: 'What are the major design decisions of your project?',
+              italic: true,
+            },
           ],
-          'id':1602640385063
+          id: 1602640385063,
         },
         {
-          'type':'p',
-          'children':[
+          type: 'p',
+          children: [
             {
-              'text':''
-            }
+              text: '',
+            },
           ],
-          'id':1602640031094
-        }
-      ]
-    }
-  ]
+          id: 1602640031094,
+        },
+      ],
+    },
+  ];
 }
 
 /**
