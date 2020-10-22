@@ -401,12 +401,13 @@ export function createProjectFromRepo(userRef, repo, languages) {
     repo.name,
     userRef,
     getPageData(repo, getLanguagesArray(languages)),
-    true,
+    false,
     1,
     {
       description: repo.description || '',
       githubLink: repo.html_url,
       githubRepoId: repo.id,
+      tags: Object.keys(languages),
     }
   );
 }
