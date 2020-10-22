@@ -407,7 +407,7 @@ export function createProjectFromRepo(userRef, repo, languages) {
       description: repo.description || '',
       githubLink: repo.html_url,
       githubRepoId: repo.id,
-      tags: Object.keys(languages)
+      tags: Object.keys(languages),
     }
   );
 }
