@@ -55,8 +55,6 @@ export default async function createExperience(
   endDate
 ) {
   const user = await getUserFromUsername(username);
-  const sTimeStamp = q.ToTime(q.Date(startDate));
-  const eTimeStamp = endDate !== undefined ? q.ToTime(q.Date(endDate)) : null;
   const companyRef = await getCompanyByName(company);
 
   const experience = await client.query(
@@ -69,10 +67,14 @@ export default async function createExperience(
         user,
         // convert dates to epoch times in the form of
         // (eg. 1230728400)
-        startDate: sTimeStamp,
+        startDate: q.Epoch(startDate, 'millisecond'),
         // endDate might be null, so we only convert to epoch time
         // if it is not null, otherwise just return null
-        endDate: q.If(q.Equals(eTimeStamp, null), null, eTimeStamp),
+        endDate: q.If(
+          q.Equals(endDate, null),
+          null,
+          q.Epoch(endDate, 'millisecond')
+        ),
       },
     })
   );

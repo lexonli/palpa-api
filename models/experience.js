@@ -16,8 +16,8 @@ const experience = {
   ),
   // date documentation
   // https://joi.dev/api/?v=17.2.1#dategreaterdate
-  startDate: Joi.date(),
-  endDate: Joi.date(),
+  startDate: Joi.date().cast('number'),
+  endDate: Joi.date().cast('number'),
 };
 
 const experienceMeta = {
