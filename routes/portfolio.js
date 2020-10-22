@@ -17,7 +17,8 @@ router.get(
   optionalAuth,
   validator(usernameSchema, 'params'),
   async (req, res) => {
-    const { username } = req.params;
+    let { username } = req.params;
+    username = username.toLowerCase();
     let isOwner = false;
     try {
       // check if current user is portfolio owner
@@ -54,7 +55,8 @@ router.post(
   validator(usernameSchema, 'params'),
   validator(portfolioSchema),
   async (req, res) => {
-    const { username } = req.params;
+    let { username } = req.params;
+    username = username.toLowerCase();
     let isOwner = false;
     try {
       // check if current user is portfolio owner

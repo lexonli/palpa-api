@@ -28,7 +28,8 @@ router.get(
   optionalAuth,
   validator(usernameSchema, 'query'),
   async (req, res) => {
-    const { username } = req.query;
+    let { username } = req.query;
+    username = username.toLowerCase();
     try {
       const user = await getUserFromUsername(username);
       const isOwner = await isUserOwner(req.token, user.id);
@@ -48,7 +49,7 @@ router.post('/', auth, validator(projectSchema), async (req, res) => {
     // save the project to fauna
     const project = await createProjectForUsername(
       name,
-      username,
+      username.toLowerCase(),
       pageData,
       isPublished,
       views
