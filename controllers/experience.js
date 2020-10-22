@@ -5,6 +5,22 @@ import { getCompanyByName } from './company.js';
 
 const { query: q } = faunadb;
 
+async function processUpdate(update) {
+  const u = update;
+  if ('startDate' in u) {
+    u.startDate = q.Epoch(u.startDate, 'millisecond');
+  }
+  if ('endDate' in u) {
+    u.endDate = q.Epoch(u.endDate, 'millisecond');
+  }
+
+  if ('company' in u) {
+    u.company = await getCompanyByName(u.company);
+  }
+
+  return u;
+}
+
 export async function getExperience(experienceID) {
   return client.query(
     q.Let(
@@ -26,9 +42,9 @@ export async function getExperience(experienceID) {
         employmentType: q.Select(['data', 'employmentType'], q.Var('expDoc')),
         user: q.Select(['data', 'user', 'id'], q.Var('expDoc')),
         startDate: q.TimeDiff(
-          q.Epoch(0, 'second'),
+          q.Epoch(0, 'millisecond'),
           q.Select(['data', 'startDate'], q.Var('expDoc')),
-          'second'
+          'millisecond'
         ),
         endDate: q.Let(
           {
@@ -37,7 +53,7 @@ export async function getExperience(experienceID) {
           q.If(
             q.Equals(q.Var('end'), null),
             null,
-            q.TimeDiff(q.Epoch(0, 'second'), q.Var('end'), 'second')
+            q.TimeDiff(q.Epoch(0, 'millisecond'), q.Var('end'), 'millisecond')
           )
         ),
       }
@@ -55,8 +71,6 @@ export default async function createExperience(
   endDate
 ) {
   const user = await getUserFromUsername(username);
-  const sTimeStamp = q.ToTime(q.Date(startDate));
-  const eTimeStamp = endDate !== undefined ? q.ToTime(q.Date(endDate)) : null;
   const companyRef = await getCompanyByName(company);
 
   const experience = await client.query(
@@ -69,10 +83,14 @@ export default async function createExperience(
         user,
         // convert dates to epoch times in the form of
         // (eg. 1230728400)
-        startDate: sTimeStamp,
+        startDate: q.Epoch(startDate, 'millisecond'),
         // endDate might be null, so we only convert to epoch time
         // if it is not null, otherwise just return null
-        endDate: q.If(q.Equals(eTimeStamp, null), null, eTimeStamp),
+        endDate: q.If(
+          q.Equals(endDate, null),
+          null,
+          q.Epoch(endDate, 'millisecond')
+        ),
       },
     })
   );
@@ -83,7 +101,7 @@ export default async function createExperience(
 export async function updateExperience(experienceID, update) {
   return client.query(
     q.Update(q.Ref(q.Collection('experiences'), experienceID), {
-      data: update,
+      data: await processUpdate(update),
     })
   );
 }
