@@ -56,7 +56,8 @@ router.get('/', (req, res) => {
  * Creates a new Palpa user
  */
 router.post('/', validator(createSchema), (req, res) => {
-  isUsernameAvailable(req.body.username)
+  const username = req.body.username.toLowerCase();
+  isUsernameAvailable(username)
     .then((isAvailable) => {
       if (!isAvailable) {
         return res.status(400).json({
@@ -111,7 +112,8 @@ router.post('/login', validator(loginSchema), async (req, res) => {
  * Checks whether username exists
  */
 router.get('/username', validator(usernameSchema, 'query'), (req, res) => {
-  const { username } = req.query;
+  let { username } = req.query;
+  username = username.toLowerCase();
   isUsernameAvailable(username)
     .then((isAvailable) => {
       return res.status(200).json({ username_available: isAvailable });
