@@ -30,7 +30,7 @@ export function createUser(email, password, username, name) {
         credentials: { password },
         data: {
           username,
-          email,
+          email: email.toLowerCase(),
           name,
           portfolioTitle: `My Awesome Portfolio`,
           profileImage: config.DEFAULT_PROFILE_PIC,
