@@ -133,9 +133,24 @@ export async function getPortfolio(username, isOwner) {
                       q.TimeDiff(q.Epoch(0, 'second'), q.Var('end'), 'second')
                     )
                   ),
-                  company: q.Select(
-                    ['data'],
-                    q.Get(q.Select(['data', 'company'], q.Var('experienceDoc')))
+                  company: q.If(
+                    q.Equals(
+                      q.Select(
+                        ['data', 'company'],
+                        q.Var('experienceDoc'),
+                        null
+                      ),
+                      null
+                    ),
+                    // If no company field is found
+                    '',
+                    // else
+                    q.Select(
+                      ['data'],
+                      q.Get(
+                        q.Select(['data', 'company'], q.Var('experienceDoc'))
+                      )
+                    )
                   ),
                 }
               )

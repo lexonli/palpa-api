@@ -71,7 +71,9 @@ export default async function createExperience(
   endDate
 ) {
   const user = await getUserFromUsername(username);
-  const companyRef = await getCompanyByName(company);
+  // company is optional too
+  const companyRef =
+    company !== undefined ? await getCompanyByName(company) : null;
 
   // Epoch function from fauna does not like undefined very
   const eDate = endDate !== undefined ? endDate : null;
