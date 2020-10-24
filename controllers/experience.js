@@ -73,6 +73,8 @@ export default async function createExperience(
   const user = await getUserFromUsername(username);
   const companyRef = await getCompanyByName(company);
 
+  // Epoch function from fauna does not like undefined very
+  const eDate = endDate !== undefined ? endDate : null;
   const experience = await client.query(
     q.Create(q.Collection('experiences'), {
       data: {
@@ -87,9 +89,9 @@ export default async function createExperience(
         // endDate might be null, so we only convert to epoch time
         // if it is not null, otherwise just return null
         endDate: q.If(
-          q.Equals(endDate, null),
+          q.Equals(eDate, null),
           null,
-          q.Epoch(endDate, 'millisecond')
+          q.Epoch(eDate, 'millisecond')
         ),
       },
     })
