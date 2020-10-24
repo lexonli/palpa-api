@@ -11,6 +11,7 @@ import imageRouter from './routes/image.js';
 import portfolioRouter from './routes/portfolio.js';
 import projectRouter from './routes/project.js';
 import templateRouter from './routes/template.js';
+import companyRouter from './routes/company.js';
 
 import vars from './config/vars.js';
 
@@ -33,6 +34,7 @@ app.use('/image', imageRouter);
 app.use('/portfolio', portfolioRouter);
 app.use('/project', projectRouter);
 app.use('/template', templateRouter);
+app.use('/company', companyRouter);
 
 const port = vars.PORT || 3000;
 
