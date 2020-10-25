@@ -143,7 +143,7 @@ export async function getPortfolio(username, isOwner) {
                       null
                     ),
                     // If no company field is found
-                    '',
+                    { name: '' },
                     // else
                     q.Select(
                       ['data'],
