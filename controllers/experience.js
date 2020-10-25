@@ -27,16 +27,25 @@ export async function getExperience(experienceID) {
       { expDoc: q.Get(q.Ref(q.Collection('experiences'), experienceID)) },
       {
         title: q.Select(['data', 'title'], q.Var('expDoc')),
-        company: q.Let(
-          {
-            companyDoc: q.Get(
-              q.Ref(
-                q.Collection('companies'),
-                q.Select(['data', 'company', 'id'], q.Var('expDoc'))
-              )
-            ),
-          },
-          q.Select(['data'], q.Var('companyDoc'))
+        company: q.If(
+          q.Equals(
+            q.Select(['data', 'company', 'id'], q.Var('expDoc'), null),
+            null
+          ),
+          // If company field does not exist
+          { name: '' },
+          // otherwise
+          q.Let(
+            {
+              companyDoc: q.Get(
+                q.Ref(
+                  q.Collection('companies'),
+                  q.Select(['data', 'company', 'id'], q.Var('expDoc'))
+                )
+              ),
+            },
+            q.Select(['data'], q.Var('companyDoc'))
+          )
         ),
         description: q.Select(['data', 'description'], q.Var('expDoc')),
         employmentType: q.Select(['data', 'employmentType'], q.Var('expDoc')),
@@ -71,7 +80,9 @@ export default async function createExperience(
   endDate
 ) {
   const user = await getUserFromUsername(username);
-  const companyRef = await getCompanyByName(company);
+  // company is optional too
+  const companyRef =
+    company !== undefined ? await getCompanyByName(company) : null;
 
   // Epoch function from fauna does not like undefined very
   const eDate = endDate !== undefined ? endDate : null;
