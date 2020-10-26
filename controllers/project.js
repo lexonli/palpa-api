@@ -202,7 +202,7 @@ function getPageData(repo, languagesArray) {
         },
         {
           type: 'p',
-          children: languagesArray.length > 0 ? languagesArray : [{text: ''}],
+          children: languagesArray.length > 0 ? languagesArray : [{ text: '' }],
           id: 10000,
         },
         {
