@@ -29,7 +29,7 @@ export function createUser(email, password, username, name) {
       q.Create(q.Collection('users'), {
         credentials: { password },
         data: {
-          username,
+          username: username.toLowerCase(),
           email: email.toLowerCase(),
           name,
           portfolioTitle: `My Awesome Portfolio`,
