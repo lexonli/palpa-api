@@ -71,7 +71,7 @@ export async function listRepositories(token) {
   const octokit = new Octokit({ auth: token });
   const repos = await octokit.paginate(octokit.repos.listForAuthenticatedUser);
   return repos.map((repo) => {
-    return { id: repo.id, name: repo.name };
+    return { id: repo.id, name: repo.name , githubLink: repo.html_url };
   });
 }
 
