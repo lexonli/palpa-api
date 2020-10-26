@@ -73,12 +73,11 @@ router.post('/select', validator(selectSchema), auth, async (req, res) => {
       githubToken,
       req.body.repos
     );
-    await Promise.all(
-      selectedRepos.map(async (repo) => {
-        const languages = await getLanguagesForRepo(githubToken, repo);
-        await createProjectFromRepo(userRef, repo, languages);
-      })
-    );
+    /* eslint-disable no-await-in-loop, no-restricted-syntax */
+    for (const repo of selectedRepos) {
+      const languages = await getLanguagesForRepo(githubToken, repo);
+      await createProjectFromRepo(userRef, repo, languages);
+    }
     await res.status(200).send();
   } catch (err) {
     await res.status(500).json({
