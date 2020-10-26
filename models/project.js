@@ -6,6 +6,9 @@ const project = {
   pageData: Joi.array(),
   image: Joi.string(),
   icon: Joi.string(),
+  githubRepoId: Joi.string(),
+  githubLink: Joi.string(),
+  tags: Joi.array(),
 };
 
 const projectMeta = {
@@ -24,6 +27,7 @@ const projectSchema = Joi.object({
   image: project.image,
   icon: project.icon,
   description: projectMeta.description,
+  tags: project.tags
 });
 
 export const projectUpdateSchema = Joi.object({
@@ -34,6 +38,9 @@ export const projectUpdateSchema = Joi.object({
   image: project.image,
   icon: project.icon,
   description: projectMeta.description,
+  githubRepoId: project.githubRepoId,
+  githubLink: project.githubLink,
+  tags: project.tags
 });
 
 export default projectSchema;
